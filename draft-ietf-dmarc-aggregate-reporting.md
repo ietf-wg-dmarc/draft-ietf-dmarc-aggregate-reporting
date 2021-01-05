@@ -11,7 +11,7 @@
 	submissiontype = "IETF"
 	keyword = [""]
 	
-	date = "2020-11-11T00:00:00Z"
+	date = "2021-01-04T00:00:00Z"
 	
 	[seriesInfo]
 	name = "Internet-Draft"
@@ -67,7 +67,94 @@ they are better willing and able to use quarantine and reject policies.
 
 ## Verifying External Destinations
 
-[https://trac.ietf.org/trac/dmarc/ticket/76]
+It is possible to specify destinations for the different reports that
+are outside the authority of the Domain Owner making the request.
+This allows domains that do not operate mail servers to request
+reports and have them go someplace that is able to receive and
+process them.
+
+Without checks, this would allow a bad actor to publish a DMARC
+policy record that requests that reports be sent to a victim address,
+and then send a large volume of mail that will fail both DKIM and SPF
+checks to a wide variety of destinations; the victim will in turn be
+flooded with unwanted reports.  Therefore, a verification mechanism
+is included.
+
+When a Mail Receiver discovers a DMARC policy in the DNS, and the
+Organizational Domain at which that record was discovered is not
+identical to the Organizational Domain of the host part of the
+authority component of a [URI] specified in the "rua" or "ruf" tag,
+the following verification steps are to be taken:
+
+1.  Extract the host portion of the authority component of the URI.
+    Call this the "destination host", as it refers to a Report
+    Receiver.
+
+2.  Prepend the string "_report._dmarc".
+
+3.  Prepend the domain name from which the policy was retrieved,
+    after conversion to an A-label if needed.
+
+4.  Query the DNS for a TXT record at the constructed name.  If the
+    result of this request is a temporary DNS error of some kind
+    (e.g., a timeout), the Mail Receiver MAY elect to temporarily
+    fail the delivery so the verification test can be repeated later.
+
+5.  For each record returned, parse the result as a series of
+    "tag=value" pairs, i.e., the same overall format as the policy
+    record (see Section 6.4).  In particular, the "v=DMARC1" tag is
+    mandatory and MUST appear first in the list.  Discard any that do
+    not pass this test.
+
+6.  If the result includes no TXT resource records that pass basic
+    parsing, a positive determination of the external reporting
+    relationship cannot be made; stop.
+
+7.  If at least one TXT resource record remains in the set after
+    parsing, then the external reporting arrangement was authorized
+    by the Report Receiver.
+
+8.  If a "rua" or "ruf" tag is thus discovered, replace the
+    corresponding value extracted from the domain's DMARC policy
+    record with the one found in this record.  This permits the
+    Report Receiver to override the report destination.  However, to
+    prevent loops or indirect abuse, the overriding URI MUST use the
+    same destination host from the first step.
+
+For example, if a DMARC policy query for "blue.example.com" contained
+"rua=mailto:reports@red.example.net", the host extracted from the
+latter ("red.example.net") does not match "blue.example.com", so this
+procedure is enacted.  A TXT query for
+"blue.example.com._report._dmarc.red.example.net" is issued.  If a
+single reply comes back containing a tag of "v=DMARC1", then the
+relationship between the two is confirmed.  Moreover,
+"red.example.net" has the opportunity to override the report
+destination requested by "blue.example.com" if needed.
+
+Where the above algorithm fails to confirm that the external
+reporting was authorized by the Report Receiver, the URI MUST be
+ignored by the Mail Receiver generating the report.  Further, if the
+confirming record includes a URI whose host is again different than
+the domain publishing that override, the Mail Receiver generating the
+report MUST NOT generate a report to either the original or the
+override URI.
+A Report Receiver publishes such a record in its DNS if it wishes to
+receive reports for other domains.
+
+A Report Receiver that is willing to receive reports for any domain
+can use a wildcard DNS record.  For example, a TXT resource record at
+"*._report._dmarc.example.com" containing at least "v=DMARC1"
+confirms that example.com is willing to receive DMARC reports for any
+domain.
+
+If the Report Receiver is overcome by volume, it can simply remove
+the confirming DNS record.  However, due to positive caching, the
+change could take as long as the time-to-live (TTL) on the record to
+go into effect.
+
+A Mail Receiver might decide not to enact this procedure if, for
+example, it relies on a local list of domains for which external
+reporting addresses are permitted.
 
 ## Aggregate Reports
 
@@ -105,9 +192,8 @@ The report SHOULD include the following data:
 *  The identifier evaluated by DKIM and the DKIM result, if any
 *  For both DKIM and SPF, an indication of whether the identifier was
    in alignment
-*  Data for each Domain Owner's subdomain separately from mail from
-   the sender's Organizational Domain, even if there is no explicit
-   subdomain policy
+*  A separate report should be generated for each 5322.From subdomain, regardless
+   of which policy domain was used during receipt of messages
 *  Sending and receiving domains
 *  The policy requested by the Domain Owner and the policy actually
    applied (if different)
@@ -133,41 +219,29 @@ following:
 *  generate a report whose end time occurs when the updated policy
    was detected, regardless of any requested report interval.
 
-The report SHOULD include the following data:
+Such policy changes are expected to be infrequent for any given
+domain, whereas more stringent policy monitoring requirements on the
+Mail Receiver would produce a very large burden at Internet scale.
+Therefore, it is the responsibility of report consumers and Domain
+Owners to be aware of this situation and allow for such mixed reports
+during the propagation of the new policy to Mail Receivers.
 
-*  The DMARC policy discovered and applied, if any
-*  The selected message disposition
-*  The identifier evaluated by SPF and the SPF result, if any
-*  The identifier evaluated by DKIM and the DKIM result, if any
-*  For both DKIM and SPF, an indication of whether the identifier was
-   in alignment
-*  Data for each Domain Owner's subdomain separately from mail from
-   the sender's Organizational Domain, even if there is no explicit
-   subdomain policy
-*  Sending and receiving domains
-*  The policy requested by the Domain Owner and the policy actually
-   applied (if different)
-*  The number of successful authentications
-*  The counts of messages based on all messages received, even if
-   their delivery is ultimately blocked by other filtering agents
+Aggregate reports are most useful when they all cover a common time
+period.  By contrast, correlation of these reports from multiple
+generators when they cover incongruent time periods is difficult or
+impossible.  Report generators SHOULD, wherever possible, adhere to
+hour boundaries for the reporting period they are using.  For
+example, starting a per-day report at 00:00; starting per-hour
+reports at 00:00, 01:00, 02:00; etc.  Report generators using a
+24-hour report period are strongly encouraged to begin that period at
+00:00 UTC, regardless of local timezone or time of report production,
+in order to facilitate correlation.
 
-Note that Domain Owners or their agents may change the published
-DMARC policy for a domain or subdomain at any time.  From a Mail
-Receiver's perspective, this will occur during a reporting period and
-may be noticed during that period, at the end of that period when
-reports are generated, or during a subsequent reporting period, all
-depending on the Mail Receiver's implementation.  Under these
-conditions, it is possible that a Mail Receiver could do any of the
-following:
+A Mail Receiver discovers reporting requests when it looks up a DMARC
+policy record that corresponds to an RFC5322.From domain on received
+mail.  The presence of the "rua" tag specifies where to send
+feedback.
 
-*  generate for such a reporting period a single aggregate report
-   that includes message dispositions based on the old policy, or a
-   mix of the two policies, even though the report only contains a
-   single "policy_published" element;
-*  generate multiple reports for the same period, one for each
-   published policy occurring during the reporting period;
-*  generate a report whose end time occurs when the updated policy
-   was detected, regardless of any requested report interval.
 
 ### Transport
 
@@ -291,6 +365,31 @@ following:
 
 The specification as written allows for the addition of other
 registered URI schemes to be supported in later versions.
+
+# Extensible Reporting
+
+A DMARC report should allow for some extensibility, as defined by
+future documents that utilize DMARC as a foundation.  These extensions
+MUST be properly formatted XML and meant to exist within the structure
+of a DMARC report.  They MUST NOT alter the existing DMARC structure,
+but instead exist self-contained within an `<extensions>` element. This
+element MUST be a child of the `<feedback>` element.
+
+```
+<feedback>
+  ...
+  <extensions>
+    <extension1 definition="https://path/to/spec">
+      <data>...</data>
+    </extension1>
+  </extensions>
+</feedback>
+```
+
+A DMARC report receiver SHOULD NOT generate a processing error when this
+`<extensions>` element is absent or empty.  Furthermore, if a processor
+is unable to handle an extension in a report, it SHOULD ignore the data,
+and continue to the next extension.
 
 # IANA Considerations
 
