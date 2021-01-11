@@ -11,7 +11,7 @@
 	submissiontype = "IETF"
 	keyword = [""]
 	
-	date = "2021-01-04T00:00:00Z"
+	date = "2021-01-10T00:00:00Z"
 	
 	[seriesInfo]
 	name = "Internet-Draft"
@@ -182,7 +182,7 @@ message streams relevant to the Domain Owner.  This information
 includes data about messages that passed DMARC authentication as well
 as those that did not.
 
-The format for these reports is defined in Appendix C.
+The format for these reports is defined in Appendix A.
 
 The report SHOULD include the following data:
 
@@ -200,6 +200,61 @@ The report SHOULD include the following data:
 *  The number of successful authentications
 *  The counts of messages based on all messages received, even if
    their delivery is ultimately blocked by other filtering agents
+
+ProposedAddition:
+[[
+DMARC Aggregate Reports MUST contain two primary sections; one consisting
+of descriptive information and the other a set of IP-focused row-based data. 
+Each report MUST contain data for only one Author Domain. A single report 
+SHOULD contain data for one policy configuration. If multiple configurations 
+were observed during a single reporting period, a reporting entity MAY choose 
+to send multiple reports, otherwise the reporting entity SHOULD note only the 
+final configuration observed during the period. See below for further information.
+
+The informative section MUST contain two sub-sections.  One will be the metadata 
+section which MUST contain the fields related to `org_name`, `email`,
+`report_id`, and `date_range`. Optional fields MAY include 
+`extra_contact_info` and an `error` field.  The `date_range` section which will 
+note `begin` and `end` values as epoch timestamps. The other sub-section
+will be the `policy_published`, and record the policy configuration 
+observed by the receiving system.  Mandatory fields are `domain`, `p`, `sp`,
+`pct`. Optional fields are `fo`, `adkim`, `aspf`.
+
+Within the data section, the report will contain row(s) of data stating which
+IPs were seen to have delivered messages for the Author Domain to the receiving
+system.  For each IP that is being reported, there will be a `record` element,
+which will then have each of a `row`, `identifiers`, and `auth_results` 
+sub-element.  Within the `row` element, there MUST be `source_ip` and `count`.
+There MUST also exist a `policy_evaluated`, with subelements of `disposition`,
+`dkim`, and `spf`.  There MAY be an element for `reason`, meant to include 
+any notes the reporter might want to include as to why the `disposition` policy
+does not match the `policy_published`, such as a Local Policy override (possible
+values listed in Appendex A).  The `dkim` and `spf` elements MUST be the 
+evaluated values as they relate to DMARC, not the values the receiver may 
+have used when overriding the policy. Within the `identifiers` element, 
+there MUST exist the data that was used to apply policy for the given IP. In most
+cases, this will be a `header_from` element, which will contain the 5322.From domain
+from the message.
+
+There MUST be an `auth_results` element within the 'record' element.  This will
+contain the data related to authenticating the messages associated with this sending
+IP. The `dkim` subelement is optional as not all messages are signed, while there
+MUST be at least one `spf` subelement. These elements MUST have a `domain` that was
+used during validation, as well as `result`. Optionally, the `dkim` element MAY
+include a `selector` element that was observed during validation. For the `spf`
+element, the `result` element MUST contain a lower-case string where the value 
+is one of none/neutral/pass/fail/softfail/temperror/permerror.  The `dkim` result
+MUST contain a lower-case string where the value is one of 
+none/pass/fail/policy/neutral/temperror/permerror. 
+
+
+## Extensions
+
+There MAY be an optional section for extensions within the `feedback` element.
+The absence or existence of this section SHOULD NOT create an error when 
+processing reports. This will be covered in more depth in another section.
+
+]]
 
 Note that Domain Owners or their agents may change the published
 DMARC policy for a domain or subdomain at any time.  From a Mail
