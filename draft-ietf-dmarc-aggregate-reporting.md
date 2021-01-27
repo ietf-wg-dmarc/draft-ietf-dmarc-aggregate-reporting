@@ -11,7 +11,7 @@
 	submissiontype = "IETF"
 	keyword = [""]
 	
-	date = "2021-01-10T00:00:00Z"
+	date = "2021-01-24T00:00:00Z"
 	
 	[seriesInfo]
 	name = "Internet-Draft"
@@ -203,6 +203,7 @@ The report SHOULD include the following data:
 
 ProposedAddition:
 [[
+
 DMARC Aggregate Reports MUST contain two primary sections; one consisting
 of descriptive information and the other a set of IP-focused row-based data. 
 Each report MUST contain data for only one Author Domain. A single report 
@@ -252,7 +253,7 @@ none/pass/fail/policy/neutral/temperror/permerror.
 
 There MAY be an optional section for extensions within the `feedback` element.
 The absence or existence of this section SHOULD NOT create an error when 
-processing reports. This will be covered in more depth in another section.
+processing reports. This will be covered in a separate section.
 
 ]]
 
@@ -449,6 +450,60 @@ and continue to the next extension.
 # IANA Considerations
 
 TBD
+
+# Privacy Considerations
+
+This section will discuss exposure related to DMARC aggregate reporting.
+
+## Data Exposure Considerations
+
+Aggregate reports are limited in scope to DMARC policy and
+disposition results, to information pertaining to the underlying
+authentication mechanisms, and to the identifiers involved in DMARC
+validation.
+
+Aggregate report may expose sender and recipient identifiers,
+specifically the RFC5322.From addresses. 
+
+Domain Owners requesting reports will receive information about mail
+claiming to be from them, which includes mail that was not, in fact,
+from them.  Information about the final destination of mail where it
+might otherwise be obscured by intermediate systems will therefore be
+exposed.
+
+When message-forwarding arrangements exist, Domain Owners requesting
+reports will also receive information about mail forwarded to domains
+that were not originally part of their messages' recipient lists.
+This means that destination domains previously unknown to the Domain
+Owner may now become visible.
+
+Disclosure of information about the messages is being requested by
+the entity generating the email in the first place, i.e., the Domain
+Owner and not the Mail Receiver, so this may not fit squarely within
+existing privacy policy provisions.  For some providers, aggregate
+reporting is viewed as a function similar to complaint reporting 
+about spamming or phishing and are treated similarly under the 
+privacy policy.  Report generators (i.e., Mail Receivers) are 
+encouraged to review their reporting limitations under such policies 
+before enabling DMARC reporting.
+
+## Report Recipients
+
+A DMARC record can specify that reports should be sent to an
+intermediary operating on behalf of the Domain Owner.  This is done
+when the Domain Owner contracts with an entity to monitor mail
+streams for abuse and performance issues.  Receipt by third parties
+of such data may or may not be permitted by the Mail Receiver's
+privacy policy, terms of use, or other similar governing document.
+Domain Owners and Mail Receivers should both review and understand if
+their own internal policies constrain the use and transmission of
+DMARC reporting.
+
+Some potential exists for report recipients to perform traffic
+analysis, making it possible to obtain metadata about the Receiver's
+traffic.  In addition to verifying compliance with policies,
+Receivers need to consider that before sending reports to a third
+party.
 
 # Security Considerations
 
