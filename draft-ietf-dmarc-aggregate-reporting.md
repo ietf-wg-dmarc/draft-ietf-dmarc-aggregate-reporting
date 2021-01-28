@@ -513,4 +513,53 @@ TBD
 
 <{{dmarc-xml-0.1.xsd}}
 
+# Appendix B. Sample Report
+
+~~~
+<feedback>
+  <report_metadata>
+    <org_name>Sample Reporter</org_name>
+    <email>report_sender@example-reporter.com</email>
+    <extra_contact_info>...</export_contact_info>
+    <report_id>3v98abbp8ya9n3va8yr8oa3ya</report_id>
+    <date_range>
+      <begin>161212415</begin>
+      <end>161221511</end>
+    </date_range>
+  </report_metadata>
+  <policy_published>
+    <domain>example.com</domain>
+    <p>quarantine</p>
+    <sp>none</sp>
+    <pct>100</pct>
+  </policy_published>
+  <record>
+    <row>
+      <source_ip>192.168.4.4</source_ip>
+      <count>123</count>
+      <policy_evaluated>
+        <disposition>quarantine</disposition>
+        <dkim>pass</dkim>
+        <spf>fail</spf>
+      </policy_evaluated>
+    </row>
+    <identifiers>
+      <header_from>example.com</header_from>
+    </identifiers>
+    <auth_results>
+      <dkim>
+        <domain>example.com</domain>
+        <result>pass</result>
+        <selector>abc123</selector>
+      </dkim>
+      <spf>
+        <domain>example.com>
+        <result>fail</result>
+      </spf>
+    </auth_results>
+  </record>
+</feedback>
+
+~~~
+
 {backmatter}
