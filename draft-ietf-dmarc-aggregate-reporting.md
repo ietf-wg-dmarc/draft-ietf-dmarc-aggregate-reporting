@@ -509,6 +509,20 @@ party.
 
 TBD
 
+# Privacy Considerations
+
+## Data Contained Within Reports (#64)
+
+Within the reports is contained an aggregated body of anonymized data pertaining
+to the sending domain.  The data is meant to aid the report processors
+and domain holders in verifying sources of messages pertaining to the 
+5322.From Domain.  The data should not contain any identifying 
+characteristics about individual senders or receivers.  An entity
+sending reports should not be concerned with the data contained as 
+it should not contain PII [?NIST], such as email addresses or
+usernames.
+
+
 # Appendix A. DMARC XML Schema
 
 <{{dmarc-xml-0.1.xsd}}
@@ -563,3 +577,7 @@ TBD
 ~~~
 
 {backmatter}
+
+   [NIST]     "Guide to Protecting the Confidentiality of Personally
+              Identifiable Information (PII)", <csrc.nist.gov/
+              publications/nistpubs/800-122/sp800-122.pdf>.
