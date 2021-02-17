@@ -505,12 +505,6 @@ traffic.  In addition to verifying compliance with policies,
 Receivers need to consider that before sending reports to a third
 party.
 
-# Security Considerations
-
-TBD
-
-# Privacy Considerations
-
 ## Data Contained Within Reports (Tkt64)
 
 Within the reports is contained an aggregated body of anonymized data pertaining
@@ -526,6 +520,10 @@ authenticate as the domain, or messages utilizing the DMARC Identifier that
 have no authentication at all.  In each of these cases, there exists no identifying
 information for individuals, and all content within the reports should be related 
 to SMTP servers sending messages posing as that domain.
+
+# Security Considerations
+
+TBD
 
 # Appendix A. DMARC XML Schema
 
