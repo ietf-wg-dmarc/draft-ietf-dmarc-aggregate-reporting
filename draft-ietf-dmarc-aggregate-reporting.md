@@ -527,7 +527,6 @@ have no authentication at all.  In each of these cases, there exists no identify
 information for individuals, and all content within the reports should be related 
 to SMTP servers sending messages posing as that domain.
 
-
 # Appendix A. DMARC XML Schema
 
 <{{dmarc-xml-0.1.xsd}}
