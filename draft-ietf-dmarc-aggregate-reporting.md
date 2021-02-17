@@ -2,7 +2,7 @@
 
 	Title = "DMARC Aggregate Reporting"
 	abbrev = "DMARC Aggregate Reporting"
-	docName = "draft-ietf-dmarc-aggregate-reporting-00"
+	docName = "draft-ietf-dmarc-aggregate-reporting-01"
 	category = "std"
 	obsoletes = [7489]
 	ipr = "trust200902"
@@ -11,11 +11,11 @@
 	submissiontype = "IETF"
 	keyword = [""]
 	
-	date = "2021-01-24T00:00:00Z"
+	date = "2021-02-17T00:00:00Z"
 	
 	[seriesInfo]
 	name = "Internet-Draft"
-	value = "draft-ietf-dmarc-aggregate-reporting-00"
+	value = "draft-ietf-dmarc-aggregate-reporting-01"
 	stream = "IETF"
 	status = "standard"
 	
@@ -511,16 +511,21 @@ TBD
 
 # Privacy Considerations
 
-## Data Contained Within Reports (#64)
+## Data Contained Within Reports (Tkt64)
 
 Within the reports is contained an aggregated body of anonymized data pertaining
 to the sending domain.  The data is meant to aid the report processors
 and domain holders in verifying sources of messages pertaining to the 
-5322.From Domain.  The data should not contain any identifying 
+DMARC Identifier.  The data should not contain any identifying 
 characteristics about individual senders or receivers.  An entity
 sending reports should not be concerned with the data contained as 
-it should not contain PII [?NIST], such as email addresses or
-usernames.
+it does not contain personal information, such as email addresses or
+usernames. There are typically three situations where data is reported to
+the aggregate receivers: messages properly authenticated, messages that fail to
+authenticate as the domain, or messages utilizing the DMARC Identifier that
+have no authentication at all.  In each of these cases, there exists no identifying
+information for individuals, and all content within the reports should be related 
+to SMTP servers sending messages posing as that domain.
 
 
 # Appendix A. DMARC XML Schema
@@ -578,6 +583,3 @@ usernames.
 
 {backmatter}
 
-   [NIST]     "Guide to Protecting the Confidentiality of Personally
-              Identifiable Information (PII)", <csrc.nist.gov/
-              publications/nistpubs/800-122/sp800-122.pdf>.
