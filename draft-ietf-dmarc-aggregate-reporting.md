@@ -507,19 +507,28 @@ party.
 
 ## Data Contained Within Reports (Tkt64)
 
-Within the reports is contained an aggregated body of anonymized data pertaining
-to the sending domain.  The data is meant to aid the report processors
-and domain holders in verifying sources of messages pertaining to the 
-DMARC Identifier.  The data should not contain any identifying 
-characteristics about individual senders or receivers.  An entity
-sending reports should not be concerned with the data contained as 
-it does not contain personal information, such as email addresses or
-usernames. There are typically three situations where data is reported to
-the aggregate receivers: messages properly authenticated, messages that fail to
-authenticate as the domain, or messages utilizing the DMARC Identifier that
-have no authentication at all.  In each of these cases, there exists no identifying
-information for individuals, and all content within the reports should be related 
-to SMTP servers sending messages posing as that domain.
+Aggregate feedback reports contain aggregated data relating to 
+messages purportedly originating from the Domain Owner. The data 
+does not contain any identifying characteristics about individual 
+users. No personal information such as individual email addresses, 
+IP addresses of individuals, or the content of any messages, is 
+included in reports.
+
+Mail Receivers should have no concerns in sending reports as they 
+do not contain personal information. In all cases, the data within 
+the reports relates to the domain-level authentication information 
+provided by mail servers sending messages on behalf of the Domain 
+Owner. This information is necessary to assist Domain Owners in 
+implementing and maintaining DMARC.
+
+Domain Owners should have no concerns in receiving reports as 
+they do not contain personal information. The reports only contain 
+aggregated data related to the domain-level authentication details 
+of messages claiming to originate from their domain. This information 
+is essential for the proper implementation and operation of DMARC.  
+Domain Owners who are unable to receive reports for organizational 
+reasons, can choose to exclusively direct the reports to an 
+external processor.  
 
 # Security Considerations
 
