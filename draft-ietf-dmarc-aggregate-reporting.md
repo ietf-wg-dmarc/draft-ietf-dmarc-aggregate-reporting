@@ -182,9 +182,7 @@ message streams relevant to the Domain Owner.  This information
 includes data about messages that passed DMARC authentication as well
 as those that did not.
 
-The format for these reports is defined in Appendix A.
-
-The report SHOULD include the following data:
+The report may include the following data:
 
 *  The DMARC policy discovered and applied, if any
 *  The selected message disposition
@@ -200,6 +198,8 @@ The report SHOULD include the following data:
 *  The number of successful authentications
 *  The counts of messages based on all messages received, even if
    their delivery is ultimately blocked by other filtering agents
+
+The format for these reports is defined in Appendix A.
 
 ProposedAddition:
 [[
@@ -525,7 +525,7 @@ Domain Owners should have no concerns in receiving reports as
 they do not contain personal information. The reports only contain 
 aggregated data related to the domain-level authentication details 
 of messages claiming to originate from their domain. This information 
-is essential for the proper implementation and operation of DMARC.  
+is essential for the proper implementation and operation of DMARC. 
 Domain Owners who are unable to receive reports for organizational 
 reasons, can choose to exclusively direct the reports to an 
 external processor.  
