@@ -197,7 +197,7 @@ The report may include the following data:
    applied (if different)
 *  The number of successful authentications
 *  The counts of messages based on all messages received, even if
-   their delivery is ultimately blocked by other filtering agents
+   their delivery is ultimately blocked by other filtering agents.
 
 The format for these reports is defined in Appendix A.
 
