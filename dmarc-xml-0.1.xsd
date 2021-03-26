@@ -21,7 +21,9 @@
     <xs:element name="report_id" type="xs:string"/>
     <xs:element name="date_range" type="DateRangeType"/>
     <xs:element name="error" type="xs:string" minOccurs="0"
-                maxOccurs="unbounded"/>
+	    maxOccurs="unbounded"/>
+    <xs:element name="version" type="xs:integer" minOccurs="0"
+	    maxOccurs="1"/>
   </xs:sequence>
 </xs:complexType>
 

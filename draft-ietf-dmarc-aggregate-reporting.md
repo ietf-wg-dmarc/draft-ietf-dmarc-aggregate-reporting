@@ -215,11 +215,14 @@ final configuration observed during the period. See below for further informatio
 The informative section MUST contain two sub-sections.  One will be the metadata 
 section which MUST contain the fields related to `org_name`, `email`,
 `report_id`, and `date_range`. Optional fields MAY include 
-`extra_contact_info` and an `error` field.  The `date_range` section which will 
-note `begin` and `end` values as epoch timestamps. The other sub-section
-will be the `policy_published`, and record the policy configuration 
-observed by the receiving system.  Mandatory fields are `domain`, `p`, `sp`,
-`pct`. Optional fields are `fo`, `adkim`, `aspf`.
+`extra_contact_info`, an `error` field, and an optional `version` field.  The 
+version field, if present, MUST contain a `1` [!@RFC7489] or `2` [@!ThisDocument], 
+noting to which version of the aggregate reporting specification the report 
+adheres. The `date_range` section which will note `begin` and `end` values as epoch 
+timestamps. The other sub-section will be the `policy_published`, and record 
+the policy configuration observed by the receiving system.  Mandatory 
+fields are `domain`, `p`, `sp`, `pct`. Optional fields are `fo`, 
+`adkim`, `aspf`.
 
 Within the data section, the report will contain row(s) of data stating which
 IPs were seen to have delivered messages for the Author Domain to the receiving
@@ -543,6 +546,7 @@ TBD
 ~~~
 <feedback>
   <report_metadata>
+    <version>2</version>
     <org_name>Sample Reporter</org_name>
     <email>report_sender@example-reporter.com</email>
     <extra_contact_info>...</export_contact_info>
