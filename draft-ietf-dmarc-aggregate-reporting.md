@@ -244,7 +244,7 @@ There MUST be an `auth_results` element within the 'record' element.  This will
 contain the data related to authenticating the messages associated with this sending
 IP. The `dkim` subelement is optional as not all messages are signed, while there
 MUST be at least one `spf` subelement. These elements MUST have a `domain` that was
-used during validation, as well as `result`. Optionally, the `dkim` element MAY
+used during validation, as well as `result`. Optionally, the `dkim` element MUST
 include a `selector` element that was observed during validation. For the `spf`
 element, the `result` element MUST contain a lower-case string where the value 
 is one of none/neutral/pass/fail/softfail/temperror/permerror.  The `dkim` result

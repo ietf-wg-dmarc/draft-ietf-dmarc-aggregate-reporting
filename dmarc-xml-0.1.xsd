@@ -175,7 +175,7 @@
                 minOccurs="1"/>
     <!-- The "s=" parameter in the signature. -->
     <xs:element name="selector" type="xs:string"
-                minOccurs="0"/>
+                minOccurs="1" maxOccurs="1"/>
     <!-- The DKIM verification result. -->
     <xs:element name="result" type="DKIMResultType"
                 minOccurs="1"/>
