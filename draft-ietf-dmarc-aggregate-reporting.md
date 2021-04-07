@@ -339,7 +339,7 @@ feedback.
    chances of acceptance of the report at some compute cost.  The
    aggregate data SHOULD be present using the media type "application/
    gzip" if compressed (see [GZIP]), and "text/xml" otherwise.  The
-   filename is typically constructed using the following ABNF:
+   filename SHOULD be constructed using the following ABNF:
 
      filename = receiver "!" policy-domain "!" begin-timestamp
                 "!" end-timestamp [ "!" unique-id ] "." extension
@@ -370,9 +370,7 @@ feedback.
    Receiver to distinguish among multiple reports generated
    simultaneously by different sources within the same Domain Owner.
 
-
-
-   For example, this is a possible filename for the gzip file of a
+   For example, this is a sample filename for the gzip file of a
    report to the Domain Owner "example.com" from the Mail Receiver
    "mail.receiver.example":
 
