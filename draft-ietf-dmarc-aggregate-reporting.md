@@ -251,6 +251,23 @@ is one of none/neutral/pass/fail/softfail/temperror/permerror.  The `dkim` resul
 MUST contain a lower-case string where the value is one of 
 none/pass/fail/policy/neutral/temperror/permerror. 
 
+### DKIM Signatures in Aggregate Report
+
+Within a single message, the possibility exists that there could be multiple DKIM
+signatures. When validation of the message occurs, some signatures may pass,
+while some may not.  As these pertain to DMARC, and especially to aggregate
+reporting, reporters may not find it clear which DKIM signatures they should include
+in a report. Signatures, regardless of outcome, could help the report ingester
+determine the source of a message. However, there is a preference as to which
+signatures are included.
+
+1. A signature that passes DKIM, in strict alignment with the 5322.From domain
+2. A signature that passes DKIM, in relaxed alignment with the 5322.From domain
+3. Any other DKIM signatures that pass
+4. DKIM signatures that do not pass
+
+A report SHOULD contain no more than 100 signatures for a given row, in 
+decreasing priority.
 
 ## Extensions
 
