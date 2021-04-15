@@ -233,7 +233,7 @@ There MUST also exist a `policy_evaluated`, with subelements of `disposition`,
 `dkim`, and `spf`.  There MAY be an element for `reason`, meant to include 
 any notes the reporter might want to include as to why the `disposition` policy
 does not match the `policy_published`, such as a Local Policy override (possible
-values listed in Appendex A).  The `dkim` and `spf` elements MUST be the 
+values listed in Appendix A).  The `dkim` and `spf` elements MUST be the 
 evaluated values as they relate to DMARC, not the values the receiver may 
 have used when overriding the policy. Within the `identifiers` element, 
 there MUST exist the data that was used to apply policy for the given IP. In most
@@ -560,6 +560,7 @@ TBD
 
 ~~~
 <feedback>
+  <version>2.0</version>
   <report_metadata>
     <version>2</version>
     <org_name>Sample Reporter</org_name>
