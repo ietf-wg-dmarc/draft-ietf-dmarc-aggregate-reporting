@@ -28,7 +28,6 @@
 	report_id: UUID, specified elsewhere
 	date_range: Timestamps used when forming report data
 	error: ?
-	version: The version of the DMARC specification this report intends to use
 	receiving_domains: List of domains which received messages for the domain in this report
 -->
 <xs:complexType name="ReportMetadataType">
@@ -41,8 +40,6 @@
     <xs:element name="date_range" type="DateRangeType"/>
     <xs:element name="error" type="xs:string" minOccurs="0"
 	    maxOccurs="unbounded"/>
-    <xs:element name="version" type="xs:integer" minOccurs="0"
-	    maxOccurs="1"/>
     <xs:element name="receiving_domains" type="ReceivingDomainsType"
 	    minOccurs="0">
   </xs:sequence>
@@ -87,6 +84,8 @@
   <xs:all>
     <!-- The domain at which the DMARC record was found. -->
     <xs:element name="domain" type="xs:string"/>
+    <!-- The version declared in the DMARC record found. -->
+    <xs:element name="version_published" type="xs:decimal"/>
     <!-- The DKIM alignment mode. -->
     <xs:element name="adkim" type="AlignmentType"
                 minOccurs="0"/>
@@ -283,12 +282,16 @@
   </xs:sequence>
 </xs:complexType>
 
+
+<!--
+version: Version of the report format
+-->
 <!-- Parent -->
 <xs:element name="feedback">
   <xs:complexType>
     <xs:sequence>
       <xs:element name="version"
-                  type="xs:decimal"/>
+                  minOccurs="1" type="xs:decimal"/>
       <xs:element name="report_metadata"
                   type="ReportMetadataType"/>
       <xs:element name="policy_published"
