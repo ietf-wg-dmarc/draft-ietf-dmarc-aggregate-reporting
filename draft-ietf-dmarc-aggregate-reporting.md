@@ -227,7 +227,7 @@ reports at 00:00, 01:00, 02:00; etc.  Report generators using a
 00:00 UTC, regardless of local timezone or time of report production,
 in order to facilitate correlation.
 
-## .
+## Report Request Discovery
 
 A Mail Receiver discovers reporting requests when it looks up a DMARC
 policy record that corresponds to an RFC5322.From domain on received
