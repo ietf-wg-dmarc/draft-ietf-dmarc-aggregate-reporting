@@ -6,39 +6,51 @@
      specified in seconds since epoch. -->
 <xs:complexType name="DateRangeType">
   <xs:all>
-    <xs:element name="begin" type="xs:integer" minOccurs="1" maxOccurs="1"/>
-    <xs:element name="end" type="xs:integer" minOccurs="1" maxOccurs="1"/>
+    <xs:element name="begin" type="xs:integer" 
+                minOccurs="1" maxOccurs="1"/>
+    <xs:element name="end" type="xs:integer" 
+                minOccurs="1" maxOccurs="1"/>
   </xs:all>
 </xs:complexType>
 
 <!-- Within the metadata, a list of domains that are
-	reported to have received messages during
-	the report time period -->
+  reported to have received messages during
+  the report time period -->
 <xs:complexType name="ReceivingDomainsType">
   <xs:all>
-    <xs:element name="domain" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="domain" type="xs:string" 
+                minOccurs="0" maxOccurs="unbounded"/>
   </xs:all>
 </xs:complexType>
 
 <!-- Report generator metadata. -->
 <!--
-	org_name: Reporting Organization
-	email: Contact to be used when contacting the Reporting Organization
-	extra_contact_info: Additional contact details
-	report_id: UUID, specified elsewhere
-	date_range: Timestamps used when forming report data
-	error: ?
-	receiving_domains: List of domains which received messages for the domain in this report
+  org_name: Reporting Organization
+  email: Contact to be used when contacting 
+         the Reporting Organization
+  extra_contact_info: Additional contact details
+  report_id: UUID, specified elsewhere
+  date_range: Timestamps used when forming report data
+  error: ?
+  receiving_domains: List of domains which received messages for 
+                     the domain in this report
 -->
 <xs:complexType name="ReportMetadataType">
   <xs:sequence>
-    <xs:element name="org_name" type="xs:string" minOccurs="1" maxOccurs="1"/>
-    <xs:element name="email" type="xs:string" minOccurs="1" maxOccurs="1"/>
-    <xs:element name="extra_contact_info" type="xs:string" minOccurs="0" maxOccurs="1"/>
-    <xs:element name="report_id" type="xs:string" minOccurs="1" maxOccurs="1"/>
-    <xs:element name="date_range" type="DateRangeType" minOccurs="1" maxOccurs="1"/>
-    <xs:element name="error" type="xs:string" minOccurs="0" maxOccurs="unbounded"/>
-    <xs:element name="receiving_domains" type="ReceivingDomainsType" minOccurs="0" maxOccurs="1">
+    <xs:element name="org_name" type="xs:string" 
+                minOccurs="1" maxOccurs="1"/>
+    <xs:element name="email" type="xs:string" 
+                minOccurs="1" maxOccurs="1"/>
+    <xs:element name="extra_contact_info" type="xs:string" 
+                minOccurs="0" maxOccurs="1"/>
+    <xs:element name="report_id" type="xs:string" 
+                minOccurs="1" maxOccurs="1"/>
+    <xs:element name="date_range" type="DateRangeType" 
+                minOccurs="1" maxOccurs="1"/>
+    <xs:element name="error" type="xs:string" 
+                minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="receiving_domains" type="ReceivingDomainsType" 
+                minOccurs="0" maxOccurs="1">
   </xs:sequence>
 </xs:complexType>
 
@@ -76,25 +88,33 @@
   </xs:restriction>
 
 <!-- The DMARC policy that is published by the sending domain 
-	  in this report. -->
+  in this report. -->
 <xs:complexType name="PolicyPublishedType">
   <xs:all>
     <!-- The domain at which the DMARC record was found. -->
-    <xs:element name="domain" type="xs:string" minOccurs="1" maxOccurs="1"/>
+    <xs:element name="domain" type="xs:string" 
+                minOccurs="1" maxOccurs="1"/>
     <!-- The version declared in the DMARC record found. -->
-    <xs:element name="version_published" type="xs:decimal" minOccurs="1" maxOccurs="1"/>
+    <xs:element name="version_published" type="xs:decimal" 
+                minOccurs="1" maxOccurs="1"/>
     <!-- The DKIM alignment mode. -->
-    <xs:element name="adkim" type="AlignmentType" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="adkim" type="AlignmentType" 
+                minOccurs="0" maxOccurs="1"/>
     <!-- The SPF alignment mode. -->
-    <xs:element name="aspf" type="AlignmentType" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="aspf" type="AlignmentType" 
+                minOccurs="0" maxOccurs="1"/>
     <!-- The policy published for messages from the domain. -->
-    <xs:element name="p" type="DispositionType" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="p" type="DispositionType" 
+                minOccurs="0" maxOccurs="1"/>
     <!-- The policy published for messages from subdomains. -->
-    <xs:element name="sp" type="DispositionType" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="sp" type="DispositionType" 
+                minOccurs="0" maxOccurs="1"/>
     <!-- The percent declared in the DMARC record -->
-    <xs:element name="pct" type="xs:integer" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="pct" type="xs:integer" 
+                minOccurs="0" maxOccurs="1"/>
     <!-- Failure reporting options in effect. -->
-    <xs:element name="fo" type="xs:string" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="fo" type="xs:string" 
+                minOccurs="0" maxOccurs="1"/>
   </xs:all>
 </xs:complexType>
 
@@ -124,8 +144,10 @@
      specific than "other"? -->
 <xs:complexType name="PolicyOverrideReason">
   <xs:all>
-    <xs:element name="type" type="PolicyOverrideType" minOccurs="1" maxOccurs="1"/>
-    <xs:element name="comment" type="xs:string" minOccurs="0" maxOccurs="1"/>
+    <xs:element name="type" type="PolicyOverrideType" 
+                minOccurs="1" maxOccurs="1"/>
+    <xs:element name="comment" type="xs:string"
+                minOccurs="0" maxOccurs="1"/>
   </xs:all>
 </xs:complexType>
 
@@ -136,7 +158,8 @@
     <xs:element name="disposition" type="ActionDispositionType"/>
     <xs:element name="dkim" type="DMARCResultType"/>
     <xs:element name="spf" type="DMARCResultType"/>
-    <xs:element name="reason" type="PolicyOverrideReason" minOccurs="0" maxOccurs="unbounded"/>
+    <xs:element name="reason" type="PolicyOverrideReason" 
+                minOccurs="0" maxOccurs="unbounded"/>
   </xs:sequence>
 </xs:complexType>
 
@@ -157,10 +180,12 @@
 <xs:complexType name="RowType">
   <xs:all>
     <!-- The connecting IP. -->
-    <xs:element name="source_ip" type="IPAddress" minOccurs="1" maxOccurs="1"/>
+    <xs:element name="source_ip" type="IPAddress" 
+                minOccurs="1" maxOccurs="1"/>
     <!-- The number of messages for which the 
     PolicyEvaluatedType was applied. -->
-    <xs:element name="count" type="xs:integer" minOccurs="1" maxOccurs="1"/>
+    <xs:element name="count" type="xs:integer" 
+                minOccurs="1" maxOccurs="1"/>
     <!-- The DMARC disposition applied to matching
          messages. -->
     <xs:element name="policy_evaluated"
@@ -241,11 +266,14 @@
 <xs:complexType name="SPFAuthResultType">
   <xs:all>
     <!-- The checked domain. -->
-    <xs:element name="domain" type="xs:string" minOccurs="1" maxOccurs="1"/>
+    <xs:element name="domain" type="xs:string" 
+                minOccurs="1" maxOccurs="1"/>
     <!-- The scope of the checked domain. -->
-    <xs:element name="scope" type="SPFDomainScope" minOccurs="1" maxOccurs="1"/>
+    <xs:element name="scope" type="SPFDomainScope" 
+                minOccurs="1" maxOccurs="1"/>
     <!-- The SPF verification result. -->
-    <xs:element name="result" type="SPFResultType" minOccurs="1" maxOccurs="1"/>
+    <xs:element name="result" type="SPFResultType" 
+                minOccurs="1" maxOccurs="1"/>
   </xs:all>
 </xs:complexType>
 
@@ -269,8 +297,10 @@
 <xs:complexType name="RecordType">
   <xs:sequence>
     <xs:element name="row" type="RowType"/>
-    <xs:element name="identifiers" type="IdentifierType" minOccurs="1" maxOccurs="1"/>
-    <xs:element name="auth_results" type="AuthResultType" minOccurs="1" maxOccurs="1"/>
+    <xs:element name="identifiers" type="IdentifierType" 
+                minOccurs="1" maxOccurs="1"/>
+    <xs:element name="auth_results" type="AuthResultType" 
+                minOccurs="1" maxOccurs="1"/>
   </xs:sequence>
 </xs:complexType>
 
@@ -285,9 +315,11 @@ version: Version of the report format
       <xs:element name="version"
                   minOccurs="1" maxOccurs="1" type="xs:decimal"/>
       <xs:element name="report_metadata"
-                  minOccurs="1" maxOccurs="1" type="ReportMetadataType"/>
+                  minOccurs="1" maxOccurs="1" 
+                  type="ReportMetadataType"/>
       <xs:element name="policy_published"
-                  minOccurs="1" maxOccurs="1" type="PolicyPublishedType"/>
+                  minOccurs="1" maxOccurs="1" 
+                  type="PolicyPublishedType"/>
       <xs:element name="record" type="RecordType"
                   minOccurs="1" maxOccurs="unbounded"/>
     </xs:sequence>
