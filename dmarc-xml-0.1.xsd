@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  targetNamespace="http://dmarc.org/dmarc-xml/0.1">
+  targetNamespace="http://dmarc.org/dmarc-xml/0.2">
 
 <!-- The time range in UTC covered by messages in this report,
      specified in seconds since epoch. -->
@@ -12,8 +12,8 @@
 </xs:complexType>
 
 <!-- Within the metadata, a list of domains that are
-	reported to have received messages during
-	the report time period -->
+        reported to have received messages during
+        the report time period -->
 <xs:complexType name="ReceivingDomainsType">
   <xs:all>
     <xs:element name="domain" type="xs:string"/>
@@ -22,13 +22,15 @@
 
 <!-- Report generator metadata. -->
 <!--
-	org_name: Reporting Organization
-	email: Contact to be used when contacting the Reporting Organization
-	extra_contact_info: Additional contact details
-	report_id: UUID, specified elsewhere
-	date_range: Timestamps used when forming report data
-	error: ?
-	receiving_domains: List of domains which received messages for the domain in this report
+        org_name: Reporting Organization
+        email: Contact to be used when contacting the 
+               Reporting Organization
+        extra_contact_info: Additional contact details
+        report_id: UUID, specified elsewhere
+        date_range: Timestamps used when forming report data
+        error: ?
+        receiving_domains: List of domains which received 
+                           messages for the domain in this report
 -->
 <xs:complexType name="ReportMetadataType">
   <xs:sequence>
@@ -39,9 +41,9 @@
     <xs:element name="report_id" type="xs:string"/>
     <xs:element name="date_range" type="DateRangeType"/>
     <xs:element name="error" type="xs:string" minOccurs="0"
-	    maxOccurs="unbounded"/>
+                maxOccurs="unbounded"/>
     <xs:element name="receiving_domains" type="ReceivingDomainsType"
-	    minOccurs="0">
+                minOccurs="0">
   </xs:sequence>
 </xs:complexType>
 
@@ -79,7 +81,7 @@
   </xs:restriction>
 
 <!-- The DMARC policy that is published by the sending domain 
-	  in this report. -->
+           in this report. -->
 <xs:complexType name="PolicyPublishedType">
   <xs:all>
     <!-- The domain at which the DMARC record was found. -->
