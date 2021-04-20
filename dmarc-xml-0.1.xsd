@@ -1,6 +1,6 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
-  targetNamespace="http://dmarc.org/dmarc-xml/0.1">
+  targetNamespace="http://dmarc.org/dmarc-xml/0.2">
 
 <!-- The time range in UTC covered by messages in this report,
      specified in seconds since epoch. -->
