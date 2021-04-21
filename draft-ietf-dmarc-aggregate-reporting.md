@@ -565,7 +565,7 @@ TBD
 
 # Appendix A. DMARC XML Schema
 
-<{{dmarc-xml-0.1.xsd}}
+<{{dmarc-xml-0.2.xsd}}
 
 # Appendix B. Sample Report
 
