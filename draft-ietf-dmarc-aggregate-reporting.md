@@ -2,7 +2,7 @@
 
 	Title = "DMARC Aggregate Reporting"
 	abbrev = "DMARC Aggregate Reporting"
-	docName = "draft-ietf-dmarc-aggregate-reporting-01"
+	docName = "draft-ietf-dmarc-aggregate-reporting-04"
 	category = "std"
 	obsoletes = [7489]
 	ipr = "trust200902"
@@ -10,15 +10,15 @@
 	workgroup = "DMARC"
 	submissiontype = "IETF"
 	keyword = [""]
-	
-	date = "2021-04-19T00:00:00Z"
-	
+
+	date = "2021-12-13T00:00:00Z"
+
 	[seriesInfo]
 	name = "Internet-Draft"
-	value = "draft-ietf-dmarc-aggregate-reporting-01"
+	value = "draft-ietf-dmarc-aggregate-reporting-04"
 	stream = "IETF"
 	status = "standard"
-	
+
 	[[author]]
 	initials = "A."
 	surname = "Brotman (ed)"
@@ -53,9 +53,34 @@ SPF [@!RFC7208] & DKIM [@!RFC6376] validation.
 
 ## Terminology
 
-The keywords **MUST**, **MUST NOT**, **REQUIRED**, **SHALL**, **SHALL NOT**, **SHOULD**,
-**SHOULD NOT**, **RECOMMENDED**, **MAY**, and **OPTIONAL**, when they appear in this document, are
- to be interpreted as described in [@RFC2119].
+In many IETF documents, several words, when they are in all capitals
+as shown below, are used to signify the requirements in the
+specification.  These capitalized words can bring significant clarity
+and consistency to documents because their meanings are well defined.
+This document defines how those words are interpreted in IETF
+documents when the words are in all capitals.
+
+*  These words can be used as defined here, but using them is not
+   required.  Specifically, normative text does not require the use
+   of these key words.  They are used for clarity and consistency
+   when that is what's wanted, but a lot of normative text does not
+   use them and is still normative.
+
+*  The words have the meanings specified herein only when they are in
+   all capitals.
+
+*  When these words are not capitalized, they have their normal
+   English meanings and are not affected by this document.
+
+Authors who follow these guidelines should incorporate this phrase
+near the beginning of their document:
+```
+   The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
+   NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
+   "MAY", and "OPTIONAL" in this document are to be interpreted as
+   described in BCP 14 [RFC2119] [RFC8174] when, and only when, they
+   appear in all capitals, as shown here.
+```
 
 # DMARC Feedback
 
@@ -100,8 +125,10 @@ The report may include the following data:
 *  The identifier evaluated by DKIM and the DKIM result, if any
 *  For both DKIM and SPF, an indication of whether the identifier was
    in alignment
-*  A separate report should be generated for each 5322.From subdomain, regardless
-   of which policy domain was used during receipt of messages
+*  A separate report should be generated for each Policy Domain encountered during
+   the reporting period.  If there are multiple 5322.From domains that are included, those
+   should result in distinct records within the report. See below for further 
+   explanation in "Handling Domains in Reports".
 *  Sending and receiving domains
 *  The policy requested by the Domain Owner and the policy actually
    applied (if different)
@@ -111,13 +138,10 @@ The report may include the following data:
 
 The format for these reports is defined in Appendix A.
 
-ProposedAddition:
-[[
-
 DMARC Aggregate Reports MUST contain two primary sections; one consisting
 of descriptive information and the other a set of IP-focused row-based data. 
 Each report MUST contain data for only one Author Domain. A single report 
-SHOULD contain data for one policy configuration. If multiple configurations 
+MUST contain data for one policy configuration. If multiple configurations 
 were observed during a single reporting period, a reporting entity MAY choose 
 to send multiple reports, otherwise the reporting entity SHOULD note only the 
 final configuration observed during the period. See below for further information.
@@ -131,12 +155,13 @@ noting to which version of the aggregate reporting specification the report
 adheres. The `date_range` section which will note `begin` and `end` values as epoch 
 timestamps. The other sub-section will be the `policy_published`, and record 
 the policy configuration observed by the receiving system.  Mandatory 
-fields are `domain`, `p`, `sp`, `pct`. Optional fields are `fo`, 
-`adkim`, `aspf`.
+fields are `domain`, `p`, `sp`. Optional fields are `fo`, 
+`adkim`, `aspf`, and `testing`.  There MAY be an optional third section 
+for `extensions`.
 
 Within the data section, the report will contain row(s) of data stating which
 IPs were seen to have delivered messages for the Author Domain to the receiving
-system.  For each IP that is being reported, there will be a `record` element,
+system.  For each IP that is being reported, there will be at least one `record` element,
 which will then have each of a `row`, `identifiers`, and `auth_results` 
 sub-element.  Within the `row` element, there MUST be `source_ip` and `count`.
 There MUST also exist a `policy_evaluated`, with subelements of `disposition`,
@@ -153,13 +178,31 @@ from the message.
 There MUST be an `auth_results` element within the 'record' element.  This will
 contain the data related to authenticating the messages associated with this sending
 IP. The `dkim` subelement is optional as not all messages are signed, while there
-MUST be at least one `spf` subelement. These elements MUST have a `domain` that was
-used during validation, as well as `result`. Optionally, the `dkim` element MUST
+MUST be one `spf` subelement. These elements MUST have a `domain` that was
+used during validation, as well as `result`. The `dkim` element MUST
 include a `selector` element that was observed during validation. For the `spf`
 element, the `result` element MUST contain a lower-case string where the value 
 is one of none/neutral/pass/fail/softfail/temperror/permerror.  The `dkim` result
 MUST contain a lower-case string where the value is one of 
-none/pass/fail/policy/neutral/temperror/permerror. 
+none/pass/fail/policy/neutral/temperror/permerror. Both the `spf` and `dkim` results
+may optionally include a `human_readable` field meant for the report to convey
+more descriptive information back to the domain holder relating to evaluation
+failures. There MAY exist an optional section for `extensions`.
+
+### Handling Domains in Reports
+
+In the same report, there MUST be a single Policy Domain, though there could be 
+multiple 5322.From Domains.  Each 5322.From domain will create its own `record` 
+within the report.  Consider the case where there are three domains with traffic 
+volume to report: example.com, foo.example.com, and bar.example.com.  There will be 
+explicit DMARC records for example.com and bar.example.com, with distinct policies.  There 
+is no explicit DMARC record for foo.example.com, so it will be reliant on the 
+policy described for example.com.  For a report period, there would now be two reports.  
+The first will be for bar.example.com, and contain only one `record`, for 
+bar.example.com.  The second report would be for example comain contain multiple 
+`record` elements, one for example.com and one for foo.example.com (and extensibly, 
+other `record` elements for subdomains which likewise did not have an explicit
+DMARC policy declared).
 
 ### DKIM Signatures in Aggregate Report
 
@@ -176,16 +219,21 @@ signatures are included.
 3. Any other DKIM signatures that pass
 4. DKIM signatures that do not pass
 
-A report SHOULD contain no more than 100 signatures for a given row, in 
+A report SHOULD contain no more than 100 signatures for a given `row`, in 
 decreasing priority.
+
+### Unique Identifiers in Aggregate Reporting
+
+There are a few places where a unique identifier is specified as part of the
+body of the report, the subject, and so on.  These unique identifiers should be
+consistent per each report.  Specified below, the reader will see a `msg-id`,
+`Report-ID`, `unique-id`.  These are the fields that MUST be identical when used.
 
 ## Extensions
 
-There MAY be an optional section for extensions within the `feedback` element.
+There MAY be optional sections for extensions within the document.
 The absence or existence of this section SHOULD NOT create an error when 
 processing reports. This will be covered in a separate section.
-
-]]
 
 ## Changes in Policy During Reporting Period
 
@@ -252,7 +300,7 @@ feedback.
    If transport is not possible because the services advertised by the
    published URIs are not able to accept reports (e.g., the URI refers
    to a service that is unreachable, or all provided URIs specify size
-   limits exceeded by the generated record), the Mail Receiver SHOULD
+   limits exceeded by the generated record), the Mail Receiver MAY 
    send a short report (see Section 7.2.2) indicating that a report is
    available but could not be sent.  The Mail Receiver MAY cache that
    data and try again later, or MAY discard data that could not be sent.
@@ -270,14 +318,12 @@ feedback.
    report to be too large for a receiver to process (a commonly observed
    receiver limit is ten megabytes); doing the compression increases the
    chances of acceptance of the report at some compute cost.  The
-   aggregate data SHOULD be present using the media type "application/
+   aggregate data MUST be present using the media type "application/
    gzip" if compressed (see [GZIP]), and "text/xml" otherwise.  The
-   filename SHOULD be constructed using the following ABNF:
+   filename MUST be constructed using the following ABNF:
 
      filename = receiver "!" policy-domain "!" begin-timestamp
                 "!" end-timestamp [ "!" unique-id ] "." extension
-
-     unique-id = 1*(ALPHA / DIGIT)
 
      receiver = domain
                 ; imported from [MAIL]
@@ -294,6 +340,8 @@ feedback.
                      ; indicating end of the time range contained
                      ; in the report
 
+     unique-id = 1*(ALPHA / DIGIT)
+
      extension = "xml" / "xml.gz"
 
    The extension MUST be "xml" for a plain XML file, or "xml.gz" for an
@@ -302,6 +350,11 @@ feedback.
    "unique-id" allows an optional unique ID generated by the Mail
    Receiver to distinguish among multiple reports generated
    simultaneously by different sources within the same Domain Owner.
+
+   If a report generator needs to re-send a report, the system MUST
+   use the same filename as the original report.  This would
+   allow the receiver to overwrite the data from the original, or discard
+   second instance of the report.
 
    For example, this is a sample filename for the gzip file of a
    report to the Domain Owner "example.com" from the Mail Receiver
@@ -319,7 +372,7 @@ feedback.
    This practice minimizes the risk of report consumers processing
    fraudulent reports.
 
-   The RFC5322.Subject field for individual report submissions SHOULD
+   The RFC5322.Subject field for individual report submissions MUST
    conform to the following ABNF:
 
      dmarc-subject = %x52.65.70.6f.72.74 1*FWS       ; "Report"
@@ -350,12 +403,39 @@ feedback.
    either the generator or the consumer.  See Section 7.2.2 for further
    discussion.
 
+   Optionally, the report sender MAY choose to use the same `msg-id`
+   as a part or whole of the 5322.Message-Id header included with the report.
+   Doing so may help receivers distinguish when a message is a re-transmission
+   or duplicate report.
 
 ### Other Methods
 
 The specification as written allows for the addition of other
 registered URI schemes to be supported in later versions.
 
+### Handling of Duplicates
+
+There may be a situation where the report generator attempts to deliver
+duplicate information to the receiver.  This may manifest as an exact
+duplicate of the report, or as duplicate information between two reports.
+In these situations, the decision of how to handle the duplicate data
+lies with the receiver.  As noted above, the sender MUST use the same
+unique identifiers when sending the report.  This allows the receiver to
+better understand when duplicates happen.  A few options on how to 
+handle that duplicate information:
+
+*  Reject back to sender, ideally with a permfail error noting
+   the duplicate receipt
+*  Discard upon receipt
+*  Inspect the contents to evaluate the timestamps and reported data,
+   act as appropriate
+*  Accept the duplicate data
+
+When accepting the data, that's likely in a situation where it's not
+yet noticed, or a one-off experience.  Long term, duplicate data
+is not ideal.  In the situation of a partial timeframe overlap, there is
+no clear way to distinguish the impact of the overlap.  The receiver would
+need to accept or reject the duplicate data in whole.
 
 # Verifying External Destinations
 
@@ -376,7 +456,7 @@ When a Mail Receiver discovers a DMARC policy in the DNS, and the
 Organizational Domain at which that record was discovered is not
 identical to the Organizational Domain of the host part of the
 authority component of a [URI] specified in the "rua" or "ruf" tag,
-the following verification steps are to be taken:
+the following verification steps MUST be taken:
 
 1.  Extract the host portion of the authority component of the URI.
     Call this the "destination host", as it refers to a Report
@@ -448,9 +528,6 @@ A Mail Receiver might decide not to enact this procedure if, for
 example, it relies on a local list of domains for which external
 reporting addresses are permitted.
 
-
-
-
 # Extensible Reporting
 
 A DMARC report should allow for some extensibility, as defined by
@@ -460,16 +537,51 @@ of a DMARC report.  They MUST NOT alter the existing DMARC structure,
 but instead exist self-contained within an `<extensions>` element. This
 element MUST be a child of the `<feedback>` element.
 
+
+
+A DMARC report should allow for some extensibility, as defined by
+future documents that utilize DMARC as a foundation.  These extensions
+MUST be properly formatted XML and meant to exist within the structure
+of a DMARC report.  Extensions MAY exist in one of two places; within 
+the `record` element, or in a separate `extensions` element under the 
+`feedback` element.  In either case, the extensions MUST contain a 
+URI to the definition of the extension so that the receiver understands 
+how to interpret the data.
+
+Within the `record` element:
+
+```
+...
+  <record>
+    <row>
+    <source_ip>192.168.1.1</source_ip>
+    <count>15</count>
+    ...
+    <extensions>
+      <extensionName definition="https://path/to/spec">
+      ...
+      </extensionName>
+    </extensions>
+  </record>
+...
+```
+
+
+Within the `feedback` element:
+
 ```
 <feedback>
   ...
   <extensions>
-    <extension1 definition="https://path/to/spec">
+    <extensionName definition="https://path/to/spec">
       <data>...</data>
-    </extension1>
+    </extensionName>
   </extensions>
 </feedback>
 ```
+
+In both cases "extensionName" should be replaced with an appropriate
+single-word title.
 
 A DMARC report receiver SHOULD NOT generate a processing error when this
 `<extensions>` element is absent or empty.  Furthermore, if a processor
@@ -571,9 +683,8 @@ TBD
 
 ~~~
 <feedback>
-  <version>2.0</version>
   <report_metadata>
-    <version>2</version>
+    <version>2.0</version>
     <org_name>Sample Reporter</org_name>
     <email>report_sender@example-reporter.com</email>
     <extra_contact_info>...</export_contact_info>
@@ -587,7 +698,7 @@ TBD
     <domain>example.com</domain>
     <p>quarantine</p>
     <sp>none</sp>
-    <pct>100</pct>
+    <testing>n</testing>
   </policy_published>
   <record>
     <row>
@@ -613,7 +724,11 @@ TBD
         <result>fail</result>
       </spf>
     </auth_results>
+    <extensions>
+    </extensions>
   </record>
+  <extensions>
+  </extensions>
 </feedback>
 
 ~~~
