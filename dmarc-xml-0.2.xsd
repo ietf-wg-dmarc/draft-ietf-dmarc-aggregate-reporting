@@ -13,15 +13,6 @@
   </xs:all>
 </xs:complexType>
 
-<!-- Within the metadata, a list of domains that are
-  reported to have received messages during
-  the report time period -->
-<xs:complexType name="ReceivingDomainsType">
-  <xs:all>
-    <xs:element name="domain" type="xs:string" 
-                minOccurs="0" maxOccurs="unbounded"/>
-  </xs:all>
-</xs:complexType>
 
 <!-- Report generator metadata. -->
 <!--
@@ -32,8 +23,6 @@
   report_id: UUID, specified elsewhere
   date_range: Timestamps used when forming report data
   error: ?
-  receiving_domains: List of domains which received messages for 
-                     the domain in this report
 -->
 <xs:complexType name="ReportMetadataType">
   <xs:sequence>
@@ -49,8 +38,6 @@
                 minOccurs="1" maxOccurs="1"/>
     <xs:element name="error" type="xs:string" 
                 minOccurs="0" maxOccurs="unbounded"/>
-    <xs:element name="receiving_domains" type="ReceivingDomainsType" 
-                minOccurs="0" maxOccurs="1">
   </xs:sequence>
 </xs:complexType>
 
@@ -96,7 +83,7 @@
                 minOccurs="1" maxOccurs="1"/>
     <!-- The version declared in the DMARC record found. -->
     <xs:element name="version_published" type="xs:decimal" 
-                minOccurs="1" maxOccurs="1"/>
+                minOccurs="0" maxOccurs="1"/>
     <!-- The DKIM alignment mode. -->
     <xs:element name="adkim" type="AlignmentType" 
                 minOccurs="0" maxOccurs="1"/>
@@ -105,18 +92,26 @@
                 minOccurs="0" maxOccurs="1"/>
     <!-- The policy published for messages from the domain. -->
     <xs:element name="p" type="DispositionType" 
-                minOccurs="0" maxOccurs="1"/>
+                minOccurs="1" maxOccurs="1"/>
     <!-- The policy published for messages from subdomains. -->
     <xs:element name="sp" type="DispositionType" 
-                minOccurs="0" maxOccurs="1"/>
+                minOccurs="1" maxOccurs="1"/>
     <!-- The percent declared in the DMARC record -->
-    <xs:element name="pct" type="xs:integer" 
+    <xs:element name="testing" type="TestingType" 
                 minOccurs="0" maxOccurs="1"/>
     <!-- Failure reporting options in effect. -->
     <xs:element name="fo" type="xs:string" 
                 minOccurs="0" maxOccurs="1"/>
   </xs:all>
 </xs:complexType>
+
+<!-- Values for Testing mode attached to Policy -->
+<xs:simpleType name="TestingType">
+  <xs:restriction base="xs:string">
+    <xs:enumeration value="n"/>
+    <xs:enumeration value="y"/>
+  </xs:restriction>
+</xs:simpleType>
 
 <!-- The DMARC-aligned authentication result. -->
 <xs:simpleType name="DMARCResultType">
@@ -152,7 +147,10 @@
 </xs:complexType>
 
 <!-- Taking into account everything else in the record,
-     the results of applying DMARC. -->
+  the results of applying DMARC. If alignment fails 
+  and the policy applied does not match the domain's 
+  configured policy, the reason element MUST be specified  -->
+
 <xs:complexType name="PolicyEvaluatedType">
   <xs:sequence>
     <xs:element name="disposition" type="ActionDispositionType"/>
@@ -191,6 +189,8 @@
     <xs:element name="policy_evaluated"
                 type="PolicyEvaluatedType"
                 minOccurs="1" maxOccurs="1"/>
+    <xs:element name="extensions" type="ExtensionType"
+                minOccurs="0" maxOccurs"unbounded"/>
   </xs:all>
 </xs:complexType>
 
@@ -270,10 +270,20 @@
                 minOccurs="1" maxOccurs="1"/>
     <!-- The scope of the checked domain. -->
     <xs:element name="scope" type="SPFDomainScope" 
-                minOccurs="1" maxOccurs="1"/>
+                minOccurs="0" maxOccurs="1"/>
     <!-- The SPF verification result. -->
     <xs:element name="result" type="SPFResultType" 
                 minOccurs="1" maxOccurs="1"/>
+    <!-- Any extra information 
+       (e.g., from Authentication-Results). 
+    The information in the field below should be for a 
+      person to be provided with additional information 
+      that may be useful when debugging SPF authentication 
+      issues.  This could include broken records, invalid 
+      DNS responses, etc.
+    -->
+    <xs:element name="human_result" type="xs:string"
+                minOccurs="0" maxOccurs="1"/>
   </xs:all>
 </xs:complexType>
 
@@ -304,6 +314,17 @@
   </xs:sequence>
 </xs:complexType>
 
+<xs:complexType name="ExtensionType">
+  <xs:sequence>
+    <xs:element name="extension" type="xs:string"
+                minOccurs="0" maxOccurs="1"/>
+    <xs:sequence minOccurs="1" maxOccurs="1">
+      <xs:attribute name="name" use="required"/>
+      <xs:attribute name="definition" use="required"/>
+    </xs:sequence>
+  </xs:sequence>
+</xs:complexType>
+
 
 <!--
 version: Version of the report format
@@ -313,7 +334,7 @@ version: Version of the report format
   <xs:complexType>
     <xs:sequence>
       <xs:element name="version"
-                  minOccurs="1" maxOccurs="1" type="xs:decimal"/>
+                  minOccurs="0" maxOccurs="1" type="xs:decimal"/>
       <xs:element name="report_metadata"
                   minOccurs="1" maxOccurs="1" 
                   type="ReportMetadataType"/>
@@ -322,6 +343,8 @@ version: Version of the report format
                   type="PolicyPublishedType"/>
       <xs:element name="record" type="RecordType"
                   minOccurs="1" maxOccurs="unbounded"/>
+      <xs:element name="extensions" type="ExtensionType"
+                  minOccurs="0" maxOccurs"unbounded"/>
     </xs:sequence>
   </xs:complexType>
 </xs:element>
