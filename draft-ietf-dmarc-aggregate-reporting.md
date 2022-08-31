@@ -2,7 +2,7 @@
 
 	Title = "DMARC Aggregate Reporting"
 	abbrev = "DMARC Aggregate Reporting"
-	docName = "draft-ietf-dmarc-aggregate-reporting-04"
+	docName = "draft-ietf-dmarc-aggregate-reporting-05"
 	category = "std"
 	obsoletes = [7489]
 	ipr = "trust200902"
@@ -11,11 +11,11 @@
 	submissiontype = "IETF"
 	keyword = [""]
 
-	date = "2021-12-13T00:00:00Z"
+	date = "2022-04-20T00:00:00Z"
 
 	[seriesInfo]
 	name = "Internet-Draft"
-	value = "draft-ietf-dmarc-aggregate-reporting-04"
+	value = "draft-ietf-dmarc-aggregate-reporting-05"
 	stream = "IETF"
 	status = "standard"
 
@@ -138,13 +138,14 @@ The report may include the following data:
 
 The format for these reports is defined in Appendix A.
 
-DMARC Aggregate Reports MUST contain two primary sections; one consisting
-of descriptive information and the other a set of IP-focused row-based data. 
-Each report MUST contain data for only one Author Domain. A single report 
-MUST contain data for one policy configuration. If multiple configurations 
-were observed during a single reporting period, a reporting entity MAY choose 
-to send multiple reports, otherwise the reporting entity SHOULD note only the 
-final configuration observed during the period. See below for further information.
+DMARC Aggregate Reports MUST contain three primary sections; one consisting
+of descriptive information (with two subsections), and the other a set of 
+IP-focused row-based data.  Each report MUST contain data for only one 
+Author Domain. A single report MUST contain data for one policy configuration. 
+If multiple configurations were observed during a single reporting period, a 
+reporting entity MAY choose to send multiple reports, otherwise the reporting 
+entity SHOULD note only the final configuration observed during the 
+period. See below for further information.
 
 The informative section MUST contain two sub-sections.  One will be the metadata 
 section which MUST contain the fields related to `org_name`, `email`,
@@ -156,15 +157,15 @@ adheres. The `date_range` section which will note `begin` and `end` values as ep
 timestamps. The other sub-section will be the `policy_published`, and record 
 the policy configuration observed by the receiving system.  Mandatory 
 fields are `domain`, `p`, `sp`. Optional fields are `fo`, 
-`adkim`, `aspf`, and `testing`.  There MAY be an optional third section 
-for `extensions`.
+`adkim`, `aspf`, `testing`, and `version_published`.  There MAY be an optional 
+third section for `extensions`.
 
 Within the data section, the report will contain row(s) of data stating which
 IPs were seen to have delivered messages for the Author Domain to the receiving
 system.  For each IP that is being reported, there will be at least one `record` element,
 which will then have each of a `row`, `identifiers`, and `auth_results` 
 sub-element.  Within the `row` element, there MUST be `source_ip` and `count`.
-There MUST also exist a `policy_evaluated`, with subelements of `disposition`,
+There MUST also exist a `policy_evaluated`, with sub-elements of `disposition`,
 `dkim`, and `spf`.  There MAY be an element for `reason`, meant to include 
 any notes the reporter might want to include as to why the `disposition` policy
 does not match the `policy_published`, such as a Local Policy override (possible
@@ -177,8 +178,8 @@ from the message.
 
 There MUST be an `auth_results` element within the 'record' element.  This will
 contain the data related to authenticating the messages associated with this sending
-IP. The `dkim` subelement is optional as not all messages are signed, while there
-MUST be one `spf` subelement. These elements MUST have a `domain` that was
+IP. The `dkim` sub-element is optional as not all messages are signed, while there
+MUST be one `spf` sub-element. These elements MUST have a `domain` that was
 used during validation, as well as `result`. The `dkim` element MUST
 include a `selector` element that was observed during validation. For the `spf`
 element, the `result` element MUST contain a lower-case string where the value 
@@ -199,7 +200,7 @@ explicit DMARC records for example.com and bar.example.com, with distinct polici
 is no explicit DMARC record for foo.example.com, so it will be reliant on the 
 policy described for example.com.  For a report period, there would now be two reports.  
 The first will be for bar.example.com, and contain only one `record`, for 
-bar.example.com.  The second report would be for example comain contain multiple 
+bar.example.com.  The second report would be for example domain contain multiple 
 `record` elements, one for example.com and one for foo.example.com (and extensibly, 
 other `record` elements for subdomains which likewise did not have an explicit
 DMARC policy declared).
@@ -433,7 +434,7 @@ handle that duplicate information:
 
 When accepting the data, that's likely in a situation where it's not
 yet noticed, or a one-off experience.  Long term, duplicate data
-is not ideal.  In the situation of a partial timeframe overlap, there is
+is not ideal.  In the situation of a partial time frame overlap, there is
 no clear way to distinguish the impact of the overlap.  The receiver would
 need to accept or reject the duplicate data in whole.
 
@@ -558,9 +559,9 @@ Within the `record` element:
     <count>15</count>
     ...
     <extensions>
-      <extensionName definition="https://path/to/spec">
+      <extension name="extensionName" definition="https://path/to/spec">
       ...
-      </extensionName>
+      </extension>
     </extensions>
   </record>
 ...
@@ -573,9 +574,9 @@ Within the `feedback` element:
 <feedback>
   ...
   <extensions>
-    <extensionName definition="https://path/to/spec">
+    <extension name="extensionName" definition="https://path/to/spec">
       <data>...</data>
-    </extensionName>
+    </extension>
   </extensions>
 </feedback>
 ```
