@@ -2,7 +2,7 @@
 
 	Title = "DMARC Aggregate Reporting"
 	abbrev = "DMARC Aggregate Reporting"
-	docName = "draft-ietf-dmarc-aggregate-reporting-05"
+	docName = "draft-ietf-dmarc-aggregate-reporting-06"
 	category = "std"
 	obsoletes = [7489]
 	ipr = "trust200902"
@@ -11,11 +11,11 @@
 	submissiontype = "IETF"
 	keyword = [""]
 
-	date = "2022-04-20T00:00:00Z"
+	date = "2022-10-20T00:00:00Z"
 
 	[seriesInfo]
 	name = "Internet-Draft"
-	value = "draft-ietf-dmarc-aggregate-reporting-05"
+	value = "draft-ietf-dmarc-aggregate-reporting-06"
 	stream = "IETF"
 	status = "standard"
 
@@ -230,6 +230,13 @@ body of the report, the subject, and so on.  These unique identifiers should be
 consistent per each report.  Specified below, the reader will see a `msg-id`,
 `Report-ID`, `unique-id`.  These are the fields that MUST be identical when used.
 
+NOTE, this no longer seems to be the case given changes to the 
+Report-ID now used in the subject? If we allow "<>" in the Subject,
+those characters are illegal in Windows filnames I believe.  We could say
+that the "unique-id" and the "ridtxt" are identical, other than the 
+"<>" characters.  Should/Could we add a MUST to the format?  Could we just
+point at RFC4122 (is it still used/valid)?
+
 ## Extensions
 
 There MAY be optional sections for extensions within the document.
@@ -382,7 +389,7 @@ feedback.
                      %x53.75.62.6d.69.74.74.65.72.3a ; "Submitter:"
                      1*FWS domain-name 1*FWS
                      %x52.65.70.6f.72.74.2d.49.44.3a ; "Report-ID:"
-                     msg-id                          ; from RFC 5322
+                     ridtxt                          ; defined below
 
    The first domain-name indicates the DNS domain name about which the
    report was generated.  The second domain-name indicates the DNS
@@ -404,10 +411,20 @@ feedback.
    either the generator or the consumer.  See Section 7.2.2 for further
    discussion.
 
-   Optionally, the report sender MAY choose to use the same `msg-id`
+   Optionally, the report sender MAY choose to use the same `ridtxt`
    as a part or whole of the 5322.Message-Id header included with the report.
    Doing so may help receivers distinguish when a message is a re-transmission
    or duplicate report.
+
+### Definition of Report-ID
+
+As noted elsewhere, this identifier MUST be unique among
+reports to the same domain to aid receivers in identifying duplicate reports
+should they happen.
+
+ridtxt = ("<" *(ALPHA / DIGIT / "." / "-") ["@" *(ALPHA / DIGIT / "." / "-")] ">") / (*(ALPHA / DIGIT / "." / "-") ["@" *(ALPHA / DIGIT / "." / "-")])
+
+The format specified here is not very strict as the key goal is uniqueness.
 
 ### Other Methods
 
