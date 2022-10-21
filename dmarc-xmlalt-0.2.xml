@@ -17,6 +17,7 @@
     <testing>n</testing>
   </policy_published>
   <extension>
+    <whatever>Hello World!</whatever>
   </extension>
   <record>
     <row>
@@ -43,21 +44,8 @@
         <result>fail</result>
       </spf>
     </auth_results>
-    <arc>
-      <result>pass</result>
-      <sets>
-        <as>
-          <instance>2</instance>
-          <domain>d2.example</domain>
-          <selector>s2</domain>
-        </as>
-        <as>
-          <instance>1</instance>
-          <domain>d1.example</domain>
-          <selector>s3</domain>
-          <remote_ip>2001:DB8::1A</remote_ip>
-        </as>
-      </sets>
-    </arc>
+    <added>
+      <explain>The xsd must be defined separately</explain>
+    </added>
   </record>
 </feedback>

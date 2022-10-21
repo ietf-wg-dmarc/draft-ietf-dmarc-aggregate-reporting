@@ -200,9 +200,6 @@
   <xs:element name="policy_evaluated"
         type="PolicyEvaluatedType"
         minOccurs="1" maxOccurs="1"/>
-  <!-- Extension at row level-->
-  <xs:any
-        minOccurs="0" maxOccurs="1"/>
  </xs:sequence>
 </xs:complexType>
 
@@ -324,12 +321,15 @@
         minOccurs="1" maxOccurs="1"/>
   <xs:element name="auth_results" type="AuthResultType" 
         minOccurs="1" maxOccurs="1"/>
+  <!-- Extension at row level-->
+  <xs:any processContents="lax"
+        minOccurs="0" maxOccurs="1"/>
  </xs:sequence>
 </xs:complexType>
 
 <xs:complexType name="ExtensionType">
  <xs:sequence>
-  <xs:any
+  <xs:any processContents="lax"
         minOccurs="0" maxOccurs="1"/>
  </xs:sequence>
 </xs:complexType>
