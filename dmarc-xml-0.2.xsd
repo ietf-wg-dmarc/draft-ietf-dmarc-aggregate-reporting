@@ -1,8 +1,9 @@
 <?xml version="1.0"?>
 <xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
- targetNamespace="http://dmarc.org/dmarc-xml/0.2"
- xmlns="http://dmarc.org/dmarc-xml/0.2"
+ targetNamespace="urn:ietf:params:xml:ns:dmarc-2.0"
+ xmlns="urn:ietf:params:xml:ns:dmarc-2.0"
  elementFormDefault="qualified">
+
 
 <!-- The time range in UTC covered by messages in this report,
    specified in seconds since epoch. -->
@@ -323,14 +324,14 @@
         minOccurs="1" maxOccurs="1"/>
   <!-- Extension at row level-->
   <xs:any processContents="lax"
-        minOccurs="0" maxOccurs="1"/>
+        minOccurs="0" maxOccurs="unbounded"/>
  </xs:sequence>
 </xs:complexType>
 
 <xs:complexType name="ExtensionType">
  <xs:sequence>
   <xs:any processContents="lax"
-        minOccurs="0" maxOccurs="1"/>
+        minOccurs="0" maxOccurs="unbounded"/>
  </xs:sequence>
 </xs:complexType>
 
