@@ -703,6 +703,53 @@ Domain Owners who are unable to receive reports for organizational
 reasons, can choose to exclusively direct the reports to an 
 external processor.  
 
+## Feedback Leakage {#leakage}
+
+Providing feedback reporting to PSOs can, in some cases, cause
+information to leak out of an organization to the PSO.  This leakage
+could potentially be utilized as part of a program of pervasive
+surveillance (see [@!RFC7624]]).  There are roughly three cases to
+consider:
+
+Single Organization PSDs (e.g., ".mil"):
+:  RUA reports based on PSD DMARC have the potential to
+   contain information about emails related to entities managed by
+   the organization.  Since both the PSO and the Organizational
+   Domain Owners are common, there is no additional privacy risk for
+   either normal or non-existent domain reporting due to PSD DMARC.
+
+Multi-organization PSDs that require DMARC usage (e.g., ".bank"):
+:  Reports based on PSD DMARC will only be generated for domains that
+   do not publish a DMARC policy at the organizational or host level.
+   For domains that do publish the required DMARC policy records, the
+   feedback reporting addresses of the organization (or
+   hosts) will be used.  The only direct risk of feedback leakage for
+   these PSDs are for Organizational Domains that are out of
+   compliance with PSD policy.  Data on non-existent cousin domains
+   would be sent to the PSO.
+
+Multi-organization PSDs (e.g., ".com") that do not mandate DMARC
+usage:
+:  Privacy risks for Organizational Domains that have not deployed
+   DMARC within such PSDs are significant.  For non-DMARC
+   Organizational Domains, all DMARC feedback will be directed to the
+   PSO.  Any non-DMARC Organizational Domain would have its Feedback
+   Reports redirected to the PSO.  The content of such reports,
+   particularly for existing domains, is privacy sensitive.
+
+PSOs will receive feedback on non-existent domains, which may be
+similar to existing Organizational Domains.  Feedback related to such
+cousin domains have a small risk of carrying information related to
+an actual Organizational Domain.  To minimize this potential concern,
+PSD DMARC feedback MUST be limited to Aggregate Reports.  Feedback
+Reports carry more detailed information and present a greater risk.
+
+Due to the inherent privacy and security risks associated with DMARC at the
+PSD level for Organizational Domains in multi-organization PSDs that do
+not participate in DMARC, any feedback reporting related to multi-
+organizational PSDs MUST be limited to non-existent domains except in
+cases where the reporter knows that PSO requires use of DMARC.
+
 # Security Considerations
 
 TBD
