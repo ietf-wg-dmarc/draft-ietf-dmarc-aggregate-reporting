@@ -164,7 +164,8 @@
  </xs:sequence>
 </xs:complexType>
 
-<!-- The Internet Protocol Address from which messages were received -->
+<!-- The Internet Protocol Address 
+     from which messages were received -->
 <xs:simpleType name="IPAddress">
  <xs:restriction base="xs:string">
   <!-- IPv4 -->
