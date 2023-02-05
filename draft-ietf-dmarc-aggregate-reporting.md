@@ -11,7 +11,7 @@
 	submissiontype = "IETF"
 	keyword = [""]
 
-	date = "2022-12-22T00:00:00Z"
+	date = "2023-02-03T00:00:00Z"
 
 	[seriesInfo]
 	name = "Internet-Draft"
@@ -204,6 +204,18 @@ bar.example.com.  The second report would be for example domain contain multiple
 `record` elements, one for example.com and one for foo.example.com (and extensibly, 
 other `record` elements for subdomains which likewise did not have an explicit
 DMARC policy declared).
+
+### PSD Domain Reports
+
+Usually the Policy Domain is an Organizational Domain.
+In that case, the reports include reports for that domain and its subdomains.
+
+If the Policy Domain is a PSD the reports MUST only include subdomains that
+do not exist.
+
+In the unusual case that there are PSDs below
+the Policy Domain, the reports do not include the lower
+PSDs or their subdomains.
 
 ### DKIM Signatures in Aggregate Report
 
@@ -733,26 +745,43 @@ usage:
 :  Privacy risks for Organizational Domains that have not deployed
    DMARC within such PSDs are significant.  For non-DMARC
    Organizational Domains, all DMARC feedback will be directed to the
-   PSO.  Any non-DMARC Organizational Domain would have its Feedback
-   Reports redirected to the PSO.  The content of such reports,
-   particularly for existing domains, is privacy sensitive.
+   PSO.  Any non-existentl domain would have its Feedback
+   Reports redirected to the PSO.  The content of such reports
+   could be privacy sensitive.
 
 PSOs will receive feedback on non-existent domains, which may be
 similar to existing Organizational Domains.  Feedback related to such
 cousin domains have a small risk of carrying information related to
 an actual Organizational Domain.  To minimize this potential concern,
-PSD DMARC feedback MUST be limited to Aggregate Reports.  Feedback
+PSD DMARC feedback MUST be limited to Aggregate Reports.  Failure
 Reports carry more detailed information and present a greater risk.
 
 Due to the inherent privacy and security risks associated with DMARC at the
 PSD level for Organizational Domains in multi-organization PSDs that do
-not participate in DMARC, any feedback reporting related to multi-
-organizational PSDs MUST be limited to non-existent domains except in
-cases where the reporter knows that PSO requires use of DMARC.
+not require DMARC usage, such PSDs MUST NOT request any reports.
 
 # Security Considerations
 
-TBD
+Aggregate reports return metadata about messages that may or may not have
+been sent from servers managed by the Organizational Domain.
+Other servers might be sending unauthorized "forged" mail, or might
+be forwarding legitimate mail via courtesy forwards or mailing lists.
+Depending on the amount of mail a domain sends, it might be possible to
+identify single users or single messages by comparing time stamps of
+reports and local mail logs.
+
+Aggregate reports can disclose information about intermediate mail systems
+that are neither the original sender that requests aggregate reports, nor
+the recipient systems that send the reports.
+For example, a low-volume sending system sends a message to a mailing list
+which in turn distributes it to all of the list's subscribers via the
+lists's mail server(s).
+Those mail servers will then appear in aggregate reports, and the counts
+can provide an estimate of of the number of mailing list subsribers at the
+recipient systems.
+
+[[ This is not hypothetical -- it's how I know how many NANOG subscribers
+there are at Gmail. ]]
 
 # Appendix A. DMARC XML Schema
 
