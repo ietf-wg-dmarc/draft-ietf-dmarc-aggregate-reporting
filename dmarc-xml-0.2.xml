@@ -1,5 +1,5 @@
 <feedback xmlns="http://dmarc.org/dmarc-xml/0.2">
-  <version>2.0</version>
+  <version>1.0</version>
   <report_metadata>
     <org_name>Sample Reporter</org_name>
     <email>report_sender@example-reporter.com</email>
@@ -15,6 +15,7 @@
     <p>quarantine</p>
     <sp>none</sp>
     <testing>n</testing>
+    <discovery_method>treewalk</discovery_method>
   </policy_published>
   <record>
     <row>
