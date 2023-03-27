@@ -78,6 +78,17 @@
  </xs:restriction>
 </xs:simpleType>
 
+<!-- The methods used to discovery the policy used during
+     evaluation.  The available values are "psl" and "treewalk",
+     where "psl" is the method from [@?RFC7489] and the "treewalk"
+     is described in [@?RefNeeded]. -->
+<xs:simpleType name="DiscoveryType">
+ <xs:restriction base="xs:string">
+  <xs:enumeration value="psl"/>
+  <xs:enumeration value="treewalk"/>
+ </xs:restriction>
+</xs:simpleType>
+
 <!-- The published DMARC policy.  Unspecified tags have their
      default values. -->
 <xs:complexType name="PolicyPublishedType">
@@ -85,9 +96,9 @@
   <!-- The domain at which the DMARC record was found. -->
   <xs:element name="domain" type="xs:string" 
         minOccurs="1" maxOccurs="1"/>
-  <!-- The version declared in the DMARC record found. -->
-  <xs:element name="version_published" type="xs:decimal" 
-        minOccurs="0" maxOccurs="1"/>
+  <!-- Method used to find/obtain DMARC policy -->
+  <xs:element name="discovery_method" type="DiscoveryType"
+       minOccurs="0" maxOccurs="1"/>
   <!-- The DKIM alignment mode. -->
   <xs:element name="adkim" type="AlignmentType" 
         minOccurs="0" maxOccurs="1"/>
@@ -215,7 +226,7 @@
   <!-- The RFC5321.MailFrom domain or, if that value is empty,
        the RFC5321.Helo domain. -->
   <xs:element name="envelope_from" type="xs:string"
-        minOccurs="1" maxOccurs="1"/>
+        minOccurs="0" maxOccurs="1"/>
   <!-- The RFC5322.From domain. -->
   <xs:element name="header_from" type="xs:string"
         minOccurs="1" maxOccurs="1"/>
