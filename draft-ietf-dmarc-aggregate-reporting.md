@@ -2,7 +2,7 @@
 
 	Title = "DMARC Aggregate Reporting"
 	abbrev = "DMARC Aggregate Reporting"
-	docName = "draft-ietf-dmarc-aggregate-reporting-07"
+	docName = "draft-ietf-dmarc-aggregate-reporting-08"
 	category = "std"
 	obsoletes = [7489]
 	ipr = "trust200902"
@@ -11,11 +11,11 @@
 	submissiontype = "IETF"
 	keyword = [""]
 
-	date = "2023-02-03T00:00:00Z"
+	date = "2023-03-25T00:00:00Z"
 
 	[seriesInfo]
 	name = "Internet-Draft"
-	value = "draft-ietf-dmarc-aggregate-reporting-07"
+	value = "draft-ietf-dmarc-aggregate-reporting-08"
 	stream = "IETF"
 	status = "standard"
 
@@ -150,15 +150,12 @@ period. See below for further information.
 The informative section MUST contain two sub-sections.  One will be the metadata 
 section which MUST contain the fields related to `org_name`, `email`,
 `report_id`, and `date_range`. Optional fields MAY include 
-`extra_contact_info`, an `error` field, and an optional `version` field.  The 
-version field, if present, MUST contain a `1.0` [@!RFC7489] or `2.0` [RefNeeded], 
-noting to which version of the aggregate reporting specification the report 
-adheres. The `date_range` section which will note `begin` and `end` values as epoch 
-timestamps. The other sub-section will be the `policy_published`, and record 
-the policy configuration observed by the receiving system.  Mandatory 
-fields are `domain`, `p`, `sp`. Optional fields are `fo`, 
-`adkim`, `aspf`, `testing`, and `version_published`.  There MAY be an optional 
-third section for `extensions`.
+`extra_contact_info`, an `error` field.  The `date_range` section which will 
+note `begin` and `end` values as epoch timestamps. The other sub-section will 
+be the `policy_published`, and record the policy configuration observed by 
+the receiving system.  Mandatory fields are `domain`, `p`, `sp`. Optional 
+fields are `fo`, `adkim`, `aspf`, `testing`, and `discovery_method`.  There 
+MAY be an optional third section for `extensions`.
 
 Within the data section, the report will contain row(s) of data stating which
 IPs were seen to have delivered messages for the Author Domain to the receiving
@@ -205,18 +202,6 @@ bar.example.com.  The second report would be for example domain contain multiple
 other `record` elements for subdomains which likewise did not have an explicit
 DMARC policy declared).
 
-### PSD Domain Reports
-
-Usually the Policy Domain is an Organizational Domain.
-In that case, the reports include reports for that domain and its subdomains.
-
-If the Policy Domain is a PSD the reports MUST only include subdomains that
-do not exist.
-
-In the unusual case that there are PSDs below
-the Policy Domain, the reports do not include the lower
-PSDs or their subdomains.
-
 ### DKIM Signatures in Aggregate Report
 
 Within a single message, the possibility exists that there could be multiple DKIM
@@ -248,6 +233,16 @@ those characters are illegal in Windows filnames I believe.  We could say
 that the "unique-id" and the "ridtxt" are identical, other than the 
 "<>" characters.  Should/Could we add a MUST to the format?  Could we just
 point at RFC4122 (is it still used/valid)?
+
+### Data Consistency in Reporting (github#10)
+
+Care should be taken by the reporting entity to ensure that the data within
+reports is consistent within reason.  For instance, a failure of SPF evaluation
+should not result in a DMARC-SPF "pass". Similarly, if the SPF evaluation does
+not align with the 5322.From domain being used in evaluation, the DMARC-SPF
+should not result in a "pass". If a reporter discovers data where there exists
+a logical problem with the result, it is likely in the best interests of all
+to report this to the report generator.
 
 ## Extensions
 
@@ -401,7 +396,7 @@ feedback.
                      %x53.75.62.6d.69.74.74.65.72.3a ; "Submitter:"
                      1*FWS domain-name 1*FWS
                      %x52.65.70.6f.72.74.2d.49.44.3a ; "Report-ID:"
-                     ridtxt                          ; defined below
+                     ridtxt / '<' ridtxt '>'         ; defined below
 
    The first domain-name indicates the DNS domain name about which the
    report was generated.  The second domain-name indicates the DNS
@@ -745,43 +740,26 @@ usage:
 :  Privacy risks for Organizational Domains that have not deployed
    DMARC within such PSDs are significant.  For non-DMARC
    Organizational Domains, all DMARC feedback will be directed to the
-   PSO.  Any non-existentl domain would have its Feedback
-   Reports redirected to the PSO.  The content of such reports
-   could be privacy sensitive.
+   PSO.  Any non-DMARC Organizational Domain would have its Feedback
+   Reports redirected to the PSO.  The content of such reports,
+   particularly for existing domains, is privacy sensitive.
 
 PSOs will receive feedback on non-existent domains, which may be
 similar to existing Organizational Domains.  Feedback related to such
 cousin domains have a small risk of carrying information related to
 an actual Organizational Domain.  To minimize this potential concern,
-PSD DMARC feedback MUST be limited to Aggregate Reports.  Failure
+PSD DMARC feedback MUST be limited to Aggregate Reports.  Feedback
 Reports carry more detailed information and present a greater risk.
 
 Due to the inherent privacy and security risks associated with DMARC at the
 PSD level for Organizational Domains in multi-organization PSDs that do
-not require DMARC usage, such PSDs MUST NOT request any reports.
+not participate in DMARC, any feedback reporting related to multi-
+organizational PSDs MUST be limited to non-existent domains except in
+cases where the reporter knows that PSO requires use of DMARC.
 
 # Security Considerations
 
-Aggregate reports return metadata about messages that may or may not have
-been sent from servers managed by the Organizational Domain.
-Other servers might be sending unauthorized "forged" mail, or might
-be forwarding legitimate mail via courtesy forwards or mailing lists.
-Depending on the amount of mail a domain sends, it might be possible to
-identify single users or single messages by comparing time stamps of
-reports and local mail logs.
-
-Aggregate reports can disclose information about intermediate mail systems
-that are neither the original sender that requests aggregate reports, nor
-the recipient systems that send the reports.
-For example, a low-volume sending system sends a message to a mailing list
-which in turn distributes it to all of the list's subscribers via the
-lists's mail server(s).
-Those mail servers will then appear in aggregate reports, and the counts
-can provide an estimate of of the number of mailing list subsribers at the
-recipient systems.
-
-[[ This is not hypothetical -- it's how I know how many NANOG subscribers
-there are at Gmail. ]]
+TBD
 
 # Appendix A. DMARC XML Schema
 
@@ -792,4 +770,3 @@ there are at Gmail. ]]
 <{{dmarc-xml-0.2.xml}}
 
 {backmatter}
-
