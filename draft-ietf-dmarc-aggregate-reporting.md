@@ -2,7 +2,7 @@
 
 	Title = "DMARC Aggregate Reporting"
 	abbrev = "DMARC Aggregate Reporting"
-	docName = "draft-ietf-dmarc-aggregate-reporting-08"
+	docName = "draft-ietf-dmarc-aggregate-reporting-09"
 	category = "std"
 	obsoletes = [7489]
 	ipr = "trust200902"
@@ -11,11 +11,11 @@
 	submissiontype = "IETF"
 	keyword = [""]
 
-	date = "2023-03-25T00:00:00Z"
+	date = "2023-04-24T00:00:00Z"
 
 	[seriesInfo]
 	name = "Internet-Draft"
-	value = "draft-ietf-dmarc-aggregate-reporting-08"
+	value = "draft-ietf-dmarc-aggregate-reporting-09"
 	stream = "IETF"
 	status = "standard"
 
@@ -234,16 +234,6 @@ that the "unique-id" and the "ridtxt" are identical, other than the
 "<>" characters.  Should/Could we add a MUST to the format?  Could we just
 point at RFC4122 (is it still used/valid)?
 
-### Data Consistency in Reporting (github#10)
-
-Care should be taken by the reporting entity to ensure that the data within
-reports is consistent within reason.  For instance, a failure of SPF evaluation
-should not result in a DMARC-SPF "pass". Similarly, if the SPF evaluation does
-not align with the 5322.From domain being used in evaluation, the DMARC-SPF
-should not result in a "pass". If a reporter discovers data where there exists
-a logical problem with the result, it is likely in the best interests of all
-to report this to the report generator.
-
 ## Extensions
 
 There MAY be optional sections for extensions within the document.
@@ -396,7 +386,7 @@ feedback.
                      %x53.75.62.6d.69.74.74.65.72.3a ; "Submitter:"
                      1*FWS domain-name 1*FWS
                      %x52.65.70.6f.72.74.2d.49.44.3a ; "Report-ID:"
-                     ridtxt / '<' ridtxt '>'         ; defined below
+                     ridtxt                          ; defined below
 
    The first domain-name indicates the DNS domain name about which the
    report was generated.  The second domain-name indicates the DNS
