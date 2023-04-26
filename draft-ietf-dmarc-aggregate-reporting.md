@@ -2,7 +2,7 @@
 
 	Title = "DMARC Aggregate Reporting"
 	abbrev = "DMARC Aggregate Reporting"
-	docName = "draft-ietf-dmarc-aggregate-reporting-09"
+	docName = "draft-ietf-dmarc-aggregate-reporting-10"
 	category = "std"
 	obsoletes = [7489]
 	ipr = "trust200902"
@@ -11,11 +11,11 @@
 	submissiontype = "IETF"
 	keyword = [""]
 
-	date = "2023-04-24T00:00:00Z"
+	date = "2023-04-25T00:00:00Z"
 
 	[seriesInfo]
 	name = "Internet-Draft"
-	value = "draft-ietf-dmarc-aggregate-reporting-09"
+	value = "draft-ietf-dmarc-aggregate-reporting-10"
 	stream = "IETF"
 	status = "standard"
 
@@ -289,10 +289,6 @@ feedback.
 
 
 ## Transport
-
-   Where the URI specified in a "rua" tag does not specify otherwise, a
-   Mail Receiver generating a feedback report SHOULD employ a secure
-   transport mechanism.
 
    The Mail Receiver, after preparing a report, MUST evaluate the
    provided reporting URIs in the order given.  Any reporting URI that
@@ -629,11 +625,18 @@ This section will discuss exposure related to DMARC aggregate reporting.
 
 Aggregate reports are limited in scope to DMARC policy and
 disposition results, to information pertaining to the underlying
-authentication mechanisms, and to the identifiers involved in DMARC
-validation.
+authentication mechanisms, and to the domain-level identifiers
+involved in DMARC validation.
 
-Aggregate report may expose sender and recipient identifiers,
-specifically the RFC5322.From addresses. 
+Aggregate reports may expose sender and recipient identifiers on
+domain level, specifically the RFC5322.From domain.  No personal
+information such as individual email addresses, IP addresses of
+individuals, or the content of any messages, is included in reports.
+However, low-traffic reports may allow a mapping of 'record' elements
+to individuals due to a lack of aggregated data.  A Domain
+Owner might add a unique user identifier to messages (e.g., as DKIM
+selector) that allows a tracking of individual users in aggregate
+reports.
 
 Domain Owners requesting reports will receive information about mail
 claiming to be from them, which includes mail that was not, in fact,
