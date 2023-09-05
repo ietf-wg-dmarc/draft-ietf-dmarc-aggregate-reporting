@@ -2,7 +2,7 @@
 
 	Title = "DMARC Aggregate Reporting"
 	abbrev = "DMARC Aggregate Reporting"
-	docName = "draft-ietf-dmarc-aggregate-reporting-11"
+	docName = "draft-ietf-dmarc-aggregate-reporting-12"
 	category = "std"
 	obsoletes = [7489]
 	ipr = "trust200902"
@@ -11,11 +11,11 @@
 	submissiontype = "IETF"
 	keyword = [""]
 
-	date = "2023-05-02T00:00:00Z"
+	date = "2023-08-27T00:00:00Z"
 
 	[seriesInfo]
 	name = "Internet-Draft"
-	value = "draft-ietf-dmarc-aggregate-reporting-11"
+	value = "draft-ietf-dmarc-aggregate-reporting-12"
 	stream = "IETF"
 	status = "standard"
 
@@ -379,13 +379,11 @@ fraudulent reports.
 The RFC5322.Subject field for individual report submissions MUST
 conform to the following ABNF:
 
-  dmarc-subject = %x52.65.70.6f.72.74 1*FWS       ; "Report"
-                  %x44.6f.6d.61.69.6e.3a 1*FWS    ; "Domain:"
-                  domain-name 1*FWS               ; from RFC 6376
-                  %x53.75.62.6d.69.74.74.65.72.3a ; "Submitter:"
-                  1*FWS domain-name 1*FWS
-                  %x52.65.70.6f.72.74.2d.49.44.3a ; "Report-ID:"
-                  ridtxt                          ; defined below
+  dmarc-subject = %s"Report" 1*FWS %s"Domain:"
+                  1*FWS domain-name 1*FWS         ; policy domain
+                  %s"Submitter:" 1*FWS
+                  domain-name 1*FWS               ; report generator
+                  [ %s"Report-ID:" 1*FWS ridtxt ] ; defined below
 
 The first domain-name indicates the DNS domain name about which the
 report was generated.  The second domain-name indicates the DNS
