@@ -2,7 +2,7 @@
 
 	Title = "DMARC Aggregate Reporting"
 	abbrev = "DMARC Aggregate Reporting"
-	docName = "draft-ietf-dmarc-aggregate-reporting-12"
+	docName = "draft-ietf-dmarc-aggregate-reporting-13"
 	category = "std"
 	obsoletes = [7489]
 	ipr = "trust200902"
@@ -11,11 +11,11 @@
 	submissiontype = "IETF"
 	keyword = [""]
 
-	date = "2023-08-27T00:00:00Z"
+	date = "2023-10-02T00:00:00Z"
 
 	[seriesInfo]
 	name = "Internet-Draft"
-	value = "draft-ietf-dmarc-aggregate-reporting-12"
+	value = "draft-ietf-dmarc-aggregate-reporting-13"
 	stream = "IETF"
 	status = "standard"
 
@@ -37,7 +37,7 @@ other types of data to be specified later.  The aggregate reports can be
 submitted to the domain holder's specified destination as supported by the
 receiver.
 
-This document (along with others) obsoletes RFC7489.
+This document (along with others) obsoletes [@!RFC7489].
 
 {mainmatter}
 
@@ -126,9 +126,8 @@ The report may include the following data:
 *  For both DKIM and SPF, an indication of whether the identifier was
    in alignment
 *  A separate report should be generated for each Policy Domain encountered during
-   the reporting period.  If there are multiple 5322.From domains that are included, those
-   should result in distinct records within the report. See below for further 
-   explanation in "Handling Domains in Reports".
+   the reporting period. See below for further explanation in "Handling Domains 
+   in Reports".
 *  Sending and receiving domains
 *  The policy requested by the Domain Owner and the policy actually
    applied (if different)
@@ -138,20 +137,20 @@ The report may include the following data:
 
 The format for these reports is defined in Appendix A.
 
-DMARC Aggregate Reports MUST contain three primary sections; one consisting
+DMARC Aggregate Reports MUST contain two primary sections; one consisting
 of descriptive information (with two subsections), and the other a set of 
 IP-focused row-based data.  Each report MUST contain data for only one 
-Author Domain. A single report MUST contain data for one policy configuration. 
+Policy Domain. A single report MUST contain data for one policy configuration. 
 If multiple configurations were observed during a single reporting period, a 
 reporting entity MAY choose to send multiple reports, otherwise the reporting 
 entity SHOULD note only the final configuration observed during the 
 period. See below for further information.
 
-The informative section MUST contain two sub-sections.  One will be the metadata 
+The informative section MUST contain two subsections.  One will be the metadata 
 section which MUST contain the fields related to `org_name`, `email`,
 `report_id`, and `date_range`. Optional fields MAY include 
-`extra_contact_info`, an `error` field.  The `date_range` section which will 
-note `begin` and `end` values as epoch timestamps. The other sub-section will 
+`extra_contact_info`, an `error` field.  The `date_range` field which will 
+contain `begin` and `end` fields as epoch timestamps. The other subsection will 
 be the `policy_published`, and record the policy configuration observed by 
 the receiving system.  Mandatory fields are `domain`, `p`, `sp`. Optional 
 fields are `fo`, `adkim`, `aspf`, `testing`, and `discovery_method`.  There 
@@ -177,7 +176,8 @@ There MUST be an `auth_results` element within the 'record' element.  This will
 contain the data related to authenticating the messages associated with this sending
 IP. The `dkim` sub-element is optional as not all messages are signed, while there
 MUST be one `spf` sub-element. These elements MUST have a `domain` that was
-used during validation, as well as `result`. The `dkim` element MUST
+used during validation, as well as `result`. If validation is attempted for any DKIM
+signature, the results MUST be included in the report.  The `dkim` element MUST
 include a `selector` element that was observed during validation. For the `spf`
 element, the `result` element MUST contain a lower-case string where the value 
 is one of none/neutral/pass/fail/softfail/temperror/permerror.  The `dkim` result
@@ -226,13 +226,6 @@ There are a few places where a unique identifier is specified as part of the
 body of the report, the subject, and so on.  These unique identifiers should be
 consistent per each report.  Specified below, the reader will see a `msg-id`,
 `Report-ID`, `unique-id`.  These are the fields that MUST be identical when used.
-
-NOTE, this no longer seems to be the case given changes to the 
-Report-ID now used in the subject? If we allow "<>" in the Subject,
-those characters are illegal in Windows filnames I believe.  We could say
-that the "unique-id" and the "ridtxt" are identical, other than the 
-"<>" characters.  Should/Could we add a MUST to the format?  Could we just
-point at RFC4122 (is it still used/valid)?
 
 ## Extensions
 
@@ -310,6 +303,15 @@ Where the URI specified in a "rua" tag does not specify otherwise, a
 Mail Receiver generating a feedback report SHOULD employ a secure
 transport mechanism.
 
+### Definition of Report-ID
+
+This identifier MUST be unique among reports to the same domain to 
+aid receivers in identifying duplicate reports should they happen.
+
+ridtxt = ("<" *(ALPHA / DIGIT / "." / "-") ["@" *(ALPHA / DIGIT / "." / "-")] ">") / (*(ALPHA / DIGIT / "." / "-") ["@" *(ALPHA / DIGIT / "." / "-")])
+
+The format specified here is not very strict as the key goal is uniqueness.
+
 ### Email
 
 The message generated by the Mail Receiver MUST be a [@!RFC5322] message
@@ -319,9 +321,9 @@ included as a MIME part (such as a text/plain part).
 
 The aggregate data MUST be an XML file that SHOULD be subjected to
 GZIP compression.  Declining to apply compression can cause the
-report to be too large for a receiver to process (a commonly observed
-receiver limit is ten megabytes); doing the compression increases the
-chances of acceptance of the report at some compute cost.  The
+report to be too large for a receiver to process (the total message size
+could exceed the receiver SMTP size limit); doing the compression increases 
+the chances of acceptance of the report at some compute cost.  The
 aggregate data MUST be present using the media type "application/
 gzip" if compressed (see [@!RFC6713]), and "text/xml" otherwise.  The
 filename MUST be constructed using the following ABNF:
@@ -410,16 +412,6 @@ as a part or whole of the 5322.Message-Id header included with the report.
 Doing so may help receivers distinguish when a message is a re-transmission
 or duplicate report.
 
-### Definition of Report-ID
-
-As noted elsewhere, this identifier MUST be unique among
-reports to the same domain to aid receivers in identifying duplicate reports
-should they happen.
-
-ridtxt = ("<" *(ALPHA / DIGIT / "." / "-") ["@" *(ALPHA / DIGIT / "." / "-")] ">") / (*(ALPHA / DIGIT / "." / "-") ["@" *(ALPHA / DIGIT / "." / "-")])
-
-The format specified here is not very strict as the key goal is uniqueness.
-
 ### Other Methods
 
 The specification as written allows for the addition of other
@@ -467,7 +459,7 @@ is included.
 When a Mail Receiver discovers a DMARC policy in the DNS, and the
 Organizational Domain at which that record was discovered is not
 identical to the Organizational Domain of the host part of the
-authority component of a [@!RFC3986] specified in the "rua" or "ruf" tag,
+authority component of a [@!RFC3986] specified in the "rua" tag,
 the following verification steps MUST be taken:
 
 1.  Extract the host portion of the authority component of the URI.
@@ -486,7 +478,7 @@ the following verification steps MUST be taken:
 
 5.  For each record returned, parse the result as a series of
     "tag=value" pairs, i.e., the same overall format as the policy
-    record (see Section 6.4).  In particular, the "v=DMARC1" tag is
+    record (see Section 5.3).  In particular, the "v=DMARC1" tag is
     mandatory and MUST appear first in the list.  Discard any that do
     not pass this test.
 
@@ -498,7 +490,7 @@ the following verification steps MUST be taken:
     parsing, then the external reporting arrangement was authorized
     by the Report Receiver.
 
-8.  If a "rua" or "ruf" tag is thus discovered, replace the
+8.  If a "rua" tag is thus discovered, replace the
     corresponding value extracted from the domain's DMARC policy
     record with the one found in this record.  This permits the
     Report Receiver to override the report destination.  However, to
@@ -622,45 +614,6 @@ XML: See Appendix A. DMARC XML Schema in this document.
 
 This section will discuss exposure related to DMARC aggregate reporting.
 
-## Data Exposure Considerations
-
-Aggregate reports are limited in scope to DMARC policy and
-disposition results, to information pertaining to the underlying
-authentication mechanisms, and to the domain-level identifiers
-involved in DMARC validation.
-
-Aggregate reports may expose sender and recipient identifiers on
-domain level, specifically the RFC5322.From domain.  No personal
-information such as individual email addresses, IP addresses of
-individuals, or the content of any messages, is included in reports.
-However, low-traffic reports may allow a mapping of 'record' elements
-to individuals due to a lack of aggregated data.  A Domain
-Owner might add a unique user identifier to messages (e.g., as DKIM
-selector) that allows a tracking of individual users in aggregate
-reports.
-
-Domain Owners requesting reports will receive information about mail
-claiming to be from them, which includes mail that was not, in fact,
-from them.  Information about the final destination of mail where it
-might otherwise be obscured by intermediate systems will therefore be
-exposed.
-
-When message-forwarding arrangements exist, Domain Owners requesting
-reports will also receive information about mail forwarded to domains
-that were not originally part of their messages' recipient lists.
-This means that destination domains previously unknown to the Domain
-Owner may now become visible.
-
-Disclosure of information about the messages is being requested by
-the entity generating the email in the first place, i.e., the Domain
-Owner and not the Mail Receiver, so this may not fit squarely within
-existing privacy policy provisions.  For some providers, aggregate
-reporting is viewed as a function similar to complaint reporting 
-about spamming or phishing and are treated similarly under the 
-privacy policy.  Report generators (i.e., Mail Receivers) are 
-encouraged to review their reporting limitations under such policies 
-before enabling DMARC reporting.
-
 ## Report Recipients
 
 A DMARC record can specify that reports should be sent to an
@@ -679,7 +632,7 @@ traffic.  In addition to verifying compliance with policies,
 Receivers need to consider that before sending reports to a third
 party.
 
-## Data Contained Within Reports (Tkt64)
+## Data Contained Within Reports
 
 Aggregate feedback reports contain aggregated data relating to 
 messages purportedly originating from the Domain Owner. The data 
@@ -706,11 +659,11 @@ external processor.
 
 ## Feedback Leakage {#leakage}
 
-Providing feedback reporting to PSOs can, in some cases, cause
-information to leak out of an organization to the PSO.  This leakage
-could potentially be utilized as part of a program of pervasive
-surveillance (see [@!RFC7624]]).  There are roughly three cases to
-consider:
+Providing feedback reporting to PSOs for a PSD [@?RFC9091] can, in 
+some cases, cause information to leak out of an organization to 
+the PSO.  This leakage could potentially be utilized as part of a 
+program of pervasive surveillance (see [@!RFC7624]]).  There are 
+roughly three cases to consider:
 
 Single Organization PSDs (e.g., ".mil"):
 :  RUA reports based on PSD DMARC have the potential to
