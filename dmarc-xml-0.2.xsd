@@ -23,9 +23,9 @@
  email: Contact to be used when contacting 
      the Reporting Organization
  extra_contact_info: Additional contact details
- report_id: UUID, specified elsewhere
+ report_id: Unique Report-ID
  date_range: Timestamps used when forming report data
- error: ?
+ error: Optional error messages when processing DMARC policy
 -->
 <xs:complexType name="ReportMetadataType">
  <xs:all>
@@ -111,7 +111,7 @@
   <!-- The policy published for messages from subdomains. -->
   <xs:element name="sp" type="DispositionType" 
         minOccurs="1" maxOccurs="1"/>
-  <!-- The percent declared in the DMARC record -->
+  <!-- Whether testing mode was declared in the DMARC Record -->
   <xs:element name="testing" type="TestingType" 
         minOccurs="0" maxOccurs="1"/>
   <!-- Failure reporting options in effect. -->

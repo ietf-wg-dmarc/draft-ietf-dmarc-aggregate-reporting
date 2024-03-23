@@ -1,4 +1,4 @@
-<feedback xmlns="http://dmarc.org/dmarc-xml/0.2">
+<feedback xmlns="urn:ietf:params:xml:ns:dmarc-2.0">
   <version>1.0</version>
   <report_metadata>
     <org_name>Sample Reporter</org_name>
@@ -22,7 +22,7 @@
       <source_ip>192.168.4.4</source_ip>
       <count>123</count>
       <policy_evaluated>
-        <disposition>quarantine</disposition>
+        <disposition>pass</disposition>
         <dkim>pass</dkim>
         <spf>fail</spf>
       </policy_evaluated>
