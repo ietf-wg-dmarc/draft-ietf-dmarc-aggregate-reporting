@@ -178,7 +178,7 @@ domain from the message.
 There MUST be an `auth_results` element within the `record` element.  This will
 contain the data related to authenticating the messages associated with this sending
 IP address. The `dkim` sub-element is optional as not all messages are signed, while there
-MUST be one `spf` sub-element. These elements MUST have a `domain` that was
+MUST be at least one `spf` sub-element. These elements MUST have a `domain` that was
 used during validation, as well as `result`. If validation is attempted for any DKIM
 signature, the results MUST be included in the report (within reason, see "DKIM
 Signatures in Aggregate Reports" below for handling numerous signatures).  The 
@@ -523,9 +523,9 @@ the following verification steps MUST be taken:
 
 5.  For each record returned, parse the result as a series of
     "tag=value" pairs, i.e., the same overall format as the policy
-    record (see Section 5.4 in [@!I-D.ietf-dmarc-dmarcbis]).  In particular, the "v=DMARC1" tag is
-    mandatory and MUST appear first in the list.  Discard any that do
-    not pass this test.
+    record (see Section 5.4 in [@!I-D.ietf-dmarc-dmarcbis]).  In 
+    particular, the "v=DMARC1" tag is mandatory and MUST appear 
+    first in the list.  Discard any that do not pass this test.
 
 6.  If the result includes no TXT resource records that pass basic
     parsing, a positive determination of the external reporting
