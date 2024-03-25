@@ -1,7 +1,6 @@
-MMARK=/usr/bin/mmark
-#XML2RFC=/usr/local/bin/xml2rfc
-XML2RFC=/usr/bin/xml2rfc
-SOURCES=draft-ietf-dmarc-aggregate-reporting-15.md
+MMARK=mmark
+XML2RFC=xml2rfc
+SOURCES=draft-ietf-dmarc-aggregate-reporting.md
 XML=$(SOURCES:.md=.xml)
 TXT=$(SOURCES:.md=.txt)
 
