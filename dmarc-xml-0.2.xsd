@@ -78,17 +78,6 @@
  </xs:restriction>
 </xs:simpleType>
 
-<!-- The methods used to discovery the policy used during
-     evaluation.  The available values are "psl" and "treewalk",
-     where "psl" is the method from [@?RFC7489] and the "treewalk"
-     is described in [@?RefNeeded]. -->
-<xs:simpleType name="DiscoveryType">
- <xs:restriction base="xs:string">
-  <xs:enumeration value="psl"/>
-  <xs:enumeration value="treewalk"/>
- </xs:restriction>
-</xs:simpleType>
-
 <!-- The published DMARC policy.  Unspecified tags have their
      default values. -->
 <xs:complexType name="PolicyPublishedType">
@@ -96,9 +85,6 @@
   <!-- The domain at which the DMARC record was found. -->
   <xs:element name="domain" type="xs:string" 
         minOccurs="1" maxOccurs="1"/>
-  <!-- Method used to find/obtain DMARC policy -->
-  <xs:element name="discovery_method" type="DiscoveryType"
-       minOccurs="0" maxOccurs="1"/>
   <!-- The DKIM alignment mode. -->
   <xs:element name="adkim" type="AlignmentType" 
         minOccurs="0" maxOccurs="1"/>
@@ -181,7 +167,7 @@
  <xs:restriction base="xs:string">
   <!-- IPv4 -->
   <xs:pattern value=
-  "((1?\d?\d|2[0-4]\d|25[0-5])\.){3}(1?\d?\d|2[0-4]\d|25[0-5])"/>
+  "(::[Ff]{4}:)?(([01]?\d?\d|2[0-4]\d|25[0-5])\.){3}([01]?\d?\d|2[0-4]\d|25[0-5])"/> 
   <!-- IPv6 -->
   <xs:pattern value="([A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}"/>
   <!-- RFC 5952 zero compression IPv6 (lax) -->
