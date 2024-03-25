@@ -1,5 +1,6 @@
-<feedback xmlns="http://dmarc.org/dmarc-xml/0.2">
-  <version>2.0</version>
+<feedback xmlns="urn:ietf:params:xml:ns:dmarc-2.0"
+  xmlns:ext="urn:ietf:params:xml:ns:dmarc-extension">
+  <version>1.0</version>
   <report_metadata>
     <org_name>Sample Reporter</org_name>
     <email>report_sender@example-reporter.com</email>
@@ -17,11 +18,11 @@
     <testing>n</testing>
   </policy_published>
   <extension>
-    <whatever>Hello World!</whatever>
+    <ext:whatever>Hello World!</ext:whatever>
   </extension>
   <record>
     <row>
-      <source_ip>192.168.4.4</source_ip>
+      <source_ip>::ffff:092.168.4.4</source_ip>
       <count>123</count>
       <policy_evaluated>
         <disposition>quarantine</disposition>
@@ -45,7 +46,7 @@
       </spf>
     </auth_results>
     <added>
-      <explain>The xsd must be defined separately</explain>
+      <ext:explain>The xsd must be defined separately</ext:explain>
     </added>
   </record>
 </feedback>
