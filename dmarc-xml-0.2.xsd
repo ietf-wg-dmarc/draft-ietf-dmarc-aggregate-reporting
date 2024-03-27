@@ -40,7 +40,7 @@
   <xs:element name="date_range" type="DateRangeType" 
         minOccurs="1" maxOccurs="1"/>
   <xs:element name="error" type="xs:string" 
-        minOccurs="0" maxOccurs="unbounded"/>
+        minOccurs="0" maxOccurs="1"/>
  </xs:all>
 </xs:complexType>
 
@@ -167,7 +167,9 @@
  <xs:restriction base="xs:string">
   <!-- IPv4 -->
   <xs:pattern value=
-  "(::[Ff]{4}:)?(([01]?\d?\d|2[0-4]\d|25[0-5])\.){3}([01]?\d?\d|2[0-4]\d|25[0-5])"/> 
+  "((((0{1,4}:){5})|(::(0{1,4}:){0,4}))([Ff]{4}:))?(([01]?\d?\d|2[0-4]\d|25[0-5])\.){3}([01]?\d?\d|2[0-4]\d|25[0-5])"/> 
+  <xs:pattern value=
+  "(((0{1,4}:){6})|(::(0{1,4}:){0,5}))(([01]?\d?\d|2[0-4]\d|25[0-5])\.){3}([01]?\d?\d|2[0-4]\d|25[0-5])"/> 
   <!-- IPv6 -->
   <xs:pattern value="([A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}"/>
   <!-- RFC 5952 zero compression IPv6 (lax) -->
@@ -184,7 +186,7 @@
   <xs:pattern value=
   "[A-Fa-f\d]{1,4}::([A-Fa-f\d]{1,4}:){1,5}[A-Fa-f\d]{1,4}"/>
   <xs:pattern value="::([A-Fa-f\d]{1,4}:){1,6}[A-Fa-f\d]{1,4}"/>
-  <xs:pattern value="::[A-Fa-f\d]{1,4}"/>
+  <xs:pattern value="::[A-Fa-f\d]{0,4}"/>
  </xs:restriction>
 </xs:simpleType>
 
