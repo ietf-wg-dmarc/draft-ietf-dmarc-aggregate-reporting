@@ -392,7 +392,7 @@ For example, this is a sample filename for the gzip file of a
 report to the Domain Owner "example.com" from the Mail Receiver
 "mail.receiver.example":
 
-  mail.receiver.example!example.com!1013662812!1013749130.gz
+  mail.receiver.example!example.com!1013662812!1013749130.xml.gz
 
 No specific MIME message structure is required.  It is presumed that
 the aggregate reporting address will be equipped to extract body
