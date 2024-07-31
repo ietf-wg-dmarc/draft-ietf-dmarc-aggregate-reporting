@@ -326,7 +326,11 @@ transport mechanism.
 This identifier MUST be unique among reports to the same domain to 
 aid receivers in identifying duplicate reports should they happen.
 
-ridtxt = ("<" *(ALPHA / DIGIT / "." / "-") ["@" *(ALPHA / DIGIT / "." / "-")] ">") / (*(ALPHA / DIGIT / "." / "-") ["@" *(ALPHA / DIGIT / "." / "-")])
+~~~
+ridfmt =  (dot-atom-text ["@" dot-atom-text]) ; from RFC5322
+
+ridtxt =  ("<" ridfmt ">") / ridfmt
+~~~
 
 The format specified here is not very strict as the key goal is uniqueness.
 
