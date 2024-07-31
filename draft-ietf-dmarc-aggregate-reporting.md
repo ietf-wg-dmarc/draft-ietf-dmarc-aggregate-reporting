@@ -351,6 +351,7 @@ aggregate data MUST be present using the media type "application/
 gzip" if compressed (see [@!RFC6713]), and "text/xml" otherwise.  The
 filename MUST be constructed using the following ABNF:
 
+~~~
   filename = receiver "!" policy-domain "!" begin-timestamp
              "!" end-timestamp [ "!" unique-id ] "." extension
 
@@ -372,6 +373,7 @@ filename MUST be constructed using the following ABNF:
   unique-id = 1*(ALPHA / DIGIT)
 
   extension = "xml" / "xml.gz"
+~~~
 
 The extension MUST be "xml" for a plain XML file, or "xml.gz" for an
 XML file compressed using GZIP.
