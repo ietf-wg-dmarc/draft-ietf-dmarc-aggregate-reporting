@@ -2,7 +2,7 @@
 
 	Title = "DMARC Aggregate Reporting"
 	abbrev = "DMARC Aggregate Reporting"
-	docName = "draft-ietf-dmarc-aggregate-reporting-15"
+	docName = "draft-ietf-dmarc-aggregate-reporting-16"
 	category = "std"
 	obsoletes = [7489]
 	ipr = "trust200902"
@@ -11,11 +11,11 @@
 	submissiontype = "IETF"
 	keyword = [""]
 
-	date = "2024-03-23T00:00:00Z"
+	date = "2024-08-09T00:00:00Z"
 
 	[seriesInfo]
 	name = "Internet-Draft"
-	value = "draft-ietf-dmarc-aggregate-reporting-15"
+	value = "draft-ietf-dmarc-aggregate-reporting-16"
 	stream = "IETF"
 	status = "standard"
 
@@ -525,7 +525,8 @@ the following verification steps MUST be taken:
     "tag=value" pairs, i.e., the same overall format as the policy
     record (see Section 5.4 in [@!I-D.ietf-dmarc-dmarcbis]).  In 
     particular, the "v=DMARC1" tag is mandatory and MUST appear 
-    first in the list.  Discard any that do not pass this test.
+    first in the list.  Discard any that do not pass this test. A
+    trailing ";" is optional.
 
 6.  If the result includes no TXT resource records that pass basic
     parsing, a positive determination of the external reporting
@@ -543,9 +544,9 @@ the following verification steps MUST be taken:
     same destination host from the first step.
 
 For example, if a DMARC policy query for "blue.example.com" contained
-"rua=mailto:reports@red.example.net", the host extracted from the
-latter ("red.example.net") does not match "blue.example.com", so this
-procedure is enacted.  A TXT query for
+"rua=mailto:reports@red.example.net", the Organizational Domain host 
+extracted from the latter ("red.example.net") does not match 
+"blue.example.com", so this procedure is enacted.  A TXT query for
 "blue.example.com._report._dmarc.red.example.net" is issued.  If a
 single reply comes back containing a tag of "v=DMARC1", then the
 relationship between the two is confirmed.  Moreover,
