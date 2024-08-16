@@ -52,32 +52,13 @@ the outcome of SPF [@!RFC7208] & DKIM [@!RFC6376] validation.
 
 ## Terminology
 
-In many IETF documents, several words, when they are in all capitals
-as shown below, are used to signify the requirements in the
-specification.  These capitalized words can bring significant clarity
-and consistency to documents because their meanings are well defined.
-This document defines how those words are interpreted in IETF
-documents when the words are in all capitals.
-
-*  These words can be used as defined here, but using them is not
-   required.  Specifically, normative text does not require the use
-   of these key words.  They are used for clarity and consistency
-   when that is what's wanted, but a lot of normative text does not
-   use them and is still normative.
-
-*  The words have the meanings specified herein only when they are in
-   all capitals.
-
-*  When these words are not capitalized, they have their normal
-   English meanings and are not affected by this document.
-
 Authors who follow these guidelines should incorporate this phrase
 near the beginning of their document:
 ```
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
 NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
 "MAY", and "OPTIONAL" in this document are to be interpreted as
-described in BCP 14 [RFC2119] [RFC8174] when, and only when, they
+described in BCP 14 [@!RFC2119] [@!RFC8174] when, and only when, they
 appear in all capitals, as shown here.
 ```
 
@@ -101,8 +82,8 @@ Owners with precise insight into:
    by Mail Receivers.
 
 Aggregate DMARC feedback provides visibility into real-world email
-streams that Domain Owners need to make informed decisions regarding
-the publication of DMARC policy.  When Domain Owners know what
+streams that Domain Owners need in order to make informed decisions 
+regarding the publication of DMARC policy.  When Domain Owners know what
 legitimate mail they are sending, what the authentication results are
 on that mail, and what forged mail receivers are getting, they can
 make better decisions about the policies they need and the steps they
@@ -127,7 +108,7 @@ The report may include the following data:
 *  The identifier evaluated by SPF and the SPF result, if any
 *  The identifier evaluated by DKIM and the DKIM result, if any
 *  For both DKIM and SPF, an indication of whether the identifier was
-   in alignment
+   in DMARC alignment (see [I-D.ietf-dmarc-dmarcbis], Section 3.2.7)
 *  Sending and receiving domains
 *  The number of successful authentications
 *  The counts of messages based on all messages received, even if
@@ -147,17 +128,17 @@ period. See below for further information.
 The informative section MUST contain two elements.  One will be the metadata 
 section which MUST contain the fields related to `org_name`, `email`,
 `report_id`, and `date_range`. Optional fields MAY include 
-`extra_contact_info`, an `error` field.  The `date_range` field which will 
+`extra_contact_info`, an `error` field.  The `date_range` field will 
 contain `begin` and `end` fields as epoch timestamps. The other element will 
-be the `policy_published`, and record the policy configuration observed by 
+be the `policy_published`, which will record the policy configuration observed by 
 the receiving system.  Mandatory fields are `domain`, `p`, `sp`. Optional 
 fields are `fo`, `adkim`, `aspf`, `testing`, and `discovery_method`.  There 
 MAY be an optional third section for `extensions`.
 
 Within the data section, the report will contain row(s) of data stating which
 IP addresses were seen to have delivered messages for the Author Domain to the receiving
-system.  For each IP address that is being reported, there will be at least one `record` element,
-which will then have each of a `row`, `identifiers`, and `auth_results` 
+system.  For each IP address that is being reported, there will be at least one `record` element.
+Each `record` element will have one `row`, one `identifiers`, and one `auth_results` 
 sub-element.  Within the `row` element, there MUST be `source_ip` and `count`.
 There MUST also exist a `policy_evaluated`, with sub-elements of `disposition`,
 `dkim`, and `spf`.  There MAY be an element for `reason`, meant to include 
@@ -256,6 +237,10 @@ Possible values for the policy override type:
      heuristics identified the message as likely having been forwarded.
      There is no expectation that authentication would pass.
 
+`trusted_forwarder`: Message authentication failure was anticipated by
+     other evidence linking the message to a locally maintained list of
+     known and trusted forwarders.
+
 `local_policy`: The Mail Receiver's local policy exempted the message
      from being subjected to the Domain Owner's requested policy
      action.
@@ -270,10 +255,6 @@ Possible values for the policy override type:
 
 `sampled_out`: The message was exempted from application of policy by
      the testing mode ("t" tag) in the DMARC policy record.
-
-`trusted_forwarder`: Message authentication failure was anticipated by
-     other evidence linking the message to a locally maintained list of
-     known and trusted forwarders.
 
 ## Extensions
 
