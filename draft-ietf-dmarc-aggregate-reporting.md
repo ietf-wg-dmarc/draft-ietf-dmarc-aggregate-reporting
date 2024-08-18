@@ -2,7 +2,7 @@
 
 	Title = "DMARC Aggregate Reporting"
 	abbrev = "DMARC Aggregate Reporting"
-	docName = "draft-ietf-dmarc-aggregate-reporting-16"
+	docName = "draft-ietf-dmarc-aggregate-reporting-17"
 	category = "std"
 	obsoletes = [7489]
 	ipr = "trust200902"
@@ -11,11 +11,11 @@
 	submissiontype = "IETF"
 	keyword = [""]
 
-	date = "2024-08-09T00:00:00Z"
+	date = "2024-08-19T00:00:00Z"
 
 	[seriesInfo]
 	name = "Internet-Draft"
-	value = "draft-ietf-dmarc-aggregate-reporting-16"
+	value = "draft-ietf-dmarc-aggregate-reporting-17"
 	stream = "IETF"
 	status = "standard"
 
@@ -37,7 +37,7 @@ other types of data to be specified later.  The aggregate reports can be
 submitted to the domain holder's specified destination as supported by the
 receiver.
 
-This document (along with others) obsoletes [@!RFC7489].
+This document (along with others) obsoletes RFC7489.
 
 {mainmatter}
 
@@ -54,6 +54,7 @@ the outcome of SPF [@!RFC7208] & DKIM [@!RFC6376] validation.
 
 Authors who follow these guidelines should incorporate this phrase
 near the beginning of their document:
+
 ```
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
 NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
@@ -126,66 +127,66 @@ entity SHOULD note only the final configuration observed during the
 period. See below for further information.
 
 The informative section MUST contain two elements.  One will be the metadata 
-section which MUST contain the fields related to `org_name`, `email`,
-`report_id`, and `date_range`. Optional fields MAY include 
-`extra_contact_info`, an `error` field.  The `date_range` field will 
-contain `begin` and `end` fields as epoch timestamps. The other element will 
-be the `policy_published`, which will record the policy configuration observed by 
-the receiving system.  Mandatory fields are `domain`, `p`, `sp`. Optional 
-fields are `fo`, `adkim`, `aspf`, `testing`, and `discovery_method`.  There 
-MAY be an optional third section for `extensions`.
+section which MUST contain the fields related to "org_name", "email",
+"report_id", and "date_range". Optional fields MAY include 
+"extra_contact_info", an "error" field.  The "date_range" field will 
+contain "begin" and "end" fields as epoch timestamps. The other element will 
+be the "policy_published", which will record the policy configuration observed by 
+the receiving system.  Mandatory fields are "domain", "p", "sp". Optional 
+fields are "fo", "adkim", "aspf", "testing", and "discovery_method".  There 
+MAY be an optional third section for "extensions".
 
 Within the data section, the report will contain row(s) of data stating which
 IP addresses were seen to have delivered messages for the Author Domain to the receiving
-system.  For each IP address that is being reported, there will be at least one `record` element.
-Each `record` element will have one `row`, one `identifiers`, and one `auth_results` 
-sub-element.  Within the `row` element, there MUST be `source_ip` and `count`.
-There MUST also exist a `policy_evaluated`, with sub-elements of `disposition`,
-`dkim`, and `spf`.  There MAY be an element for `reason`, meant to include 
-any notes the reporter might want to include as to why the `disposition` policy
-does not match the `policy_published`, such as a Local Policy override (See 
-Section 2.1.5, Policy Override Reason).  The `dkim` and `spf` elements MUST be the 
+system.  For each IP address that is being reported, there will be at least one "record" element.
+Each "record" element will have one "row", one "identifiers", and one "auth_results" 
+sub-element.  Within the "row" element, there MUST be "source_ip" and "count".
+There MUST also exist a "policy_evaluated", with sub-elements of "disposition",
+"dkim", and "spf".  There MAY be an element for "reason", meant to include 
+any notes the reporter might want to include as to why the "disposition" policy
+does not match the "policy_published", such as a Local Policy override (See 
+Section 2.1.5, Policy Override Reason).  The "dkim" and "spf" elements MUST be the 
 evaluated values as they relate to DMARC, not the values the receiver may 
-have used when overriding the policy.  Within the `identifiers` element, there 
+have used when overriding the policy.  Within the "identifiers" element, there 
 MUST exist the data that was used to apply policy for the given IP address. 
-There MUST be a `header_from` element, which will contain the RFC5322.From 
-domain from the message.  There MAY be an optional `envelope_from` element, 
+There MUST be a "header_from" element, which will contain the RFC5322.From 
+domain from the message.  There MAY be an optional "envelope_from" element, 
 which contains the RFC5321.MailFrom domain or the RFC5321.Helo domain that 
 the SPF check has been applied to. This element MAY be existing but empty 
 if the message had a null reverse-path ([@!RFC5321], Section 4.5.5). There 
-MAY be an optional `envelope_to` element, which contains the RFC5321.RcptTo 
+MAY be an optional "envelope_to" element, which contains the RFC5321.RcptTo 
 domain from the message.
 
-There MUST be an `auth_results` element within the `record` element.  This will
+There MUST be an "auth_results" element within the "record" element.  This will
 contain the data related to authenticating the messages associated with this sending
-IP address. The `dkim` sub-element is optional as not all messages are signed, while there
-MUST be at least one `spf` sub-element. These elements MUST have a `domain` that was
-used during validation, as well as `result`. If validation is attempted for any DKIM
+IP address. The "dkim" sub-element is optional as not all messages are signed, while there
+MUST be at least one "spf" sub-element. These elements MUST have a "domain" that was
+used during validation, as well as "result". If validation is attempted for any DKIM
 signature, the results MUST be included in the report (within reason, see "DKIM
 Signatures in Aggregate Reports" below for handling numerous signatures).  The 
-`dkim` element MUST include a `selector` element that was observed during 
-validation. For the `spf` element, the `result` element MUST contain a 
+"dkim" element MUST include a "selector" element that was observed during 
+validation. For the "spf" element, the "result" element MUST contain a 
 lower-case string where the value is one of 
-none/neutral/pass/fail/softfail/temperror/permerror (See [@?RFC8601]).  The `dkim` result
+none/neutral/pass/fail/softfail/temperror/permerror (See [@!RFC8601]).  The "dkim" result
 MUST contain a lower-case string where the value is one of 
-none/pass/fail/policy/neutral/temperror/permerror. Both the `spf` and `dkim` results
-may optionally include a `human_readable` field meant for the report to convey
+none/pass/fail/policy/neutral/temperror/permerror. Both the "spf" and "dkim" results
+may optionally include a "human_readable" field meant for the report to convey
 more descriptive information back to the domain holder relating to evaluation
-failures. There MAY exist an optional section for `extensions`.
+failures. There MAY exist an optional section for "extensions".
 
 ### Handling Domains in Reports
 
 In the same report, there MUST be a single Policy Domain, though there could be 
-multiple RFC5322.From Domains.  Each RFC5322.From domain will create its own `record` 
+multiple RFC5322.From Domains.  Each RFC5322.From domain will create its own "record" 
 within the report.  Consider the case where there are three domains with traffic 
 volume to report: example.com, foo.example.com, and bar.example.com.  There will be 
 explicit DMARC records for example.com and bar.example.com, with distinct policies.  There 
 is no explicit DMARC record for foo.example.com, so it will be reliant on the 
 policy described for example.com.  For a report period, there would now be two reports.  
-The first will be for bar.example.com, and contain only one `record`, for 
+The first will be for bar.example.com, and contain only one "record", for 
 bar.example.com.  The second report would be for example domain contain multiple 
-`record` elements, one for example.com and one for foo.example.com (and extensibly, 
-other `record` elements for subdomains which likewise did not have an explicit
+"record" elements, one for example.com and one for foo.example.com (and extensibly, 
+other "record" elements for subdomains which likewise did not have an explicit
 DMARC policy declared).
 
 ### DKIM Signatures in Aggregate Reports
@@ -203,7 +204,7 @@ signatures are included.
 3. Any other DKIM signatures that pass
 4. DKIM signatures that do not pass
 
-A report SHOULD contain no more than 100 signatures for a given `row`, in 
+A report SHOULD contain no more than 100 signatures for a given "row", in 
 decreasing priority.
 
 ### Unique Identifiers in Aggregate Reporting
@@ -211,7 +212,7 @@ decreasing priority.
 There are a few places where a unique identifier is specified as part of the
 body of the report, the subject, and so on.  These unique identifiers should be
 consistent per each report.  Specified below, the reader will see a 
-`Report-ID` and `unique-id`.  These are the fields that MUST be identical when used.
+"Report-ID" and "unique-id".  These are the fields that MUST be identical when used.
 
 ### Error field
 
@@ -233,27 +234,27 @@ string for providing further details.
 
 Possible values for the policy override type:
 
-`forwarded`: The message was relayed via a known forwarder, or local
+"forwarded": The message was relayed via a known forwarder, or local
      heuristics identified the message as likely having been forwarded.
      There is no expectation that authentication would pass.
 
-`trusted_forwarder`: Message authentication failure was anticipated by
+"trusted_forwarder": Message authentication failure was anticipated by
      other evidence linking the message to a locally maintained list of
      known and trusted forwarders.
 
-`local_policy`: The Mail Receiver's local policy exempted the message
+"local_policy": The Mail Receiver's local policy exempted the message
      from being subjected to the Domain Owner's requested policy
      action.
 
-`mailing_list`: Local heuristics determined that the message arrived
+"mailing_list": Local heuristics determined that the message arrived
      via a mailing list, and thus authentication of the original
      message was not expected to succeed.
 
-`other`: Some policy exception not covered by the other entries in
+"other": Some policy exception not covered by the other entries in
      this list occurred.  Additional detail can be found in the
      PolicyOverrideReason's "comment" field.
 
-`sampled_out`: The message was exempted from application of policy by
+"policy_test_mode": The message was exempted from application of policy by
      the testing mode ("t" tag) in the DMARC policy record.
 
 ## Extensions
@@ -283,9 +284,9 @@ following:
 Such policy changes are expected to be infrequent for any given
 domain, whereas more stringent policy monitoring requirements on the
 Mail Receiver would produce a very large burden at Internet scale.
-Therefore, it is the responsibility of report consumers and Domain
-Owners to be aware of this situation and allow for such mixed reports
-during the propagation of the new policy to Mail Receivers.
+Therefore, it is the responsibility of report consumers (i.e., vendors) 
+and Domain Owners to be aware of this situation and expect such mixed 
+reports during the propagation of the new policy to Mail Receivers.
 
 ## Recommended Reporting Periods
 
@@ -343,11 +344,12 @@ The format specified here is not very strict as the key goal is uniqueness.
 
 The message generated by the Mail Receiver MUST be a [@!RFC5322] message
 formatted per [@!RFC2045].  The aggregate report itself MUST be included
-in one of the parts of the message.  A human-readable portion MAY be
-included as a MIME part (such as a text/plain part).
+in one of the parts of the message.  A human-readable annotation MAY be 
+included as a body part (with a human-friendly content-type, such as 
+"text/plain" or "text/html").
 
 The aggregate data MUST be an XML file that SHOULD be subjected to
-GZIP compression.  Declining to apply compression can cause the
+GZIP [@!RFC1952] compression.  Declining to apply compression can cause the
 report to be too large for a receiver to process (the total message size
 could exceed the receiver SMTP size limit); doing the compression increases 
 the chances of acceptance of the report at some compute cost.  The
@@ -382,7 +384,8 @@ XML file compressed using GZIP.
 
 "unique-id" allows an optional unique ID generated by the Mail
 Receiver to distinguish among multiple reports generated
-simultaneously by different sources within the same Domain Owner.
+simultaneously by different sources within the same Domain Owner.  A
+viable option may be to explore UUIDs [@?RFC9562].
 
 If a report generator needs to re-send a report, the system MUST
 use the same filename as the original report.  This would
@@ -396,7 +399,7 @@ report to the Domain Owner "example.com" from the Mail Receiver
   mail.receiver.example!example.com!1013662812!1013749130.gz
 
 No specific MIME message structure is required.  It is presumed that
-the aggregate reporting address will be equipped to extract MIME
+the aggregate reporting address will be equipped to extract body
 parts with the prescribed media type and filename and ignore the
 rest.
 
@@ -423,17 +426,19 @@ sent by a Mail Receiver.
 
 For instance, this is a possible Subject field for a report to the
 Domain Owner "example.com" from the Mail Receiver
-"mail.receiver.example".  It is line-wrapped as allowed by [@!RFC5322]:
+"mail.receiver.example".  It is folded as allowed by [@!RFC5322]:
 
+```
   Subject: Report Domain: example.com
       Submitter: mail.receiver.example
       Report-ID: <2002.02.15.1>
+```
 
 This transport mechanism potentially encounters a problem when
 feedback data size exceeds maximum allowable attachment sizes for
 either the generator or the consumer. 
 
-Optionally, the report sender MAY choose to use the same `ridtxt`
+Optionally, the report sender MAY choose to use the same "ridtxt"
 as a part or whole of the RFC5322.Message-Id header included with the report.
 Doing so may help receivers distinguish when a message is a re-transmission
 or duplicate report.
@@ -495,7 +500,7 @@ the following verification steps MUST be taken:
 2.  Prepend the string "_report._dmarc".
 
 3.  Prepend the domain name from which the policy was retrieved,
-    after conversion to an A-label [@?RFC5890] if needed.
+    after conversion to an A-label [@!RFC5890] if needed.
 
 4.  Query the DNS for a TXT record at the constructed name.  If the
     result of this request is a temporary DNS error of some kind
@@ -555,18 +560,14 @@ the confirming DNS record.  However, due to positive caching, the
 change could take as long as the time-to-live (TTL) on the record to
 go into effect.
 
-A Mail Receiver might decide not to enact this procedure if, for
-example, it relies on a local list of domains for which external
-reporting addresses are permitted.
-
 # Extensible Reporting
 
 DMARC reports allow for some extensibility, as defined by future
 documents that utilize DMARC as a foundation.  These extensions
 MUST be properly formatted XML and meant to exist within the structure
-of a DMARC report.  Two positions of type `<any>` are provided in the
-existing DMARC structure, one at file level, in an `<extension>` element
-after `<policy_published>` and one at record level, after `<auth_results>`.
+of a DMARC report.  Two positions of type "<any>" are provided in the
+existing DMARC structure, one at file level, in an "<extension>" element
+after "<policy_published>" and one at record level, after "<auth_results>".
 In either case, the extensions MUST contain a URI to the definition of
 the extension so that the receiver understands how to interpret the data.
 
@@ -586,7 +587,7 @@ At file level:
   </extension>
 ```
 
-Within the `record` element:
+Within the "record" element:
 ```xml
   <record>
     <row>
@@ -689,7 +690,7 @@ external processor.
 Providing feedback reporting to PSOs for a PSD [@?RFC9091] can, in 
 some cases, cause information to leak out of an organization to 
 the PSO.  This leakage could potentially be utilized as part of a 
-program of pervasive surveillance (see [@!RFC7624]]).  There are 
+program of pervasive surveillance (see [@?RFC7624]]).  There are 
 roughly three cases to consider:
 
 Single Organization PSDs (e.g., ".mil"):
@@ -711,42 +712,38 @@ Multi-organization PSDs that require DMARC usage (e.g., ".bank"):
 
 Multi-organization PSDs (e.g., ".com") that do not mandate DMARC
 usage:
-:  Privacy risks for Organizational Domains that have not deployed
-   DMARC within such PSDs are significant.  For non-DMARC
-   Organizational Domains, all DMARC feedback will be directed to the
-   PSO.  Any non-DMARC Organizational Domain would have its Feedback
-   Reports redirected to the PSO.  The content of such reports,
-   particularly for existing domains, is privacy sensitive.
+:  Privacy risks for Organizational Domains that have not deployed DMARC 
+   within such PSDs can be significant.  For non-DMARC Organizational 
+   Domains, all DMARC feedback will be directed to the PSO if that PSO 
+   itself has a DMARC record that specifies an RUA.  Any non-DMARC 
+   Organizational Domain would have its Feedback Reports redirected to 
+   the PSO.  The content of such reports, particularly for existing 
+   domains, is privacy sensitive.
 
 PSOs will receive feedback on non-existent domains, which may be
 similar to existing Organizational Domains.  Feedback related to such
 cousin domains have a small risk of carrying information related to
 an actual Organizational Domain.  To minimize this potential concern,
-PSD DMARC feedback MUST be limited to Aggregate Reports.  Feedback
+PSD DMARC feedback MUST be limited to Aggregate Reports.  Failure 
 Reports carry more detailed information and present a greater risk.
-
-Due to the inherent privacy and security risks associated with DMARC at the
-PSD level for Organizational Domains in multi-organization PSDs that do
-not participate in DMARC, any feedback reporting related to multi-
-organizational PSDs MUST be limited to non-existent domains except in
-cases where the reporter knows that PSO requires use of DMARC.
 
 # Security Considerations
 
 * Aggregate reports are supposed to be processed automatically. An attacker might attempt to compromise the integrity or availability of the report processor by sending ill-formed reports. In particular, the archive decompressor and XML parser are at risk to resource exhaustion attacks (zip bomb or XML bomb).
 * The data contained within aggregate reports may be forged. An attacker might attempt to interfere by submitting false reports in masses.
-* See also the security considerations of [dmarc-bis] (Section 11).
+* See also the security considerations of [dmarc-bis] (Section 11) of [I-D.ietf-dmarc-dmarcbis].
 
-# Appendix A. DMARC XML Schema
+{backmatter}
+
+# DMARC XML Schema
 
 <{{dmarc-xml-0.2.xsd}}
 
-# Appendix B. Sample Report
+# Sample Report
 
 <{{dmarc-xml-0.2.xml}}
 
-# Acknowledgements
+Acknowledgements
 
 TBD
 
-{backmatter}
