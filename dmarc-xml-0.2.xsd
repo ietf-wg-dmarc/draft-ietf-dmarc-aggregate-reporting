@@ -204,8 +204,7 @@
   <xs:element name="count" type="xs:integer" 
         minOccurs="1" maxOccurs="1"/>
   <!-- The DMARC disposition applied to matching messages. -->
-  <xs:element name="policy_evaluated"
-        type="PolicyEvaluatedType"
+  <xs:element name="policy_evaluated" type="PolicyEvaluatedType"
         minOccurs="1" maxOccurs="1"/>
  </xs:sequence>
 </xs:complexType>
@@ -306,8 +305,8 @@
   <xs:element name="dkim" type="DKIMAuthResultType"
         minOccurs="0" maxOccurs="unbounded"/>
   <!-- There will always be at most one SPF result. -->
-  <xs:element name="spf" type="SPFAuthResultType" minOccurs="0"
-        maxOccurs="1"/>
+  <xs:element name="spf" type="SPFAuthResultType"
+        minOccurs="0" maxOccurs="1"/>
  </xs:sequence>
 </xs:complexType>
 
