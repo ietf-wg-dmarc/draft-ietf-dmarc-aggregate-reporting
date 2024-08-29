@@ -18,27 +18,24 @@
 
 
 <!-- Report generator metadata. -->
-<!--
- org_name: Reporting Organization
- email: Contact to be used when contacting 
-     the Reporting Organization
- extra_contact_info: Additional contact details
- report_id: Unique Report-ID
- date_range: Timestamps used when forming report data
- error: Optional error messages when processing DMARC policy
--->
 <xs:complexType name="ReportMetadataType">
  <xs:all>
+  <!-- Reporting Organization -->
   <xs:element name="org_name" type="xs:string" 
         minOccurs="1" maxOccurs="1"/>
+  <!-- Contact to be used when contacting the Reporting Organization -->
   <xs:element name="email" type="xs:string" 
         minOccurs="1" maxOccurs="1"/>
+  <!-- Additional contact details -->
   <xs:element name="extra_contact_info" type="xs:string" 
         minOccurs="0" maxOccurs="1"/>
+  <!-- Unique Report-ID -->
   <xs:element name="report_id" type="xs:string" 
         minOccurs="1" maxOccurs="1"/>
+  <!-- Timestamps used when forming report data -->
   <xs:element name="date_range" type="DateRangeType" 
         minOccurs="1" maxOccurs="1"/>
+  <!-- Optional error messages when processing DMARC policy -->
   <xs:element name="error" type="xs:string" 
         minOccurs="0"/>
  </xs:all>
