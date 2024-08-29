@@ -261,7 +261,7 @@
  </xs:restriction>
 </xs:simpleType>
 
-<!-- SPF result. -->
+<!-- SPF verification result, according to RFC 7208 Section 2.6. -->
 <xs:simpleType name="SPFResultType">
  <xs:restriction base="xs:string">
   <xs:enumeration value="none"/>
