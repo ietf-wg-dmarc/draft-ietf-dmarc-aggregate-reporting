@@ -321,7 +321,7 @@
         minOccurs="1" maxOccurs="1"/>
   <xs:element name="auth_results" type="AuthResultType"
         minOccurs="1" maxOccurs="1"/>
-  <!-- Extension at row level -->
+  <!-- Extension at record level -->
   <xs:any processContents="lax"
         minOccurs="0" maxOccurs="unbounded"/>
  </xs:sequence>
