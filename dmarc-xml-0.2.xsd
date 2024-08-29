@@ -92,26 +92,26 @@
   <!-- The domain at which the DMARC record was found. -->
   <xs:element name="domain" type="xs:string"
         minOccurs="1" maxOccurs="1"/>
-  <!-- Method used to find/obtain DMARC policy -->
-  <xs:element name="discovery_method" type="DiscoveryType"
-       minOccurs="0" maxOccurs="1"/>
-  <!-- The DKIM alignment mode. -->
-  <xs:element name="adkim" type="AlignmentType"
-        minOccurs="0" maxOccurs="1"/>
-  <!-- The SPF alignment mode. -->
-  <xs:element name="aspf" type="AlignmentType"
-        minOccurs="0" maxOccurs="1"/>
   <!-- The policy published for messages from the domain. -->
   <xs:element name="p" type="DispositionType"
         minOccurs="1" maxOccurs="1"/>
   <!-- The policy published for messages from subdomains. -->
   <xs:element name="sp" type="DispositionType"
         minOccurs="1" maxOccurs="1"/>
-  <!-- Whether testing mode was declared in the DMARC Record -->
-  <xs:element name="testing" type="TestingType"
+  <!-- The DKIM alignment mode. -->
+  <xs:element name="adkim" type="AlignmentType"
         minOccurs="0" maxOccurs="1"/>
+  <!-- The SPF alignment mode. -->
+  <xs:element name="aspf" type="AlignmentType"
+        minOccurs="0" maxOccurs="1"/>
+  <!-- Method used to find/obtain DMARC policy -->
+  <xs:element name="discovery_method" type="DiscoveryType"
+       minOccurs="0" maxOccurs="1"/>
   <!-- Failure reporting options in effect. -->
   <xs:element name="fo" type="xs:string"
+        minOccurs="0" maxOccurs="1"/>
+  <!-- Whether testing mode was declared in the DMARC Record -->
+  <xs:element name="testing" type="TestingType"
         minOccurs="0" maxOccurs="1"/>
  </xs:all>
 </xs:complexType>
@@ -211,15 +211,15 @@
 
 <xs:complexType name="IdentifierType">
  <xs:all>
-  <!-- The envelope recipient domain. -->
-  <xs:element name="envelope_to" type="xs:string"
-        minOccurs="0" maxOccurs="1"/>
-  <!-- The RFC5321.MailFrom domain -->
-  <xs:element name="envelope_from" type="xs:string"
-        minOccurs="0" maxOccurs="1"/>
   <!-- The RFC5322.From domain. -->
   <xs:element name="header_from" type="xs:string"
         minOccurs="1" maxOccurs="1"/>
+  <!-- The RFC5321.MailFrom domain -->
+  <xs:element name="envelope_from" type="xs:string"
+        minOccurs="0" maxOccurs="1"/>
+  <!-- The envelope recipient domain. -->
+  <xs:element name="envelope_to" type="xs:string"
+        minOccurs="0" maxOccurs="1"/>
  </xs:all>
 </xs:complexType>
 
