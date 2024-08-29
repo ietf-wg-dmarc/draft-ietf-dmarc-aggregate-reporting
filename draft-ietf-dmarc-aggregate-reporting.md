@@ -38,8 +38,6 @@ other types of data to be specified later.  The aggregate reports can be
 submitted to the Domain Owner's specified destination as supported by the
 receiver.
 
-This document (along with others) obsoletes RFC7489.
-
 {mainmatter}
 
 # Introduction
