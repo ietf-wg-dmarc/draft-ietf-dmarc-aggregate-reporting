@@ -2,7 +2,7 @@
 
 	Title = "DMARC Aggregate Reporting"
 	abbrev = "DMARC Aggregate Reporting"
-	docName = "draft-ietf-dmarc-aggregate-reporting-17"
+	docName = "draft-ietf-dmarc-aggregate-reporting-18"
 	category = "std"
 	obsoletes = [7489]
 	ipr = "trust200902"
@@ -11,11 +11,11 @@
 	submissiontype = "IETF"
 	keyword = [""]
 
-	date = "2024-08-19T00:00:00Z"
+	date = "2024-08-28T00:00:00Z"
 
 	[seriesInfo]
 	name = "Internet-Draft"
-	value = "draft-ietf-dmarc-aggregate-reporting-17"
+	value = "draft-ietf-dmarc-aggregate-reporting-18"
 	stream = "IETF"
 	status = "standard"
 
@@ -31,10 +31,10 @@
 
 .# Abstract
 
-DMARC allows for domain holders to request aggregate reports from receivers.
+DMARC allows for Domain Owners to request aggregate reports from receivers.
 This report is an XML document, and contains extensible elements that allow for 
 other types of data to be specified later.  The aggregate reports can be
-submitted to the domain holder's specified destination as supported by the
+submitted to the Domain Owner's specified destination as supported by the
 receiver.
 
 This document (along with others) obsoletes RFC7489.
@@ -43,9 +43,9 @@ This document (along with others) obsoletes RFC7489.
 
 # Introduction
 
-A key component of DMARC [@!I-D.ietf-dmarc-dmarcbis] is the ability for domain holders to 
+A key component of DMARC [@!I-D.ietf-dmarc-dmarcbis] is the ability for Domain Owners to 
 request that receivers provide various types of reports.  These reports allow 
-domain holders to have insight into which IP addresses are sending on their 
+Domain Owners to have insight into which IP addresses are sending on their 
 behalf, and some insight into whether or not the volume may be legitimate.  
 These reports expose information relating to the DMARC policy, as well as 
 the outcome of SPF [@!RFC7208] & DKIM [@!RFC6376] validation.
@@ -151,27 +151,27 @@ have used when overriding the policy.  Within the "identifiers" element, there
 MUST exist the data that was used to apply policy for the given IP address. 
 There MUST be a "header_from" element, which will contain the RFC5322.From 
 domain from the message.  There MAY be an optional "envelope_from" element, 
-which contains the RFC5321.MailFrom domain or the RFC5321.Helo domain that 
-the SPF check has been applied to. This element MAY be existing but empty 
-if the message had a null reverse-path ([@!RFC5321], Section 4.5.5). There 
-MAY be an optional "envelope_to" element, which contains the RFC5321.RcptTo 
-domain from the message.
+which contains the RFC5321.MailFrom domain that the SPF check has been 
+applied to. This element MAY be existing but empty if the message had a null 
+reverse-path ([@!RFC5321], Section 4.5.5). There MAY be an optional 
+"envelope_to" element, which contains the RFC5321.RcptTo domain from the 
+message.
 
 There MUST be an "auth_results" element within the "record" element.  This will
 contain the data related to authenticating the messages associated with this sending
-IP address. The "dkim" sub-element is optional as not all messages are signed, while there
-MUST be at least one "spf" sub-element. These elements MUST have a "domain" that was
-used during validation, as well as "result". If validation is attempted for any DKIM
-signature, the results MUST be included in the report (within reason, see "DKIM
-Signatures in Aggregate Reports" below for handling numerous signatures).  The 
-"dkim" element MUST include a "selector" element that was observed during 
-validation. For the "spf" element, the "result" element MUST contain a 
-lower-case string where the value is one of 
+IP address. There MAY be a number of optional "dkim" sub-elements, one for 
+each checked DKIM  signature.  There MAY be an optoinal "spf" sub-element.  
+These elements MUST have a "domain" that was used during validation, as well as 
+"result". If validation is attempted for any DKIM signature, the results MUST 
+be included in the report (within reason, see "DKIM Signatures in Aggregate 
+Reports" below for handling numerous signatures).  The "dkim" element MUST 
+include a "selector" element that was observed during validation. For the 
+"spf" element, the "result" element MUST contain a lower-case string where the value is one of 
 none/neutral/pass/fail/softfail/temperror/permerror (See [@!RFC8601]).  The "dkim" result
 MUST contain a lower-case string where the value is one of 
 none/pass/fail/policy/neutral/temperror/permerror. Both the "spf" and "dkim" results
 may optionally include a "human_readable" field meant for the report to convey
-more descriptive information back to the domain holder relating to evaluation
+more descriptive information back to the Domain Owner relating to evaluation
 failures. There MAY exist an optional section for "extensions".
 
 ### Handling Domains in Reports
@@ -234,12 +234,8 @@ string for providing further details.
 
 Possible values for the policy override type:
 
-"forwarded": The message was relayed via a known forwarder, or local
-     heuristics identified the message as likely having been forwarded.
-     There is no expectation that authentication would pass.
-
-"trusted_forwarder": Message authentication failure was anticipated by
-     other evidence linking the message to a locally maintained list of
+"trusted_forwarder": Message authentication failure was anticipated by 
+     other evidence linking the message to a locally maintained list of 
      known and trusted forwarders.
 
 "local_policy": The Mail Receiver's local policy exempted the message
@@ -431,7 +427,7 @@ Domain Owner "example.com" from the Mail Receiver
 ```
   Subject: Report Domain: example.com
       Submitter: mail.receiver.example
-      Report-ID: <2002.02.15.1>
+      Report-ID: <sample-ridtxt@example.com>
 ```
 
 This transport mechanism potentially encounters a problem when

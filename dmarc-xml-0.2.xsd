@@ -223,8 +223,7 @@
   <!-- The envelope recipient domain. -->
   <xs:element name="envelope_to" type="xs:string"
         minOccurs="0" maxOccurs="1"/>
-  <!-- The RFC5321.MailFrom domain or, if that value is empty,
-       the RFC5321.Helo domain. -->
+  <!-- The RFC5321.MailFrom domain -->
   <xs:element name="envelope_from" type="xs:string"
         minOccurs="0" maxOccurs="1"/>
   <!-- The RFC5322.From domain. -->
@@ -268,7 +267,6 @@
 <!-- SPF domain scope. -->
 <xs:simpleType name="SPFDomainScope">
  <xs:restriction base="xs:string">
-  <xs:enumeration value="helo"/>
   <xs:enumeration value="mfrom"/>
  </xs:restriction>
 </xs:simpleType>
@@ -320,9 +318,9 @@
      signatures. -->
   <xs:element name="dkim" type="DKIMAuthResultType"
         minOccurs="0" maxOccurs="unbounded"/>
-  <!-- There will always be at least one SPF result. -->
-  <xs:element name="spf" type="SPFAuthResultType" minOccurs="1"
-        maxOccurs="unbounded"/>
+  <!-- There will always be at most one SPF result. -->
+  <xs:element name="spf" type="SPFAuthResultType" minOccurs="0"
+        maxOccurs="1"/>
  </xs:sequence>
 </xs:complexType>
 
