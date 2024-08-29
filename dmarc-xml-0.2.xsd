@@ -6,7 +6,7 @@
 
 
 <!-- The time range in UTC covered by messages in this report,
-   specified in seconds since epoch. -->
+     specified in seconds since epoch. -->
 <xs:complexType name="DateRangeType">
  <xs:all>
   <xs:element name="begin" type="xs:integer" 
@@ -52,8 +52,7 @@
  </xs:restriction>
 </xs:simpleType>
 
-<!-- The policy actions specified by p and sp in the
-   DMARC record. -->
+<!-- The policy actions specified by p and sp in the DMARC record. -->
 <xs:simpleType name="DispositionType">
  <xs:restriction base="xs:string">
   <xs:enumeration value="none"/>
@@ -63,11 +62,11 @@
 </xs:simpleType>
 
 <!-- The policy actions utilized on messages for this record. -->
-<!-- 
-   "none": No action taken
-   "pass": No action, passing DMARC w/enforcing policy
-   "quarantine": Failed DMARC, message marked for quarantine
-   "reject": Failed DMARC, marked as reject 
+<!--
+     "none": No action taken
+     "pass": No action, passing DMARC w/enforcing policy
+     "quarantine": Failed DMARC, message marked for quarantine
+     "reject": Failed DMARC, marked as reject
 -->
 <xs:simpleType name="ActionDispositionType">
  <xs:restriction base="xs:string">
@@ -136,8 +135,7 @@
  </xs:restriction>
 </xs:simpleType>
 
-<!-- Reasons that may affect DMARC disposition or execution
-   thereof. -->
+<!-- Reasons that may affect DMARC disposition or execution thereof. -->
 <xs:simpleType name="PolicyOverrideType">
  <xs:restriction base="xs:string">
   <xs:enumeration value="local_policy"/>
@@ -160,10 +158,9 @@
 </xs:complexType>
 
 <!-- Taking into account everything else in the record,
- the results of applying DMARC. If alignment fails 
- and the policy applied does not match the domain's 
- configured policy, the reason element MUST be specified  -->
-
+     the results of applying DMARC. If alignment fails
+     and the policy applied does not match the domain's
+     configured policy, the reason element MUST be specified -->
 <xs:complexType name="PolicyEvaluatedType">
  <xs:sequence>
   <xs:element name="disposition" type="ActionDispositionType"/>
@@ -174,8 +171,7 @@
  </xs:sequence>
 </xs:complexType>
 
-<!-- The Internet Protocol Address 
-     from which messages were received -->
+<!-- The Internet Protocol Address from which messages were received -->
 <xs:simpleType name="IPAddress">
  <xs:restriction base="xs:string">
   <!-- IPv4 -->
@@ -206,8 +202,8 @@
   <!-- The connecting IP. -->
   <xs:element name="source_ip" type="IPAddress" 
         minOccurs="1" maxOccurs="1"/>
-  <!-- The number of messages for which the 
-  PolicyEvaluatedType was applied. -->
+  <!-- The number of messages for which the
+       PolicyEvaluatedType was applied. -->
   <xs:element name="count" type="xs:integer" 
         minOccurs="1" maxOccurs="1"/>
   <!-- The DMARC disposition applied to matching messages. -->
@@ -231,8 +227,7 @@
  </xs:all>
 </xs:complexType>
 
-<!-- DKIM verification result, according to RFC 8601
-   Section 2.7.1. -->
+<!-- DKIM verification result, according to RFC 8601 Section 2.7.1. -->
 <xs:simpleType name="DKIMResultType">
  <xs:restriction base="xs:string">
   <xs:enumeration value="none"/>
@@ -256,8 +251,7 @@
   <!-- The DKIM verification result. -->
   <xs:element name="result" type="DKIMResultType"
         minOccurs="1" maxOccurs="1"/>
-  <!-- Any extra information (e.g., from
-     Authentication-Results). -->
+  <!-- Any extra information (e.g., from Authentication-Results). -->
   <xs:element name="human_result" type="xs:string"
         minOccurs="0" maxOccurs="1"/>
  </xs:all>
@@ -296,25 +290,22 @@
   <!-- The SPF verification result. -->
   <xs:element name="result" type="SPFResultType" 
         minOccurs="1" maxOccurs="1"/>
-  <!-- Any extra information 
-    (e.g., from Authentication-Results). 
-  The information in the field below should be for a 
-   person to be provided with additional information 
-   that may be useful when debugging SPF authentication 
-   issues.  This could include broken records, invalid 
-   DNS responses, etc.
-  -->
+  <!-- Any extra information (e.g., from Authentication-Results).
+       The information in the field below should be for a
+       person to be provided with additional information
+       that may be useful when debugging SPF authentication
+       issues.  This could include broken records, invalid
+       DNS responses, etc. -->
   <xs:element name="human_result" type="xs:string"
         minOccurs="0" maxOccurs="1"/>
  </xs:all>
 </xs:complexType>
 
 <!-- This element contains DKIM and SPF results, uninterpreted
-   with respect to DMARC. -->
+     with respect to DMARC. -->
 <xs:complexType name="AuthResultType">
  <xs:sequence>
-  <!-- There may be no DKIM signatures, or multiple DKIM
-     signatures. -->
+  <!-- There may be no DKIM signatures, or multiple DKIM signatures. -->
   <xs:element name="dkim" type="DKIMAuthResultType"
         minOccurs="0" maxOccurs="unbounded"/>
   <!-- There will always be at most one SPF result. -->
@@ -324,8 +315,8 @@
 </xs:complexType>
 
 <!-- This element contains all the authentication results that
-   were evaluated by the receiving system for the given set of
-   messages. -->
+     were evaluated by the receiving system for the given set of
+     messages. -->
 <xs:complexType name="RecordType">
  <xs:sequence>
   <xs:element name="row" type="RowType"/>
@@ -333,7 +324,7 @@
         minOccurs="1" maxOccurs="1"/>
   <xs:element name="auth_results" type="AuthResultType" 
         minOccurs="1" maxOccurs="1"/>
-  <!-- Extension at row level-->
+  <!-- Extension at row level -->
   <xs:any processContents="lax"
         minOccurs="0" maxOccurs="unbounded"/>
  </xs:sequence>
