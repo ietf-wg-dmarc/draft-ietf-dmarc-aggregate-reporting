@@ -37,7 +37,7 @@
         minOccurs="1" maxOccurs="1"/>
   <!-- Optional error messages when processing DMARC policy -->
   <xs:element name="error" type="xs:string" 
-        minOccurs="0"/>
+        minOccurs="0" maxOccurs="1"/>
  </xs:all>
 </xs:complexType>
 
@@ -315,7 +315,8 @@
      messages. -->
 <xs:complexType name="RecordType">
  <xs:sequence>
-  <xs:element name="row" type="RowType"/>
+  <xs:element name="row" type="RowType"
+        minOccurs="1" maxOccurs="1"/>
   <xs:element name="identifiers" type="IdentifierType" 
         minOccurs="1" maxOccurs="1"/>
   <xs:element name="auth_results" type="AuthResultType" 
