@@ -1,6 +1,6 @@
 %%%
 
-	Title = "DMARC Aggregate Reporting"
+	Title = "Domain-based Message Authentication, Reporting, and Conformance (DMARC) Aggregate Reporting"
 	abbrev = "DMARC Aggregate Reporting"
 	docName = "draft-ietf-dmarc-aggregate-reporting-18"
 	category = "std"
@@ -31,7 +31,8 @@
 
 .# Abstract
 
-DMARC allows for Domain Owners to request aggregate reports from receivers.
+Domain-based Message Authentication, Reporting, and Conformance
+(DMARC) allows for Domain Owners to request aggregate reports from receivers.
 This report is an XML document, and contains extensible elements that allow for 
 other types of data to be specified later.  The aggregate reports can be
 submitted to the Domain Owner's specified destination as supported by the
