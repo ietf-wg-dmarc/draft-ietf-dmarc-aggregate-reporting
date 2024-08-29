@@ -133,7 +133,7 @@ contain "begin" and "end" fields as epoch timestamps. The other element will
 be the "policy_published", which will record the policy configuration observed by 
 the receiving system.  Mandatory fields are "domain", "p", "sp". Optional 
 fields are "fo", "adkim", "aspf", "testing", and "discovery_method".  There 
-MAY be an optional third section for "extensions".
+MAY be an optional third section, "extension".
 
 Within the data section, the report will contain row(s) of data stating which
 IP addresses were seen to have delivered messages for the Author Domain to the receiving
@@ -171,7 +171,7 @@ MUST contain a lower-case string where the value is one of
 none/pass/fail/policy/neutral/temperror/permerror. Both the "spf" and "dkim" results
 may optionally include a "human_readable" field meant for the report to convey
 more descriptive information back to the Domain Owner relating to evaluation
-failures. There MAY exist an optional section for "extensions".
+failures. There MAY exist an optional section for extensions.
 
 ### Handling Domains in Reports
 
