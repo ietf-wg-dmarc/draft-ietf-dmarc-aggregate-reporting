@@ -130,7 +130,7 @@ the receiving system.  Mandatory fields are "domain", "p", "sp". Optional
 fields are "fo", "adkim", "aspf", "testing", and "discovery_method".  There 
 MAY be an optional third section, "extension".
 
-Within the data section, the report will contain row(s) of data stating which
+Within the data section, the report will contain record(s) stating which
 IP addresses were seen to have delivered messages for the Author Domain to the receiving
 system.  For each IP address that is being reported, there will be at least one "record" element.
 Each "record" element will have one "row", one "identifiers", and one "auth_results" 
