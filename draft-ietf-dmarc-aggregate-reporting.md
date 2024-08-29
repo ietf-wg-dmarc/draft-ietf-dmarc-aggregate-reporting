@@ -233,10 +233,6 @@ string for providing further details.
 
 Possible values for the policy override type:
 
-"trusted_forwarder": Message authentication failure was anticipated by 
-     other evidence linking the message to a locally maintained list of 
-     known and trusted forwarders.
-
 "local_policy": The Mail Receiver's local policy exempted the message
      from being subjected to the Domain Owner's requested policy
      action.
@@ -251,6 +247,10 @@ Possible values for the policy override type:
 
 "policy_test_mode": The message was exempted from application of policy by
      the testing mode ("t" tag) in the DMARC policy record.
+
+"trusted_forwarder": Message authentication failure was anticipated by
+     other evidence linking the message to a locally maintained list of
+     known and trusted forwarders.
 
 ## Extensions
 

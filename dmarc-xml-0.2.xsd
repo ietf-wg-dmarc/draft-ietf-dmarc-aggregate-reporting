@@ -140,12 +140,11 @@
    thereof. -->
 <xs:simpleType name="PolicyOverrideType">
  <xs:restriction base="xs:string">
-  <xs:enumeration value="forwarded"/>
-  <xs:enumeration value="sampled_out"/>
-  <xs:enumeration value="trusted_forwarder"/>
-  <xs:enumeration value="mailing_list"/>
   <xs:enumeration value="local_policy"/>
+  <xs:enumeration value="mailing_list"/>
   <xs:enumeration value="other"/>
+  <xs:enumeration value="policy_test_mode"/>
+  <xs:enumeration value="trusted_forwarder"/>
  </xs:restriction>
 </xs:simpleType>
 
