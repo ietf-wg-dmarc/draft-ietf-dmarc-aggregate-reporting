@@ -338,14 +338,12 @@
 <xs:element name="feedback">
  <xs:complexType>
   <xs:sequence>
-   <xs:element name="version"
-         minOccurs="0" maxOccurs="1" type="xs:decimal"/>
-   <xs:element name="report_metadata"
-         minOccurs="1" maxOccurs="1" 
-         type="ReportMetadataType"/>
-   <xs:element name="policy_published"
-         minOccurs="1" maxOccurs="1" 
-         type="PolicyPublishedType"/>
+   <xs:element name="version" type="xs:decimal"
+         minOccurs="0" maxOccurs="1"/>
+   <xs:element name="report_metadata" type="ReportMetadataType"
+         minOccurs="1" maxOccurs="1"/>
+   <xs:element name="policy_published" type="PolicyPublishedType"
+         minOccurs="1" maxOccurs="1"/>
    <!-- Extension at top level -->
    <xs:element name="extension" type="ExtensionType"
          minOccurs="0" maxOccurs="1"/>
