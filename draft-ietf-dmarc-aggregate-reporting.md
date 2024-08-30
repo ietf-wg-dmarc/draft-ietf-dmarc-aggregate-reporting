@@ -1,6 +1,6 @@
 %%%
 
-	Title = "DMARC Aggregate Reporting"
+	Title = "Domain-based Message Authentication, Reporting, and Conformance (DMARC) Aggregate Reporting"
 	abbrev = "DMARC Aggregate Reporting"
 	docName = "draft-ietf-dmarc-aggregate-reporting-18"
 	category = "std"
@@ -31,13 +31,12 @@
 
 .# Abstract
 
-DMARC allows for Domain Owners to request aggregate reports from receivers.
+Domain-based Message Authentication, Reporting, and Conformance
+(DMARC) allows for Domain Owners to request aggregate reports from receivers.
 This report is an XML document, and contains extensible elements that allow for 
 other types of data to be specified later.  The aggregate reports can be
 submitted to the Domain Owner's specified destination as supported by the
 receiver.
-
-This document (along with others) obsoletes RFC7489.
 
 {mainmatter}
 
@@ -52,16 +51,11 @@ the outcome of SPF [@!RFC7208] & DKIM [@!RFC6376] validation.
 
 ## Terminology
 
-Authors who follow these guidelines should incorporate this phrase
-near the beginning of their document:
-
-```
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
 NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
 "MAY", and "OPTIONAL" in this document are to be interpreted as
 described in BCP 14 [@!RFC2119] [@!RFC8174] when, and only when, they
 appear in all capitals, as shown here.
-```
 
 # DMARC Feedback
 
@@ -134,9 +128,9 @@ contain "begin" and "end" fields as epoch timestamps. The other element will
 be the "policy_published", which will record the policy configuration observed by 
 the receiving system.  Mandatory fields are "domain", "p", "sp". Optional 
 fields are "fo", "adkim", "aspf", "testing", and "discovery_method".  There 
-MAY be an optional third section for "extensions".
+MAY be an optional third section, "extension".
 
-Within the data section, the report will contain row(s) of data stating which
+Within the data section, the report will contain record(s) stating which
 IP addresses were seen to have delivered messages for the Author Domain to the receiving
 system.  For each IP address that is being reported, there will be at least one "record" element.
 Each "record" element will have one "row", one "identifiers", and one "auth_results" 
@@ -172,7 +166,7 @@ MUST contain a lower-case string where the value is one of
 none/pass/fail/policy/neutral/temperror/permerror. Both the "spf" and "dkim" results
 may optionally include a "human_readable" field meant for the report to convey
 more descriptive information back to the Domain Owner relating to evaluation
-failures. There MAY exist an optional section for "extensions".
+failures. There MAY exist an optional section for extensions.
 
 ### Handling Domains in Reports
 
@@ -234,10 +228,6 @@ string for providing further details.
 
 Possible values for the policy override type:
 
-"trusted_forwarder": Message authentication failure was anticipated by 
-     other evidence linking the message to a locally maintained list of 
-     known and trusted forwarders.
-
 "local_policy": The Mail Receiver's local policy exempted the message
      from being subjected to the Domain Owner's requested policy
      action.
@@ -252,6 +242,10 @@ Possible values for the policy override type:
 
 "policy_test_mode": The message was exempted from application of policy by
      the testing mode ("t" tag) in the DMARC policy record.
+
+"trusted_forwarder": Message authentication failure was anticipated by
+     other evidence linking the message to a locally maintained list of
+     known and trusted forwarders.
 
 ## Extensions
 
@@ -332,7 +326,11 @@ transport mechanism.
 This identifier MUST be unique among reports to the same domain to 
 aid receivers in identifying duplicate reports should they happen.
 
-ridtxt = ("<" *(ALPHA / DIGIT / "." / "-") ["@" *(ALPHA / DIGIT / "." / "-")] ">") / (*(ALPHA / DIGIT / "." / "-") ["@" *(ALPHA / DIGIT / "." / "-")])
+~~~
+ridfmt =  (dot-atom-text ["@" dot-atom-text]) ; from RFC5322
+
+ridtxt =  ("<" ridfmt ">") / ridfmt
+~~~
 
 The format specified here is not very strict as the key goal is uniqueness.
 
@@ -353,6 +351,7 @@ aggregate data MUST be present using the media type "application/
 gzip" if compressed (see [@!RFC6713]), and "text/xml" otherwise.  The
 filename MUST be constructed using the following ABNF:
 
+~~~
   filename = receiver "!" policy-domain "!" begin-timestamp
              "!" end-timestamp [ "!" unique-id ] "." extension
 
@@ -374,6 +373,7 @@ filename MUST be constructed using the following ABNF:
   unique-id = 1*(ALPHA / DIGIT)
 
   extension = "xml" / "xml.gz"
+~~~
 
 The extension MUST be "xml" for a plain XML file, or "xml.gz" for an
 XML file compressed using GZIP.
@@ -392,7 +392,7 @@ For example, this is a sample filename for the gzip file of a
 report to the Domain Owner "example.com" from the Mail Receiver
 "mail.receiver.example":
 
-  mail.receiver.example!example.com!1013662812!1013749130.gz
+  mail.receiver.example!example.com!1013662812!1013749130.xml.gz
 
 No specific MIME message structure is required.  It is presumed that
 the aggregate reporting address will be equipped to extract body
