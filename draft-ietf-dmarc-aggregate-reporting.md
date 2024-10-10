@@ -2,7 +2,7 @@
 
 	Title = "Domain-based Message Authentication, Reporting, and Conformance (DMARC) Aggregate Reporting"
 	abbrev = "DMARC Aggregate Reporting"
-	docName = "draft-ietf-dmarc-aggregate-reporting-18"
+	docName = "draft-ietf-dmarc-aggregate-reporting-20"
 	category = "std"
 	obsoletes = [7489]
 	ipr = "trust200902"
@@ -11,11 +11,11 @@
 	submissiontype = "IETF"
 	keyword = [""]
 
-	date = "2024-08-28T00:00:00Z"
+	date = "2024-10-10T00:00:00Z"
 
 	[seriesInfo]
 	name = "Internet-Draft"
-	value = "draft-ietf-dmarc-aggregate-reporting-18"
+	value = "draft-ietf-dmarc-aggregate-reporting-20"
 	stream = "IETF"
 	status = "standard"
 
