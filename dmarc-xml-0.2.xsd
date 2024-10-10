@@ -173,7 +173,7 @@
  <xs:restriction base="xs:string">
   <!-- IPv4 -->
   <xs:pattern value=
-  "(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5]\.){3}(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])"/>
+  "((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])"/>
   <!-- IPv6 -->
   <xs:pattern value="([A-Fa-f\d]{1,4}:){7}[A-Fa-f\d]{1,4}"/>
   <!-- RFC 5952 zero compression IPv6 (lax) -->
