@@ -171,10 +171,11 @@
 <!-- The Internet Protocol Address from which messages were received -->
 <xs:simpleType name="IPAddress">
  <xs:restriction base="xs:string">
-  <!-- IPv4 -->
+  <!-- A globally routable IPv4 unicast address in the dotted-decimal format -->
   <xs:pattern value=
   "((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])"/>
-  <!-- IPv6 -->
+  <!-- A globally routable IPv6 Global Unicast address in the canonical
+       textual representation format; see RFC 5952 for details -->
   <xs:pattern value="((0|[a-f1-9][a-f\d]{0,3}):){7}(0|[a-f1-9][a-f\d]{0,3})"/>
   <xs:pattern value="((0|[a-f1-9][a-f\d]{0,3}):){1,6}"/>
   <xs:pattern value="((0|[a-f1-9][a-f\d]{0,3}):){1,5}:(0|[a-f1-9][a-f\d]{0,3})"/>
