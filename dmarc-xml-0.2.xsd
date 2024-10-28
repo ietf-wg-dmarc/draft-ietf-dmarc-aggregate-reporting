@@ -168,36 +168,10 @@
  </xs:sequence>
 </xs:complexType>
 
-<!-- The Internet Protocol Address from which messages were received -->
-<xs:simpleType name="IPAddress">
- <xs:restriction base="xs:string">
-  <!-- IPv4 -->
-  <xs:pattern value=
-  "((\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])\.){3}(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])"/>
-  <!-- IPv6 -->
-  <xs:pattern value="([A-Fa-f\d]{1,4}:){7}[A-Fa-f\d]{1,4}"/>
-  <!-- RFC 5952 zero compression IPv6 (lax) -->
-  <xs:pattern value="([A-Fa-f\d]{1,4}:){1,7}:"/>
-  <xs:pattern value="([A-Fa-f\d]{1,4}:){1,6}:[A-Fa-f\d]{1,4}"/>
-  <xs:pattern value=
-  "([A-Fa-f\d]{1,4}:){1,5}:[A-Fa-f\d]{1,4}:[A-Fa-f\d]{1,4}"/>
-  <xs:pattern value=
-  "([A-Fa-f\d]{1,4}:){1,4}:([A-Fa-f\d]{1,4}:){1,2}[A-Fa-f\d]{1,4}"/>
-  <xs:pattern value=
-  "([A-Fa-f\d]{1,4}:){1,3}:([A-Fa-f\d]{1,4}:){1,3}[A-Fa-f\d]{1,4}"/>
-  <xs:pattern value=
-  "([A-Fa-f\d]{1,4}:){1,2}:([A-Fa-f\d]{1,4}:){1,4}[A-Fa-f\d]{1,4}"/>
-  <xs:pattern value=
-  "[A-Fa-f\d]{1,4}::([A-Fa-f\d]{1,4}:){1,5}[A-Fa-f\d]{1,4}"/>
-  <xs:pattern value="::([A-Fa-f\d]{1,4}:){1,6}[A-Fa-f\d]{1,4}"/>
-  <xs:pattern value="::[A-Fa-f\d]{1,4}"/>
- </xs:restriction>
-</xs:simpleType>
-
 <xs:complexType name="RowType">
  <xs:sequence>
-  <!-- The connecting IP. -->
-  <xs:element name="source_ip" type="IPAddress"
+  <!-- The connecting IP. IPv4 or IPv6 address as in RFC 3986 sec 3.2.2 -->
+  <xs:element name="source_ip" type="xs:string"
         minOccurs="1" maxOccurs="1"/>
   <!-- The number of messages for which the
        PolicyEvaluatedType was applied. -->
