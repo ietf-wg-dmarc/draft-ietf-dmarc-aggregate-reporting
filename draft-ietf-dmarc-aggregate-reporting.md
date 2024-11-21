@@ -2,7 +2,7 @@
 
 	Title = "Domain-based Message Authentication, Reporting, and Conformance (DMARC) Aggregate Reporting"
 	abbrev = "DMARC Aggregate Reporting"
-	docName = "draft-ietf-dmarc-aggregate-reporting-20"
+	docName = "draft-ietf-dmarc-aggregate-reporting-22"
 	category = "std"
 	obsoletes = [7489]
 	ipr = "trust200902"
@@ -11,11 +11,11 @@
 	submissiontype = "IETF"
 	keyword = [""]
 
-	date = "2024-10-10T00:00:00Z"
+	date = "2024-11-20T00:00:00Z"
 
 	[seriesInfo]
 	name = "Internet-Draft"
-	value = "draft-ietf-dmarc-aggregate-reporting-20"
+	value = "draft-ietf-dmarc-aggregate-reporting-22"
 	stream = "IETF"
 	status = "standard"
 
@@ -48,6 +48,10 @@ Domain Owners to have insight into which IP addresses are sending on their
 behalf, and some insight into whether or not the volume may be legitimate.  
 These reports expose information relating to the DMARC policy, as well as 
 the outcome of SPF [@!RFC7208] & DKIM [@!RFC6376] validation.
+
+There are a number of terms defined in [@!I-D.ietf-dmarc-dmarcbis] that are used
+within this document.  Understanding those definitions will aid in reading
+this document.
 
 ## Terminology
 
@@ -92,7 +96,7 @@ message streams relevant to the Domain Owner.  This information
 includes data about messages that passed DMARC authentication as well
 as those that did not.
 
-A separate report should be generated for each Policy Domain encountered 
+A separate report MUST be generated for each Policy Domain encountered 
 during the reporting period. See below for further explanation in "Handling 
 Domains in Reports".
 
@@ -111,14 +115,14 @@ The report may include the following data:
 
 The format for these reports is defined in Appendix A.
 
-DMARC Aggregate Reports MUST contain two primary sections; one consisting
-of descriptive information (with two elements), and the other a set of 
-IP address-focused row-based data.  Each report MUST contain data for only one 
-Policy Domain. A single report MUST contain data for one policy configuration. 
-If multiple configurations were observed during a single reporting period, a 
-reporting entity MAY choose to send multiple reports, otherwise the reporting 
-entity SHOULD note only the final configuration observed during the 
-period. See below for further information.
+DMARC Aggregate Reports MUST contain two primary sections ("metadata" & "data"
+below) ; one consisting of descriptive information (with two elements), 
+and the other a set of IP address-focused row-based data.  Each report MUST 
+contain data for only one Policy Domain. A single report MUST contain data 
+for one policy configuration.  If multiple configurations were observed 
+during a single reporting period, a reporting entity MAY choose to send 
+multiple reports, otherwise the reporting entity SHOULD note only the final 
+configuration observed during the period. See below for further information.
 
 The informative section MUST contain two elements.  One will be the metadata 
 section which MUST contain the fields related to "org_name", "email",
@@ -148,8 +152,8 @@ domain from the message.  There MAY be an optional "envelope_from" element,
 which contains the RFC5321.MailFrom domain that the SPF check has been 
 applied to. This element MAY be existing but empty if the message had a null 
 reverse-path ([@!RFC5321], Section 4.5.5). There MAY be an optional 
-"envelope_to" element, which contains the RFC5321.RcptTo domain from the 
-message.
+"envelope_to" element, which contains the RFC5321.RcptTo (see [@!RFC5598])
+domain from the message.
 
 There MUST be an "auth_results" element within the "record" element.  This will
 contain the data related to authenticating the messages associated with this sending
@@ -160,13 +164,13 @@ These elements MUST have a "domain" that was used during validation, as well as
 be included in the report (within reason, see "DKIM Signatures in Aggregate 
 Reports" below for handling numerous signatures).  The "dkim" element MUST 
 include a "selector" element that was observed during validation. For the 
-"spf" element, the "result" element MUST contain a lower-case string where the value is one of 
-none/neutral/pass/fail/softfail/temperror/permerror (See [@!RFC8601]).  The "dkim" result
-MUST contain a lower-case string where the value is one of 
-none/pass/fail/policy/neutral/temperror/permerror. Both the "spf" and "dkim" results
-may optionally include a "human_readable" field meant for the report to convey
-more descriptive information back to the Domain Owner relating to evaluation
-failures. There MAY exist an optional section for extensions.
+"spf" element, the "result" element MUST contain a lower-case string where 
+the value is one of the results defined in [@!RFC8601] Section 2.7.2.  The 
+"dkim" result MUST contain a lower-case string where the value is one of 
+the results defined in [@!RFC8601] Section 2.7.1. Both the "spf" and "dkim" 
+results may optionally include a "human_readable" field meant for the report 
+to convey more descriptive information back to the Domain Owner relating to
+evaluation failures. There MAY exist an optional section for extensions.
 
 ### Handling Domains in Reports
 
@@ -283,7 +287,7 @@ reports during the propagation of the new policy to Mail Receivers.
 Aggregate reports are most useful when they all cover a common time
 period.  By contrast, correlation of these reports from multiple
 generators when they cover incongruent time periods is difficult or
-impossible.  Report generators SHOULD, wherever possible, adhere to
+impossible.  Report generators should, wherever possible, adhere to
 hour boundaries for the reporting period they are using.  For
 example, starting a per-day report at 00:00; starting per-hour
 reports at 00:00, 01:00, 02:00; etc.  Report generators using a
@@ -302,12 +306,12 @@ feedback.
 ## Transport
 
 The Mail Receiver, after preparing a report, MUST evaluate the
-provided reporting URIs in the order given.  Any reporting URI that
-includes a size limitation exceeded by the generated report (after
-compression and after any encoding required by the particular
-transport mechanism) MUST NOT be used.  An attempt MUST be made to
-deliver an aggregate report to every remaining URI, up to the
-Receiver's limits on supported URIs.
+provided reporting URIs (See [@!I-D.ietf-dmarc-dmarcbis]) in the order 
+given.  Any reporting URI that includes a size limitation exceeded by 
+the generated report (after compression and after any encoding required 
+by the particular transport mechanism) MUST NOT be used.  An attempt 
+MUST be made to deliver an aggregate report to every remaining URI, up 
+to the Receiver's limits on supported URIs.
 
 If transport is not possible because the services advertised by the
 published URIs are not able to accept reports (e.g., the URI refers
@@ -347,8 +351,8 @@ GZIP [@!RFC1952] compression.  Declining to apply compression can cause the
 report to be too large for a receiver to process (the total message size
 could exceed the receiver SMTP size limit); doing the compression increases 
 the chances of acceptance of the report at some compute cost.  The
-aggregate data MUST be present using the media type "application/
-gzip" if compressed (see [@!RFC6713]), and "text/xml" otherwise.  The
+aggregate data MUST be present using the media type "application/gzip" if 
+compressed (see [@!RFC6713]), and "text/xml" otherwise.  The
 filename MUST be constructed using the following ABNF:
 
 ~~~
@@ -407,11 +411,13 @@ fraudulent reports.
 The RFC5322.Subject field for individual report submissions MUST
 conform to the following ABNF:
 
+~~~
   dmarc-subject = %s"Report" 1*FWS %s"Domain:"
                   1*FWS domain-name 1*FWS         ; policy domain
                   %s"Submitter:" 1*FWS
                   domain-name 1*FWS               ; report generator
                   [ %s"Report-ID:" 1*FWS ridtxt ] ; defined below
+~~~
 
 The first domain-name indicates the DNS domain name about which the
 report was generated.  The second domain-name indicates the DNS
@@ -741,5 +747,10 @@ Reports carry more detailed information and present a greater risk.
 
 Acknowledgements
 
-TBD
-
+Many thanks are deserved to those that helped create this document.  Much of
+the content was created from the original [@!RFC7489], and has now been 
+updated to be more clear and correct some outstanding issues. The IETF 
+DMARC Working Group has spent much time working to finalize this effort,
+and significant contributions were made by Seth Blank, Todd Herr, 
+Murray S. Kucherawy, Barry Leiba, John Levine, Scott Kitterman, Daniel Kvål,
+Martijn van der Lee, Alessandro Veseley, and Matthäus Wander.
