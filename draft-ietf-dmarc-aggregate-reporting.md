@@ -158,7 +158,7 @@ domain from the message.
 There MUST be an "auth_results" element within the "record" element.  This will
 contain the data related to authenticating the messages associated with this sending
 IP address. There MAY be a number of optional "dkim" sub-elements, one for 
-each checked DKIM  signature.  There MAY be an optoinal "spf" sub-element.  
+each checked DKIM  signature.  There MAY be an optional "spf" sub-element.  
 These elements MUST have a "domain" that was used during validation, as well as 
 "result". If validation is attempted for any DKIM signature, the results MUST 
 be included in the report (within reason, see "DKIM Signatures in Aggregate 
