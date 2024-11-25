@@ -168,7 +168,7 @@ include a "selector" element that was observed during validation. For the
 the value is one of the results defined in [@!RFC8601] Section 2.7.2.  The 
 "dkim" result MUST contain a lower-case string where the value is one of 
 the results defined in [@!RFC8601] Section 2.7.1. Both the "spf" and "dkim" 
-results may optionally include a "human_readable" field meant for the report 
+results may optionally include a "human_result" element meant for the report
 to convey more descriptive information back to the Domain Owner relating to
 evaluation failures. There MAY exist an optional section for extensions.
 
