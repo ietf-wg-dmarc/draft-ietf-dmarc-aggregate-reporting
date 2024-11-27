@@ -16,6 +16,7 @@
     <p>quarantine</p>
     <sp>none</sp>
     <testing>n</testing>
+    <discovery_method>treewalk</discovery_method>
   </policy_published>
   <record>
     <row>
