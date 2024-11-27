@@ -144,15 +144,16 @@ reporting entity MAY choose to send multiple reports, otherwise the reporting
 entity SHOULD note only the final configuration observed during the 
 period. See below for further information.
 
-The informative section MUST contain two elements.  One will be the metadata 
-section which MUST contain the fields related to `org_name`, `email`,
-`report_id`, and `date_range`. Optional fields MAY include 
-`extra_contact_info`, an `error` field.  The `date_range` field which will 
-contain `begin` and `end` fields as epoch timestamps. The other element will 
-be the `policy_published`, and record the policy configuration observed by 
-the receiving system.  Mandatory fields are `domain`, `p`, `sp`. Optional 
-fields are `fo`, `adkim`, `aspf`, `testing`, and `discovery_method`.  There 
-MAY be an optional third section for `extensions`.
+The informative section MUST contain two elements.  One will be the 
+metadata section which MUST contain the fields related to `org_name`, 
+`email`, `report_id`, and `date_range`. Optional fields MAY include 
+`extra_contact_info`, `generator` and `error` field.  The `date_range` 
+field which will contain `begin` and `end` fields as epoch timestamps. 
+The other element will be the `policy_published`, and record the policy 
+configuration observed by the receiving system.  Mandatory fields are 
+`domain`, `p`, `sp`. Optional fields are `fo`, `adkim`, `aspf`, 
+`testing`, and `discovery_method`.  There MAY be an optional third 
+section for `extensions`.
 
 Within the data section, the report will contain row(s) of data stating which
 IP addresses were seen to have delivered messages for the Author Domain to the receiving
