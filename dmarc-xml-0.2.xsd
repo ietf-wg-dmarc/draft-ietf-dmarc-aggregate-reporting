@@ -38,6 +38,9 @@
   <!-- Optional error messages when processing DMARC policy -->
   <xs:element name="error" type="xs:string"
         minOccurs="0" maxOccurs="1"/>
+  <!-- Optional information about the generating software -->
+  <xs:element name="generator" type="xs:string"
+        minOccurs="0" maxOccurs="1"/>
  </xs:all>
 </xs:complexType>
 
