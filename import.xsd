@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<xsd:schema elementFormDefault="qualified" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <xsd:import namespace="urn:ietf:params:xml:ns:dmarc-2.0" schemaLocation="dmarc-xml-0.2.xsd"/>
+    <xsd:import namespace="urn:ietf:params:xml:ns:dmarc-extension" schemaLocation="added.xsd"/>
+</xsd:schema>
