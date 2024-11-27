@@ -4,10 +4,11 @@
     <org_name>Sample Reporter</org_name>
     <email>report_sender@example-reporter.com</email>
     <extra_contact_info>...</extra_contact_info>
+    <genertor>Dmarcify 2000 milter v1.2</generator>
     <report_id>3v98abbp8ya9n3va8yr8oa3ya</report_id>
     <date_range>
-      <begin>161212415</begin>
-      <end>161221511</end>
+      <begin>1732665600</begin>
+      <end>1732751999</end>
     </date_range>
   </report_metadata>
   <policy_published>

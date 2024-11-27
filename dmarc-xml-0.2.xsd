@@ -35,6 +35,8 @@
         minOccurs="1" maxOccurs="1"/>
   <xs:element name="extra_contact_info" type="xs:string" 
         minOccurs="0" maxOccurs="1"/>
+  <xs:element name="generator" type="xs:string" 
+        minOccurs="0" maxOccurs="1"/>
   <xs:element name="report_id" type="xs:string" 
         minOccurs="1" maxOccurs="1"/>
   <xs:element name="date_range" type="DateRangeType" 
@@ -167,11 +169,9 @@
  <xs:restriction base="xs:string">
   <!-- IPv4 -->
   <xs:pattern value=
-  "((((0{1,4}:){5})|(::(0{1,4}:){0,4}))([Ff]{4}:))?\
-(([01]?\d?\d|2[0-4]\d|25[0-5])\.){3}([01]?\d?\d|2[0-4]\d|25[0-5])"/> 
+  "((((0{1,4}:){5})|(::(0{1,4}:){0,4}))([Ff]{4}:))?(([01]?\d?\d|2[0-4]\d|25[0-5])\.){3}([01]?\d?\d|2[0-4]\d|25[0-5])"/> 
   <xs:pattern value=
-  "(((0{1,4}:){6})|(::(0{1,4}:){0,5}))\
-(([01]?\d?\d|2[0-4]\d|25[0-5])\.){3}([01]?\d?\d|2[0-4]\d|25[0-5])"/> 
+  "(((0{1,4}:){6})|(::(0{1,4}:){0,5}))(([01]?\d?\d|2[0-4]\d|25[0-5])\.){3}([01]?\d?\d|2[0-4]\d|25[0-5])"/> 
   <!-- IPv6 -->
   <xs:pattern value="([A-Fa-f0-9]{1,4}:){7}[A-Fa-f0-9]{1,4}"/>
   <!-- RFC 5952 zero compression IPv6 (lax) -->
