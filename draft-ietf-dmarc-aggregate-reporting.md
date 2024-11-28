@@ -278,7 +278,7 @@ following:
 Such policy changes are expected to be infrequent for any given
 domain, whereas more stringent policy monitoring requirements on the
 Mail Receiver would produce a very large burden at Internet scale.
-Therefore, it is the responsibility of report consumers (i.e., vendors) 
+Therefore, it is the responsibility of Report Consumers (i.e., vendors)
 and Domain Owners to be aware of this situation and expect such mixed 
 reports during the propagation of the new policy to Mail Receivers.
 
@@ -392,7 +392,7 @@ rest.
 
 Email streams carrying DMARC feedback data MUST conform to the DMARC
 mechanism, thereby resulting in an aligned "pass" (see Section 3.1).
-This practice minimizes the risk of report consumers processing
+This practice minimizes the risk of Report Consumers processing
 fraudulent reports.
 
 The RFC5322.Subject field for individual report submissions MUST
@@ -509,12 +509,12 @@ the following verification steps MUST be taken:
 
 7.  If at least one TXT resource record remains in the set after
     parsing, then the external reporting arrangement was authorized
-    by the Report Receiver.
+    by the Report Consumer.
 
 8.  If a "rua" tag is thus discovered, replace the
     corresponding value extracted from the domain's DMARC policy
     record with the one found in this record.  This permits the
-    Report Receiver to override the report destination.  However, to
+    Report Consumer to override the report destination.  However, to
     prevent loops or indirect abuse, the overriding URI MUST use the
     same destination host from the first step.
 
@@ -529,22 +529,22 @@ relationship between the two is confirmed.  Moreover,
 destination requested by "blue.example.com" if needed.
 
 Where the above algorithm fails to confirm that the external
-reporting was authorized by the Report Receiver, the URI MUST be
+reporting was authorized by the Report Consumer, the URI MUST be
 ignored by the Mail Receiver generating the report.  Further, if the
 confirming record includes a URI whose host is again different than
 the domain publishing that override, the Mail Receiver generating the
 report MUST NOT generate a report to either the original or the
 override URI.
-A Report Receiver publishes such a record in its DNS if it wishes to
+A Report Consumer publishes such a record in its DNS if it wishes to
 receive reports for other domains.
 
-A Report Receiver that is willing to receive reports for any domain
+A Report Consumer that is willing to receive reports for any domain
 can use a wildcard DNS record.  For example, a TXT resource record at
 "*._report._dmarc.example.com" containing at least "v=DMARC1"
 confirms that example.com is willing to receive DMARC reports for any
 domain.
 
-If the Report Receiver is overcome by volume, it can simply remove
+If the Report Consumer is overcome by volume, it can simply remove
 the confirming DNS record.  However, due to positive caching, the
 change could take as long as the time-to-live (TTL) on the record to
 go into effect.
