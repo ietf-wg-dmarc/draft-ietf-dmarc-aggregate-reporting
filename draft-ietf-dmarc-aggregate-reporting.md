@@ -493,27 +493,31 @@ the following verification steps **MUST** be taken:
 3.  Prepend the domain name from which the policy was retrieved,
     after conversion to an A-label [@!RFC5890] if needed.
 
-4.  Query the DNS for a TXT record at the constructed name.  If the
+4.  If the length of the constructed name exceed DNS limits,
+    a positive determination of the external reporting
+    relationship cannot be made; stop.
+
+5.  Query the DNS for a TXT record at the constructed name.  If the
     result of this request is a temporary DNS error of some kind
     (e.g., a timeout), the Mail Receiver **MAY** elect to temporarily
     fail the delivery so the verification test can be repeated later.
 
-5.  For each record returned, parse the result as a series of
+6.  For each record returned, parse the result as a series of
     "tag=value" pairs, i.e., the same overall format as the policy
     record (see Section 5.4 in [@!I-D.ietf-dmarc-dmarcbis]).  In 
     particular, the "v=DMARC1" tag is mandatory and **MUST** appear
     first in the list.  Discard any that do not pass this test. A
     trailing ";" is optional.
 
-6.  If the result includes no TXT resource records that pass basic
+7.  If the result includes no TXT resource records that pass basic
     parsing, a positive determination of the external reporting
     relationship cannot be made; stop.
 
-7.  If at least one TXT resource record remains in the set after
+8.  If at least one TXT resource record remains in the set after
     parsing, then the external reporting arrangement was authorized
     by the Report Consumer.
 
-8.  If a "rua" tag is thus discovered, replace the
+9.  If a "rua" tag is thus discovered, replace the
     corresponding value extracted from the domain's DMARC Policy
     Record with the one found in this record.  This permits the
     Report Consumer to override the report destination.  However, to
