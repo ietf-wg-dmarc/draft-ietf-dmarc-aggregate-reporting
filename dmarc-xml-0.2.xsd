@@ -49,7 +49,7 @@
  </xs:restriction>
 </xs:simpleType>
 
-<!-- The policy actions specified by p and sp in the
+<!-- The policy actions specified by p, sp and np in the
      DMARC Policy Record. -->
 <xs:simpleType name="DispositionType">
  <xs:restriction base="xs:string">
@@ -100,6 +100,9 @@
   <!-- * subdomains. -->
   <xs:element name="sp" type="DispositionType"
         minOccurs="1" maxOccurs="1"/>
+  <!-- * non-existent subdomains. -->
+  <xs:element name="np" type="DispositionType"
+        minOccurs="0" maxOccurs="1"/>
   <!-- The DKIM alignment mode. -->
   <xs:element name="adkim" type="AlignmentType"
         minOccurs="0" maxOccurs="1"/>

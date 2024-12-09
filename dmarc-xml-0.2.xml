@@ -14,6 +14,7 @@
     <domain>example.com</domain>
     <p>quarantine</p>
     <sp>none</sp>
+    <np>none</np>
     <testing>n</testing>
     <discovery_method>treewalk</discovery_method>
   </policy_published>
