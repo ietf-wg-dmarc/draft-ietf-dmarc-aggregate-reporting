@@ -106,7 +106,7 @@
         minOccurs="0" maxOccurs="1"/>
   <!-- Method used to find/obtain DMARC policy -->
   <xs:element name="discovery_method" type="DiscoveryType"
-       minOccurs="0" maxOccurs="1"/>
+        minOccurs="0" maxOccurs="1"/>
   <!-- Failure reporting options in effect. -->
   <xs:element name="fo" type="xs:string"
         minOccurs="0" maxOccurs="1"/>
