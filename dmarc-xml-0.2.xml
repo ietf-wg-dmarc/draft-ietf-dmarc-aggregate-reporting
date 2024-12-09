@@ -6,14 +6,15 @@
     <extra_contact_info>...</extra_contact_info>
     <report_id>3v98abbp8ya9n3va8yr8oa3ya</report_id>
     <date_range>
-      <begin>161212415</begin>
-      <end>161221511</end>
+      <begin>302832000</begin>
+      <end>302918399</end>
     </date_range>
   </report_metadata>
   <policy_published>
     <domain>example.com</domain>
     <p>quarantine</p>
     <sp>none</sp>
+    <np>none</np>
     <testing>n</testing>
     <discovery_method>treewalk</discovery_method>
   </policy_published>
