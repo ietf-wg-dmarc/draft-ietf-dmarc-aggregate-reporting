@@ -137,7 +137,7 @@
  </xs:restriction>
 </xs:simpleType>
 
-<!-- Reasons that may affect DMARC disposition or execution thereof. -->
+<!-- Reasons that may affect DMARC disposition or execution. -->
 <xs:simpleType name="PolicyOverrideType">
  <xs:restriction base="xs:string">
   <xs:enumeration value="local_policy"/>
@@ -175,8 +175,8 @@
 
 <xs:complexType name="RowType">
  <xs:sequence>
-  <!-- The connecting IP.
-       IPv4address or IPv6address as defined in RFC 3986 sec 3.2.2 -->
+  <!-- The connecting IP. IPv4address or IPv6address
+       as defined in RFC 3986 section 3.2.2 -->
   <xs:element name="source_ip" type="xs:string"
         minOccurs="1" maxOccurs="1"/>
   <!-- The number of messages for which the
@@ -203,7 +203,7 @@
  </xs:all>
 </xs:complexType>
 
-<!-- DKIM verification result, according to RFC 8601 Section 2.7.1. -->
+<!-- DKIM verification result, see RFC 8601 Section 2.7.1. -->
 <xs:simpleType name="DKIMResultType">
  <xs:restriction base="xs:string">
   <xs:enumeration value="none"/>
@@ -240,7 +240,7 @@
  </xs:restriction>
 </xs:simpleType>
 
-<!-- SPF verification result, according to RFC 7208 Section 2.6. -->
+<!-- SPF verification result, see RFC 7208 Section 2.6. -->
 <xs:simpleType name="SPFResultType">
  <xs:restriction base="xs:string">
   <xs:enumeration value="none"/>
@@ -281,10 +281,10 @@
      with respect to DMARC. -->
 <xs:complexType name="AuthResultType">
  <xs:sequence>
-  <!-- There may be no DKIM signatures, or multiple DKIM signatures. -->
+  <!-- There may be zero or more DKIM signatures. -->
   <xs:element name="dkim" type="DKIMAuthResultType"
         minOccurs="0" maxOccurs="unbounded"/>
-  <!-- There will always be at most one SPF result. -->
+  <!-- There may be zero or one SPF result. -->
   <xs:element name="spf" type="SPFAuthResultType"
         minOccurs="0" maxOccurs="1"/>
  </xs:sequence>
