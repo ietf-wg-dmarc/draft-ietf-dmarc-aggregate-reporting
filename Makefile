@@ -7,7 +7,7 @@ TXT=$(SOURCES:.md=.txt)
 
 all: $(XML) $(TXT)
 
-%.xml : %.md
+%.xml : %.md dmarc-xml-0.2.xml dmarc-xml-0.2.xsd
 	#$(MMARK) -xml2 -page $< > $@ 
 	$(MMARK) $< > $@ 
 	
