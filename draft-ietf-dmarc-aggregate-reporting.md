@@ -678,7 +678,7 @@ external processor.
 
 ## Feedback Leakage {#leakage}
 
-Providing feedback reporting to PSOs for a PSD [@?RFC9091] can, in 
+Providing feedback reporting to PSOs for a PSD [@?I-D.ietf-dmarc-dmarcbis] can, in 
 some cases, cause information to leak out of an organization to 
 the PSO.  This leakage could potentially be utilized as part of a 
 program of pervasive surveillance (see [@?RFC7624]]).  There are 
