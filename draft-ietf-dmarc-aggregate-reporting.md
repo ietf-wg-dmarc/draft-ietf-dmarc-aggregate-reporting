@@ -684,32 +684,35 @@ the PSO.  This leakage could potentially be utilized as part of a
 program of pervasive surveillance (see [@?RFC7624]]).  There are 
 roughly three cases to consider:
 
-Single Organization PSDs (e.g., ".mil"):
-:  RUA reports based on PSD DMARC have the potential to
-   contain information about emails related to entities managed by
-   the organization.  Since both the PSO and the Organizational
-   Domain Owners are common, there is no additional privacy risk for
-   either normal or non-existent domain reporting due to PSD DMARC.
+* Single Organization PSDs (e.g., ".mil")
 
-Multi-organization PSDs that require DMARC usage (e.g., ".bank"):
-:  Reports based on PSD DMARC will only be generated for domains that
-   do not publish a DMARC policy at the organizational or host level.
-   For domains that do publish the required DMARC policy records, the
-   feedback reporting addresses of the organization (or
-   hosts) will be used.  The only direct risk of feedback leakage for
-   these PSDs are for Organizational Domains that are out of
-   compliance with PSD policy.  Data on non-existent cousin domains
-   would be sent to the PSO.
+    RUA reports based on PSD DMARC have the potential to
+    contain information about emails related to entities managed by
+    the organization.  Since both the PSO and the Organizational
+    Domain Owners are common, there is no additional privacy risk for
+    either normal or non-existent domain reporting due to PSD DMARC.
 
-Multi-organization PSDs (e.g., ".com") that do not mandate DMARC
-usage:
-:  Privacy risks for Organizational Domains that have not deployed DMARC 
-   within such PSDs can be significant.  For non-DMARC Organizational 
-   Domains, all DMARC feedback will be directed to the PSO if that PSO 
-   itself has a DMARC record that specifies an RUA.  Any non-DMARC 
-   Organizational Domain would have its Feedback Reports redirected to 
-   the PSO.  The content of such reports, particularly for existing 
-   domains, is privacy sensitive.
+* Multi-organization PSDs that require DMARC usage (e.g., ".bank")
+
+    Reports based on PSD DMARC will only be generated for domains that
+    do not publish a DMARC policy at the organizational or host level.
+    For domains that do publish the required DMARC policy records, the
+    feedback reporting addresses of the organization (or
+    hosts) will be used.  The only direct risk of feedback leakage for
+    these PSDs are for Organizational Domains that are out of
+    compliance with PSD policy.  Data on non-existent cousin domains
+    would be sent to the PSO.
+
+* Multi-organization PSDs (e.g., ".com") that do not mandate DMARC
+  usage
+
+    Privacy risks for Organizational Domains that have not deployed DMARC
+    within such PSDs can be significant.  For non-DMARC Organizational
+    Domains, all DMARC feedback will be directed to the PSO if that PSO
+    itself has a DMARC record that specifies an RUA.  Any non-DMARC
+    Organizational Domain would have its Feedback Reports redirected to
+    the PSO.  The content of such reports, particularly for existing
+    domains, is privacy sensitive.
 
 PSOs will receive feedback on non-existent domains, which may be
 similar to existing Organizational Domains.  Feedback related to such
