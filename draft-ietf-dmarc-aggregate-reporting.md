@@ -520,7 +520,7 @@ the following verification steps **MUST** be taken:
     prevent loops or indirect abuse, the overriding URI **MUST** use the
     same destination host from the first step.
 
-For example, if a DMARC policy query for "blue.example.com" contained
+For example, if the DMARC Policy Record for "blue.example.com" contained
 "rua=mailto:reports@red.example.net", the Organizational Domain host 
 extracted from the latter ("red.example.net") does not match 
 "blue.example.com", so this procedure is enacted.  A TXT query for
