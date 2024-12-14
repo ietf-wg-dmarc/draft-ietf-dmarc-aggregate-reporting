@@ -690,7 +690,7 @@ roughly three cases to consider:
 
 * Single Organization PSDs (e.g., ".mil")
 
-    RUA reports based on PSD DMARC have the potential to
+    Aggregate reports based on PSD DMARC have the potential to
     contain information about emails related to entities managed by
     the organization.  Since both the PSO and the Organizational
     Domain Owners are common, there is no additional privacy risk for
@@ -698,10 +698,10 @@ roughly three cases to consider:
 
 * Multi-organization PSDs requiring DMARC usage (e.g., ".bank")
 
-    Reports based on PSD DMARC will only be generated for domains that
-    do not publish a DMARC Policy Record at the organizational or host level.
+    Aggregate reports based on PSD DMARC will only be generated for domains that
+    do not publish a DMARC Policy Record at the Organizational Domain or host level.
     For domains that do publish the required DMARC Policy Records, the
-    feedback reporting addresses of the organization (or
+    feedback reporting addresses of the Organizational Domain (or
     hosts) will be used.  The only direct risk of feedback leakage for
     these PSDs are for Organizational Domains that are out of
     compliance with PSD policy.  Data on non-existent cousin domains
