@@ -82,7 +82,7 @@ Owners with precise insight into:
 
 Aggregate DMARC feedback provides visibility into real-world email
 streams that Domain Owners need in order to make informed decisions 
-regarding the publication of DMARC policy.  When Domain Owners know what
+regarding the publication of a DMARC policy.  When Domain Owners know what
 legitimate mail they are sending, what the authentication results are
 on that mail, and what forged mail receivers are getting, they can
 make better decisions about the policies they need and the steps they
@@ -180,14 +180,14 @@ In the same report, there **MUST** be a single Policy Domain, though there could
 multiple RFC5322.From Domains.  Each RFC5322.From domain will create its own "record" 
 within the report.  Consider the case where there are three domains with traffic 
 volume to report: example.com, foo.example.com, and bar.example.com.  There will be 
-explicit DMARC records for example.com and bar.example.com, with distinct policies.  There 
-is no explicit DMARC record for foo.example.com, so it will be reliant on the 
+explicit DMARC Policy Records for example.com and bar.example.com, with distinct policies.  There 
+is no explicit DMARC Policy Record for foo.example.com, so it will be reliant on the 
 policy described for example.com.  For a report period, there would now be two reports.  
 The first will be for bar.example.com, and contain only one "record", for 
-bar.example.com.  The second report would be for example domain contain multiple 
+bar.example.com.  The second report would be for example.com and contain multiple 
 "record" elements, one for example.com and one for foo.example.com (and extensibly, 
 other "record" elements for subdomains which likewise did not have an explicit
-DMARC policy declared).
+DMARC Policy Record).
 
 ### DKIM Signatures in Aggregate Reports
 
@@ -247,7 +247,7 @@ Possible values for the policy override type:
      PolicyOverrideReason's "comment" field.
 
 "policy_test_mode": The message was exempted from application of policy by
-     the testing mode ("t" tag) in the DMARC policy record.
+     the testing mode ("t" tag) in the DMARC Policy Record.
 
 "trusted_forwarder": Message authentication failure was anticipated by
      other evidence linking the message to a locally maintained list of
@@ -262,7 +262,7 @@ processing reports. This will be covered in a separate section.
 ## Changes in Policy During Reporting Period
 
 Note that Domain Owners or their agents may change the published
-DMARC policy for a domain or subdomain at any time.  From a Mail
+DMARC Policy Record for a domain or subdomain at any time.  From a Mail
 Receiver's perspective, this will occur during a reporting period and
 may be noticed during that period, at the end of that period when
 reports are generated, or during a subsequent reporting period, all
@@ -287,7 +287,7 @@ reports during the propagation of the new policy to Mail Receivers.
 ## Report Request Discovery
 
 A Mail Receiver discovers reporting requests when it looks up a DMARC
-policy record that corresponds to an RFC5322.From domain on received
+Policy Record that corresponds to an RFC5322.From domain on received
 mail.  The presence of the "rua" tag specifies where to send
 feedback.
 
@@ -472,13 +472,13 @@ reports and have them go someplace that is able to receive and
 process them.
 
 Without checks, this would allow a bad actor to publish a DMARC
-policy record that requests that reports be sent to a victim address,
+Policy Record that requests that reports be sent to a victim address,
 and then send a large volume of mail that will fail both DKIM and SPF
 checks to a wide variety of destinations; the victim will in turn be
 flooded with unwanted reports.  Therefore, a verification mechanism
 is included.
 
-When a Mail Receiver discovers a DMARC policy in the DNS, and the
+When a Mail Receiver discovers a DMARC Policy Record in the DNS, and the
 Organizational Domain at which that record was discovered is not
 identical to the Organizational Domain of the host part of the
 authority component of a [@!RFC3986] specified in the "rua" tag,
@@ -514,8 +514,8 @@ the following verification steps **MUST** be taken:
     by the Report Consumer.
 
 8.  If a "rua" tag is thus discovered, replace the
-    corresponding value extracted from the domain's DMARC policy
-    record with the one found in this record.  This permits the
+    corresponding value extracted from the domain's DMARC Policy
+    Record with the one found in this record.  This permits the
     Report Consumer to override the report destination.  However, to
     prevent loops or indirect abuse, the overriding URI **MUST** use the
     same destination host from the first step.
@@ -635,7 +635,7 @@ This section will discuss exposure related to DMARC aggregate reporting.
 
 ## Report Recipients
 
-A DMARC record can specify that reports should be sent to an
+A DMARC Policy Record can specify that reports should be sent to an
 intermediary operating on behalf of the Domain Owner.  This is done
 when the Domain Owner contracts with an entity to monitor mail
 streams for abuse and performance issues.  Receipt by third parties
@@ -695,8 +695,8 @@ roughly three cases to consider:
 * Multi-organization PSDs requiring DMARC usage (e.g., ".bank")
 
     Reports based on PSD DMARC will only be generated for domains that
-    do not publish a DMARC policy at the organizational or host level.
-    For domains that do publish the required DMARC policy records, the
+    do not publish a DMARC Policy Record at the organizational or host level.
+    For domains that do publish the required DMARC Policy Records, the
     feedback reporting addresses of the organization (or
     hosts) will be used.  The only direct risk of feedback leakage for
     these PSDs are for Organizational Domains that are out of
@@ -708,7 +708,7 @@ roughly three cases to consider:
     Privacy risks for Organizational Domains that have not deployed DMARC
     within such PSDs can be significant.  For non-DMARC Organizational
     Domains, all DMARC feedback will be directed to the PSO if that PSO
-    itself has a DMARC record that specifies an RUA.  Any non-DMARC
+    itself has a DMARC Policy Record that specifies an RUA.  Any non-DMARC
     Organizational Domain would have its Feedback Reports redirected to
     the PSO.  The content of such reports, particularly for existing
     domains, is privacy sensitive.
