@@ -692,7 +692,7 @@ roughly three cases to consider:
     Domain Owners are common, there is no additional privacy risk for
     either normal or non-existent domain reporting due to PSD DMARC.
 
-* Multi-organization PSDs that require DMARC usage (e.g., ".bank")
+* Multi-organization PSDs requiring DMARC usage (e.g., ".bank")
 
     Reports based on PSD DMARC will only be generated for domains that
     do not publish a DMARC policy at the organizational or host level.
@@ -703,8 +703,7 @@ roughly three cases to consider:
     compliance with PSD policy.  Data on non-existent cousin domains
     would be sent to the PSO.
 
-* Multi-organization PSDs (e.g., ".com") that do not mandate DMARC
-  usage
+* Multi-organization PSDs not requiring DMARC usage (e.g., ".com")
 
     Privacy risks for Organizational Domains that have not deployed DMARC
     within such PSDs can be significant.  For non-DMARC Organizational
