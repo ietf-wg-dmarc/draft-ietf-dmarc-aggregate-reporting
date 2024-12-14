@@ -704,7 +704,7 @@ roughly three cases to consider:
     feedback reporting addresses of the Organizational Domain (or
     hosts) will be used.  The only direct risk of feedback leakage for
     these PSDs are for Organizational Domains that are out of
-    compliance with PSD policy.  Data on non-existent cousin domains
+    compliance with PSD policy.  Data on non-existent domains
     would be sent to the PSO.
 
 * Multi-organization PSDs not requiring DMARC usage (e.g., ".com")
@@ -719,7 +719,7 @@ roughly three cases to consider:
 
 PSOs will receive feedback on non-existent domains, which may be
 similar to existing Organizational Domains.  Feedback related to such
-cousin domains have a small risk of carrying information related to
+domains have a small risk of carrying information related to
 an actual Organizational Domain.  To minimize this potential concern,
 PSD DMARC feedback **MUST** be limited to Aggregate Reports.  Failure
 Reports carry more detailed information and present a greater risk.
