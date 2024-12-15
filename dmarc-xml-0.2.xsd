@@ -240,14 +240,15 @@
  </xs:restriction>
 </xs:simpleType>
 
-<!-- SPF verification result, see RFC 7208 Section 2.6. -->
+<!-- SPF verification result, see RFC 8601 Section 2.7.2. -->
 <xs:simpleType name="SPFResultType">
  <xs:restriction base="xs:string">
   <xs:enumeration value="none"/>
-  <xs:enumeration value="neutral"/>
   <xs:enumeration value="pass"/>
   <xs:enumeration value="fail"/>
   <xs:enumeration value="softfail"/>
+  <xs:enumeration value="policy"/>
+  <xs:enumeration value="neutral"/>
   <!-- "TempError" commonly implemented as "unknown". -->
   <xs:enumeration value="temperror"/>
   <!-- "PermError" commonly implemented as "error". -->
