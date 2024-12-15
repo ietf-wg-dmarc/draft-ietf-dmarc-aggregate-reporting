@@ -249,9 +249,7 @@
   <xs:enumeration value="softfail"/>
   <xs:enumeration value="policy"/>
   <xs:enumeration value="neutral"/>
-  <!-- "TempError" commonly implemented as "unknown". -->
   <xs:enumeration value="temperror"/>
-  <!-- "PermError" commonly implemented as "error". -->
   <xs:enumeration value="permerror"/>
  </xs:restriction>
 </xs:simpleType>
