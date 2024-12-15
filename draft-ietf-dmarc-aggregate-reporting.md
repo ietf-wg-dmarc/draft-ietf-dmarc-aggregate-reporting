@@ -712,7 +712,7 @@ roughly three cases to consider:
     Privacy risks for Organizational Domains that have not deployed DMARC
     within such PSDs can be significant.  For non-DMARC Organizational
     Domains, all DMARC feedback will be directed to the PSO if that PSO
-    itself has a DMARC Policy Record that specifies an RUA.  Any non-DMARC
+    itself has a DMARC Policy Record that specifies a "rua" tag.  Any non-DMARC
     Organizational Domain would have its Feedback Reports redirected to
     the PSO.  The content of such reports, particularly for existing
     domains, is privacy sensitive.
