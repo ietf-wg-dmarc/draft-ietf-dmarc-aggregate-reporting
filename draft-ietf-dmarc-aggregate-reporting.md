@@ -113,7 +113,9 @@ The report may include the following data:
 *  The counts of messages based on all messages received, even if
    their delivery is ultimately blocked by other filtering agents.
 
-The format for these reports is defined in Appendix A.
+The format for these reports is defined in Appendix A, as well as the possible
+values for some of the elements below.  Most of these values have a definition
+tied to [@!I-D.ietf-dmarc-dmarcbis].
 
 DMARC Aggregate Reports MUST contain two primary sections ("metadata" & "data"
 below) ; one consisting of descriptive information (with two elements), 
@@ -132,7 +134,7 @@ contain "begin" and "end" fields as epoch timestamps. The other element will
 be the "policy_published", which will record the policy configuration observed by 
 the receiving system.  Mandatory fields are "domain", "p", "sp". Optional 
 fields are "fo", "adkim", "aspf", "testing", and "discovery_method".  There 
-MAY be an optional third section, "extension".
+is be an optional third section, "extension".
 
 Within the data section, the report will contain record(s) stating which
 IP addresses were seen to have delivered messages for the Author Domain to the receiving
@@ -170,7 +172,7 @@ the value is one of the results defined in [@!RFC8601] Section 2.7.2.  The
 the results defined in [@!RFC8601] Section 2.7.1. Both the "spf" and "dkim" 
 results may optionally include a "human_readable" field meant for the report 
 to convey more descriptive information back to the Domain Owner relating to
-evaluation failures. There MAY exist an optional section for extensions.
+evaluation failures. There is an optional section for extensions.
 
 ### Handling Domains in Reports
 
@@ -253,7 +255,7 @@ Possible values for the policy override type:
 
 ## Extensions
 
-There MAY be optional sections for extensions within the document.
+The document format supports optional elements for extensions.
 The absence or existence of this section SHOULD NOT create an error when 
 processing reports. This will be covered in a separate section.
 
@@ -718,9 +720,34 @@ Reports carry more detailed information and present a greater risk.
 
 # Security Considerations
 
-* Aggregate reports are supposed to be processed automatically. An attacker might attempt to compromise the integrity or availability of the report processor by sending ill-formed reports. In particular, the archive decompressor and XML parser are at risk to resource exhaustion attacks (zip bomb or XML bomb).
-* The data contained within aggregate reports may be forged. An attacker might attempt to interfere by submitting false reports in masses.
-* See also the security considerations of [dmarc-bis] (Section 11) of [I-D.ietf-dmarc-dmarcbis].
+While reviewing this document and its Security Considerations, it is ideal
+that the reader would also review Privacy Considerations above, as well as
+the Security Considerations and Privacy Considerations in 
+the [I-D.ietf-dmarc-dmarcbis] (Sec 11).
+
+## Report Contents as an Attack
+
+Aggregate reports are supposed to be processed automatically. An attacker 
+might attempt to compromise the integrity or availability of the report 
+processor by sending malformed reports. In particular, the archive 
+decompressor and XML parser are at risk to resource exhaustion 
+attacks (zip bomb or XML bomb).
+
+## False Information
+
+The data contained within aggregate reports may be forged. An attacker might
+attempt to interfere with or influence policy decisions by submitting false 
+reports in large volume. The attacker could also be attempting to influence
+platform architecture decisions. A volume-based attack may also impact the
+ability for a report receiver to accept reports from other entities.
+
+## Disclosure of Filtering Information
+
+While not specified in this document itself, the availability of extensions 
+could enable the report generator to disclose information about message 
+placement (Inbox/Spam/etc).  This is very much discouraged as it could
+relay this information to a malicious party, allowing them to understand
+more about filtering methodologies at a receiving entity.
 
 {backmatter}
 
