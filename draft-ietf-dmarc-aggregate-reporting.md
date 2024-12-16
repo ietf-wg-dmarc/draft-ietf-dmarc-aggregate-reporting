@@ -82,7 +82,7 @@ Owners with precise insight into:
 
 Aggregate DMARC feedback provides visibility into real-world email
 streams that Domain Owners need in order to make informed decisions 
-regarding the publication of DMARC policy.  When Domain Owners know what
+regarding the publication of a DMARC policy.  When Domain Owners know what
 legitimate mail they are sending, what the authentication results are
 on that mail, and what forged mail receivers are getting, they can
 make better decisions about the policies they need and the steps they
@@ -96,7 +96,7 @@ message streams relevant to the Domain Owner.  This information
 includes data about messages that passed DMARC authentication as well
 as those that did not.
 
-A separate report MUST be generated for each Policy Domain encountered 
+A separate report **MUST** be generated for each Policy Domain encountered
 during the reporting period. See below for further explanation in "Handling 
 Domains in Reports".
 
@@ -176,18 +176,18 @@ evaluation failures. There is an optional section for extensions.
 
 ### Handling Domains in Reports
 
-In the same report, there MUST be a single Policy Domain, though there could be 
+In the same report, there **MUST** be a single Policy Domain, though there could be
 multiple RFC5322.From Domains.  Each RFC5322.From domain will create its own "record" 
 within the report.  Consider the case where there are three domains with traffic 
 volume to report: example.com, foo.example.com, and bar.example.com.  There will be 
-explicit DMARC records for example.com and bar.example.com, with distinct policies.  There 
-is no explicit DMARC record for foo.example.com, so it will be reliant on the 
+explicit DMARC Policy Records for example.com and bar.example.com, with distinct policies.  There 
+is no explicit DMARC Policy Record for foo.example.com, so it will be reliant on the 
 policy described for example.com.  For a report period, there would now be two reports.  
 The first will be for bar.example.com, and contain only one "record", for 
-bar.example.com.  The second report would be for example domain contain multiple 
+bar.example.com.  The second report would be for example.com and contain multiple 
 "record" elements, one for example.com and one for foo.example.com (and extensibly, 
 other "record" elements for subdomains which likewise did not have an explicit
-DMARC policy declared).
+DMARC Policy Record).
 
 ### DKIM Signatures in Aggregate Reports
 
@@ -204,7 +204,7 @@ signatures are included.
 3. Any other DKIM signatures that pass
 4. DKIM signatures that do not pass
 
-A report SHOULD contain no more than 100 signatures for a given "row", in 
+A report **SHOULD** contain no more than 100 signatures for a given "row", in 
 decreasing priority.
 
 ### Unique Identifiers in Aggregate Reporting
@@ -212,7 +212,7 @@ decreasing priority.
 There are a few places where a unique identifier is specified as part of the
 body of the report, the subject, and so on.  These unique identifiers should be
 consistent per each report.  Specified below, the reader will see a 
-"Report-ID" and "unique-id".  These are the fields that MUST be identical when used.
+"Report-ID" and "unique-id".  These are the fields that **MUST** be identical when used.
 
 ### Error field
 
@@ -228,7 +228,7 @@ with understanding some issues with their authentication or DMARC declaration.
 ### Policy Override Reason
 
 The reason element, indicating an override of the DMARC policy, consists of a 
-mandatory type field and an optional comment field. The type field MUST have 
+mandatory type field and an optional comment field. The type field **MUST** have
 one of the pre-defined values listed below. The comment field is an unbounded 
 string for providing further details.
 
@@ -247,7 +247,7 @@ Possible values for the policy override type:
      PolicyOverrideReason's "comment" field.
 
 "policy_test_mode": The message was exempted from application of policy by
-     the testing mode ("t" tag) in the DMARC policy record.
+     the testing mode ("t" tag) in the DMARC Policy Record.
 
 "trusted_forwarder": Message authentication failure was anticipated by
      other evidence linking the message to a locally maintained list of
@@ -256,13 +256,13 @@ Possible values for the policy override type:
 ## Extensions
 
 The document format supports optional elements for extensions.
-The absence or existence of this section SHOULD NOT create an error when 
+The absence or existence of this section **SHOULD NOT** create an error when 
 processing reports. This will be covered in a separate section.
 
 ## Changes in Policy During Reporting Period
 
 Note that Domain Owners or their agents may change the published
-DMARC policy for a domain or subdomain at any time.  From a Mail
+DMARC Policy Record for a domain or subdomain at any time.  From a Mail
 Receiver's perspective, this will occur during a reporting period and
 may be noticed during that period, at the end of that period when
 reports are generated, or during a subsequent reporting period, all
@@ -287,35 +287,35 @@ reports during the propagation of the new policy to Mail Receivers.
 ## Report Request Discovery
 
 A Mail Receiver discovers reporting requests when it looks up a DMARC
-policy record that corresponds to an RFC5322.From domain on received
+Policy Record that corresponds to an RFC5322.From domain on received
 mail.  The presence of the "rua" tag specifies where to send
 feedback.
 
 ## Transport
 
-The Mail Receiver, after preparing a report, MUST evaluate the
+The Mail Receiver, after preparing a report, **MUST** evaluate the
 provided reporting URIs (See [@!I-D.ietf-dmarc-dmarcbis]) in the order 
 given.  Any reporting URI that includes a size limitation exceeded by 
 the generated report (after compression and after any encoding required 
-by the particular transport mechanism) MUST NOT be used.  An attempt 
-MUST be made to deliver an aggregate report to every remaining URI, up 
+by the particular transport mechanism) **MUST NOT** be used.  An attempt
+**MUST** be made to deliver an aggregate report to every remaining URI, up
 to the Receiver's limits on supported URIs.
 
 If transport is not possible because the services advertised by the
 published URIs are not able to accept reports (e.g., the URI refers
 to a service that is unreachable, or all provided URIs specify size
-limits exceeded by the generated record), the Mail Receiver MAY 
+limits exceeded by the generated record), the Mail Receiver **MAY** 
 send a short report indicating that a report is available but could 
-not be sent.  The Mail Receiver MAY cache that data and try again 
-later, or MAY discard data that could not be sent.
+not be sent.  The Mail Receiver **MAY** cache that data and try again 
+later, or **MAY** discard data that could not be sent.
 
 Where the URI specified in a "rua" tag does not specify otherwise, a
-Mail Receiver generating a feedback report SHOULD employ a secure
+Mail Receiver generating a feedback report **SHOULD** employ a secure
 transport mechanism.
 
 ### Definition of Report-ID
 
-This identifier MUST be unique among reports to the same domain to 
+This identifier **MUST** be unique among reports to the same domain to
 aid receivers in identifying duplicate reports should they happen.
 
 ~~~
@@ -328,21 +328,21 @@ The format specified here is not very strict as the key goal is uniqueness.
 
 ### Email
 
-The message generated by the Mail Receiver MUST be a [@!RFC5322] message
-formatted per [@!RFC2045].  The aggregate report itself MUST be included
+The message generated by the Mail Receiver **MUST** be a [@!RFC5322] message
+formatted per [@!RFC2045].  The aggregate report itself **MUST** be included
 in one of the parts of the message, as an attachment with a corresponding
-media type from below.  A human-readable annotation MAY be included as a body 
+media type from below.  A human-readable annotation **MAY** be included as a body 
 part (with a human-friendly content-type, such as "text/plain" or 
 "text/html").
 
-The aggregate data MUST be an XML file that SHOULD be subjected to
+The aggregate data **MUST** be an XML file that **SHOULD** be subjected to
 GZIP [@!RFC1952] compression.  Declining to apply compression can cause the
 report to be too large for a receiver to process (the total message size
 could exceed the receiver SMTP size limit); doing the compression increases 
 the chances of acceptance of the report at some compute cost.  The
-aggregate data MUST be present using the media type "application/gzip" if 
+aggregate data **MUST** be present using the media type "application/gzip" if
 compressed (see [@!RFC6713]), and "text/xml" otherwise.  The attachment
-filename MUST be constructed using the following ABNF:
+filename **MUST** be constructed using the following ABNF:
 
 ~~~
   filename = receiver "!" policy-domain "!" begin-timestamp
@@ -368,7 +368,7 @@ filename MUST be constructed using the following ABNF:
   extension = "xml" / "xml.gz"
 ~~~
 
-The extension MUST be "xml" for a plain XML file, or "xml.gz" for an
+The extension **MUST** be "xml" for a plain XML file, or "xml.gz" for an
 XML file compressed using GZIP.
 
 "unique-id" allows an optional unique ID generated by the Mail
@@ -376,7 +376,7 @@ Receiver to distinguish among multiple reports generated
 simultaneously by different sources within the same Domain Owner.  A
 viable option may be to explore UUIDs [@?RFC9562].
 
-If a report generator needs to re-send a report, the system MUST
+If a report generator needs to re-send a report, the system **MUST**
 use the same filename as the original report.  This would
 allow the receiver to overwrite the data from the original, or discard
 second instance of the report.
@@ -392,12 +392,12 @@ the aggregate reporting address will be equipped to extract body
 parts with the prescribed media type and filename and ignore the
 rest.
 
-Email streams carrying DMARC feedback data MUST conform to the DMARC
+Email streams carrying DMARC feedback data **MUST** conform to the DMARC
 mechanism, thereby resulting in an aligned "pass" (see Section 3.1).
 This practice minimizes the risk of Report Consumers processing
 fraudulent reports.
 
-The RFC5322.Subject field for individual report submissions MUST
+The RFC5322.Subject field for individual report submissions **MUST**
 conform to the following ABNF:
 
 ~~~
@@ -429,7 +429,7 @@ This transport mechanism potentially encounters a problem when
 feedback data size exceeds maximum allowable attachment sizes for
 either the generator or the consumer. 
 
-Optionally, the report sender MAY choose to use the same "ridtxt"
+Optionally, the report sender **MAY** choose to use the same "ridtxt"
 as a part or whole of the RFC5322.Message-Id header included with the report.
 Doing so may help receivers distinguish when a message is a re-transmission
 or duplicate report.
@@ -445,7 +445,7 @@ There may be a situation where the report generator attempts to deliver
 duplicate information to the receiver.  This may manifest as an exact
 duplicate of the report, or as duplicate information between two reports.
 In these situations, the decision of how to handle the duplicate data
-lies with the receiver.  As noted above, the sender MUST use the same
+lies with the receiver.  As noted above, the sender **MUST** use the same
 unique identifiers when sending the report.  This allows the receiver to
 better understand when duplicates happen.  A few options on how to 
 handle that duplicate information:
@@ -472,17 +472,17 @@ reports and have them go someplace that is able to receive and
 process them.
 
 Without checks, this would allow a bad actor to publish a DMARC
-policy record that requests that reports be sent to a victim address,
+Policy Record that requests that reports be sent to a victim address,
 and then send a large volume of mail that will fail both DKIM and SPF
 checks to a wide variety of destinations; the victim will in turn be
 flooded with unwanted reports.  Therefore, a verification mechanism
 is included.
 
-When a Mail Receiver discovers a DMARC policy in the DNS, and the
+When a Mail Receiver discovers a DMARC Policy Record in the DNS, and the
 Organizational Domain at which that record was discovered is not
 identical to the Organizational Domain of the host part of the
 authority component of a [@!RFC3986] specified in the "rua" tag,
-the following verification steps MUST be taken:
+the following verification steps **MUST** be taken:
 
 1.  Extract the host portion of the authority component of the URI.
     Call this the "destination host", as it refers to a Report
@@ -493,35 +493,39 @@ the following verification steps MUST be taken:
 3.  Prepend the domain name from which the policy was retrieved,
     after conversion to an A-label [@!RFC5890] if needed.
 
-4.  Query the DNS for a TXT record at the constructed name.  If the
+4.  If the length of the constructed name exceed DNS limits,
+    a positive determination of the external reporting
+    relationship cannot be made; stop.
+
+5.  Query the DNS for a TXT record at the constructed name.  If the
     result of this request is a temporary DNS error of some kind
-    (e.g., a timeout), the Mail Receiver MAY elect to temporarily
+    (e.g., a timeout), the Mail Receiver **MAY** elect to temporarily
     fail the delivery so the verification test can be repeated later.
 
-5.  For each record returned, parse the result as a series of
+6.  For each record returned, parse the result as a series of
     "tag=value" pairs, i.e., the same overall format as the policy
     record (see Section 5.4 in [@!I-D.ietf-dmarc-dmarcbis]).  In 
-    particular, the "v=DMARC1" tag is mandatory and MUST appear 
+    particular, the "v=DMARC1" tag is mandatory and **MUST** appear
     first in the list.  Discard any that do not pass this test. A
     trailing ";" is optional.
 
-6.  If the result includes no TXT resource records that pass basic
+7.  If the result includes no TXT resource records that pass basic
     parsing, a positive determination of the external reporting
     relationship cannot be made; stop.
 
-7.  If at least one TXT resource record remains in the set after
+8.  If at least one TXT resource record remains in the set after
     parsing, then the external reporting arrangement was authorized
     by the Report Consumer.
 
-8.  If a "rua" tag is thus discovered, replace the
-    corresponding value extracted from the domain's DMARC policy
-    record with the one found in this record.  This permits the
+9.  If a "rua" tag is thus discovered, replace the
+    corresponding value extracted from the domain's DMARC Policy
+    Record with the one found in this record.  This permits the
     Report Consumer to override the report destination.  However, to
-    prevent loops or indirect abuse, the overriding URI MUST use the
+    prevent loops or indirect abuse, the overriding URI **MUST** use the
     same destination host from the first step.
 
-For example, if a DMARC policy query for "blue.example.com" contained
-"rua=mailto:reports@red.example.net", the Organizational Domain host 
+For example, if the DMARC Policy Record for "blue.example.com" contained
+`"rua=mailto:reports@red.example.net"`, the Organizational Domain host
 extracted from the latter ("red.example.net") does not match 
 "blue.example.com", so this procedure is enacted.  A TXT query for
 "blue.example.com._report._dmarc.red.example.net" is issued.  If a
@@ -531,11 +535,11 @@ relationship between the two is confirmed.  Moreover,
 destination requested by "blue.example.com" if needed.
 
 Where the above algorithm fails to confirm that the external
-reporting was authorized by the Report Consumer, the URI MUST be
+reporting was authorized by the Report Consumer, the URI **MUST** be
 ignored by the Mail Receiver generating the report.  Further, if the
 confirming record includes a URI whose host is again different than
 the domain publishing that override, the Mail Receiver generating the
-report MUST NOT generate a report to either the original or the
+report **MUST NOT** generate a report to either the original or the
 override URI.
 A Report Consumer publishes such a record in its DNS if it wishes to
 receive reports for other domains.
@@ -555,11 +559,11 @@ go into effect.
 
 DMARC reports allow for some extensibility, as defined by future
 documents that utilize DMARC as a foundation.  These extensions
-MUST be properly formatted XML and meant to exist within the structure
+**MUST** be properly formatted XML and meant to exist within the structure
 of a DMARC report.  Two positions of type "<any>" are provided in the
 existing DMARC structure, one at file level, in an "<extension>" element
 after "<policy_published>" and one at record level, after "<auth_results>".
-In either case, the extensions MUST contain a URI to the definition of
+In either case, the extensions **MUST** contain a URI to the definition of
 the extension so that the receiver understands how to interpret the data.
 
 At file level:
@@ -602,7 +606,7 @@ Here "arc-override" and "arc-results" are hypothetical element names
 defined in the extension's name space.
 
 Extension elements are optional.  Any number of extensions is allowed.
-If a processor is unable to handle an extension in a report, it SHOULD
+If a processor is unable to handle an extension in a report, it **SHOULD**
 ignore the data and continue to the next extension.
 
 
@@ -635,7 +639,7 @@ This section will discuss exposure related to DMARC aggregate reporting.
 
 ## Report Recipients
 
-A DMARC record can specify that reports should be sent to an
+A DMARC Policy Record can specify that reports should be sent to an
 intermediary operating on behalf of the Domain Owner.  This is done
 when the Domain Owner contracts with an entity to monitor mail
 streams for abuse and performance issues.  Receipt by third parties
@@ -678,44 +682,46 @@ external processor.
 
 ## Feedback Leakage {#leakage}
 
-Providing feedback reporting to PSOs for a PSD [@?RFC9091] can, in 
+Providing feedback reporting to PSOs for a PSD [@?I-D.ietf-dmarc-dmarcbis] can, in 
 some cases, cause information to leak out of an organization to 
 the PSO.  This leakage could potentially be utilized as part of a 
 program of pervasive surveillance (see [@?RFC7624]]).  There are 
 roughly three cases to consider:
 
-Single Organization PSDs (e.g., ".mil"):
-:  RUA reports based on PSD DMARC have the potential to
-   contain information about emails related to entities managed by
-   the organization.  Since both the PSO and the Organizational
-   Domain Owners are common, there is no additional privacy risk for
-   either normal or non-existent domain reporting due to PSD DMARC.
+* Single Organization PSDs (e.g., ".mil")
 
-Multi-organization PSDs that require DMARC usage (e.g., ".bank"):
-:  Reports based on PSD DMARC will only be generated for domains that
-   do not publish a DMARC policy at the organizational or host level.
-   For domains that do publish the required DMARC policy records, the
-   feedback reporting addresses of the organization (or
-   hosts) will be used.  The only direct risk of feedback leakage for
-   these PSDs are for Organizational Domains that are out of
-   compliance with PSD policy.  Data on non-existent cousin domains
-   would be sent to the PSO.
+    Aggregate reports based on PSD DMARC have the potential to
+    contain information about emails related to entities managed by
+    the organization.  Since both the PSO and the Organizational
+    Domain Owners are common, there is no additional privacy risk for
+    either normal or non-existent domain reporting due to PSD DMARC.
 
-Multi-organization PSDs (e.g., ".com") that do not mandate DMARC
-usage:
-:  Privacy risks for Organizational Domains that have not deployed DMARC 
-   within such PSDs can be significant.  For non-DMARC Organizational 
-   Domains, all DMARC feedback will be directed to the PSO if that PSO 
-   itself has a DMARC record that specifies an RUA.  Any non-DMARC 
-   Organizational Domain would have its Feedback Reports redirected to 
-   the PSO.  The content of such reports, particularly for existing 
-   domains, is privacy sensitive.
+* Multi-organization PSDs requiring DMARC usage (e.g., ".bank")
+
+    Aggregate reports based on PSD DMARC will only be generated for domains that
+    do not publish a DMARC Policy Record at the Organizational Domain or host level.
+    For domains that do publish the required DMARC Policy Records, the
+    feedback reporting addresses of the Organizational Domain (or
+    hosts) will be used.  The only direct risk of feedback leakage for
+    these PSDs are for Organizational Domains that are out of
+    compliance with PSD policy.  Data on non-existent domains
+    would be sent to the PSO.
+
+* Multi-organization PSDs not requiring DMARC usage (e.g., ".com")
+
+    Privacy risks for Organizational Domains that have not deployed DMARC
+    within such PSDs can be significant.  For non-DMARC Organizational
+    Domains, all DMARC feedback will be directed to the PSO if that PSO
+    itself has a DMARC Policy Record that specifies a "rua" tag.  Any non-DMARC
+    Organizational Domain would have its Feedback Reports redirected to
+    the PSO.  The content of such reports, particularly for existing
+    domains, is privacy sensitive.
 
 PSOs will receive feedback on non-existent domains, which may be
 similar to existing Organizational Domains.  Feedback related to such
-cousin domains have a small risk of carrying information related to
+domains have a small risk of carrying information related to
 an actual Organizational Domain.  To minimize this potential concern,
-PSD DMARC feedback MUST be limited to Aggregate Reports.  Failure 
+PSD DMARC feedback **MUST** be limited to Aggregate Reports.  Failure
 Reports carry more detailed information and present a greater risk.
 
 # Security Considerations

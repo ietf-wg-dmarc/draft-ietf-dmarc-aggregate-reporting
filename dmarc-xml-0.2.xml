@@ -9,6 +9,7 @@
       <begin>302832000</begin>
       <end>302918399</end>
     </date_range>
+    <generator>Example DMARC Aggregate Reporter v1.2</generator>
   </report_metadata>
   <policy_published>
     <domain>example.com</domain>
