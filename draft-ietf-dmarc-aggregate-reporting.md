@@ -120,11 +120,7 @@ tied to [@!I-D.ietf-dmarc-dmarcbis].
 DMARC Aggregate Reports MUST contain two primary sections ("metadata" & "data"
 below) ; one consisting of descriptive information (with two elements), 
 and the other a set of IP address-focused row-based data.  Each report MUST 
-contain data for only one Policy Domain. A single report MUST contain data 
-for one policy configuration.  If multiple configurations were observed 
-during a single reporting period, a reporting entity MAY choose to send 
-multiple reports, otherwise the reporting entity SHOULD note only the final 
-configuration observed during the period. See below for further information.
+contain data for only one Policy Domain.
 
 The informative section MUST contain two elements.  One will be the metadata 
 section which MUST contain the fields related to "org_name", "email",
@@ -276,6 +272,8 @@ following:
    single "policy_published" element;
 *  generate multiple reports for the same period, one for each
    published policy occurring during the reporting period;
+*  generate a report whose end time occurs when the updated policy was 
+   detected, regardless of reporting intervals.
 
 Such policy changes are expected to be infrequent for any given
 domain, whereas more stringent policy monitoring requirements on the
