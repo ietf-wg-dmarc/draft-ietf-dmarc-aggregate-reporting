@@ -411,6 +411,293 @@ in order: "version", "report_metadata", "policy_published",
 
         These elements **MUST** be namespaced.
 
+### Description of the content XML file
+
+The format for these reports is defined in the XML Schema Definition
+(XSD) in (#xsd). The XSD includes the possible
+values for some of the elements below.  Most of these values have a definition
+tied to [@!I-D.ietf-dmarc-dmarcbis].
+
+The format is also described in the following sections.  Each section
+describes a collection of sibling elements in the XML hierarchy.
+There are pointers to where in the hierarchy each table fits.
+
+The column "#" specifies how many times an element may appear, this
+is sometimes referred to as multiplicity. The possible values are:
+
+O:
+:   **OPTIONAL**, zero or one element
+
+R:
+:   **REQUIRED**, exactly one element
+
+*:
+:   **OPTIONAL**, zero or more elements
+
++:
+:   **REQUIRED**, one or more elements
+
+
+#### XML root element
+
+DMARC Aggregate Feedback Reports have the root element "feedback"
+with its XML namespace set to the DMARC namespace.
+
+{align="left"}
+Element name      | # | Content
+------------------|---|--------------
+feedback          | R | First level elements, see (#xml-first-level)
+Table: The XML root element.
+
+
+#### First Level Elements {#xml-first-level}
+
+The elements in this table **MUST** appear in the order listed.
+
+{align="left"}
+Element name      | # | Content
+------------------|---|--------------
+version           | O | **MUST** have the value 1.0.
+report_metadata   | R | Report generator metadata, see (#xml-report-metadata).
+policy_published  | R | The DMARC policy configuration observed by the receiving system, see (#xml-policy-published).
+extension         | O | Allows for future extensibility, see (#xml-extension)
+record            | + | Record(s) of the feedback from the report generator, see (#xml-record).
+Table: First level elements of the Aggregate Feedback Report.
+
+There **MUST** be at least one "record" element, they contain data
+stating which IP addresses were seen to have delivered messages for
+the Author Domain to the receiving system.  For each IP address that
+is being reported, there will be at least one "record" element.
+
+
+#### Report generator metadata {#xml-report-metadata}
+
+{align="left"}
+Element name      | # | Content
+------------------|---|--------------
+org_name          | R | Name of the Reporting Organization.
+email             | R | Contact to use when contacting the Reporting Organization.
+extra_contact_info| O | Additional contact details.
+report_id         | R | Unique Report-ID, see (#report-id).
+date_range        | R | The reporting period, see (#xml-date-range).
+error             | O | Error messages encountered when processing the DMARC Policy Record, see (#error).
+generator         | O | The name and version of the report generator; this can help the Report Consumer find out where to report bugs.
+Table: Report generator metadata
+
+
+#### Contents of the "date_range" element {#xml-date-range}
+
+The time range in UTC defining the reporting period of this report.
+
+{align="left"}
+Element name      | # | Content
+------------------|---|--------------
+begin             | R | Start of the reporting period.
+end               | R | End of the reporting period.
+Table: Contents of the "date_range" element
+
+* "begin" and "end" contain the number of seconds since epoch.
+
+
+#### Contents of the "policy_published" element {#xml-policy-published}
+
+Information on the DMARC Policy Record published for the Author Domain.
+The elements from "p" and onwards contain the discovered or default
+value for the DMARC policy applied.
+
+Unspecified tags have their default values.
+
+{align="left"}
+Element name      | # | Content
+------------------|---|--------------
+domain            | R | The DMARC Policy Domain.
+discovery_method  | O | The method used to discover the DMARC Policy Record used during evaluation.
+p                 | R | A Domain Owner Assessment Policy.
+sp                | O | A Domain Owner Assessment Policy.
+np                | O | A Domain Owner Assessment Policy.
+fo                | O | The value for the failure reporting options.
+adkim             | O | The DKIM Identifier Alignment mode.
+aspf              | O | The SPF Identifier Alignment mode.
+testing           | O | The value of the "t" tag.
+Table: Contents of the "policy_published" element
+
+* "discovery_method" can have the value "psl" or "treewalk", where
+  "psl" is the method from [@?RFC7489] and "treewalk" is described
+  in [@!I-D.ietf-dmarc-dmarcbis].
+
+
+#### Contents of the "extension" element {#xml-extension}
+
+Use of extensions may cause elements to be added here.
+These elements **MUST** be namespaced.
+
+{align="left"}
+Element name             | # | Content
+-------------------------|---|--------------
+<any namespaced element> | * | File level elements defined by an extension.
+Table: Contents of the "extension" element
+
+* "<any namespaced element>"
+
+    Zero or more elements in the namespace of the related
+    extension declared in the XML root element.
+
+
+#### Contents of the "record" element {#xml-record}
+
+The report **MUST** contain record(s) stating which IP addresses were
+seen to have delivered messages for the Author Domain to the
+receiving system.  For each IP address that is being reported,
+there will be at least one "record" element.
+
+This element contains all the authentication results that were
+evaluated by the receiving system for the given set of messages.
+
+An unlimited number of "record" elements may be specified.
+
+Use of extensions may cause other elements to be added to the end of
+the record, such elements **MUST** be namespaced.
+
+One record per (IP, result, IDs Auths) tuples.
+
+The elements in this table **MUST** appear in the order listed.
+
+{align="left"}
+Element name             | # | Content
+-------------------------|---|--------------
+row                      | R | See (#xml-row).
+identifiers              | R | The data that was used to apply policy for the given "row", see (#xml-identifiers).
+auth_results             | R | The data related to authenticating the messages associated with this sending IP address, see (#xml-auth-results).
+<any namespaced element> | * | Record level elements defined by an extension.
+Table: Contents of the "record" element
+
+* "<any namespaced element>"
+
+    Zero or more elements in the namespace of the related
+    extension declared in the XML root element.
+
+
+#### Contents of the "row" element {#xml-row}
+
+A "row" element contains the details of the connecting system, and
+how many e-mails was received from it, for the particular combination
+of the policy evaluated.
+
+{align="left"}
+Element name      | # | Content
+------------------|---|--------------
+source_ip         | R | The connecting IP. IPv4address or IPv6address as defined in [@RFC3986, section 3.2.2]
+count             | R | Number of messages for which the "policy_evaluated" was applied.
+policy_evaluated  | R | The DMARC disposition applied to matching messages, see (#xml-policy-evaluated).
+Table: Contents of the "row" element
+
+
+#### Contents of the "policy_evaluated" element {#xml-policy-evaluated}
+
+The results of applying the DMARC policy.  If alignment fails and the
+policy applied does not match the Policy Domain's configured policy,
+the "reason" element **MUST** be included.
+
+The elements in this table **MUST** appear in the order listed.
+
+{align="left"}
+Element name      | # | Content
+------------------|---|--------------
+disposition       | R | The result of applying the DMARC policy.
+dkim              | R | The result of the DKIM DMARC Identifier alignment test.
+spf               | R | The result of the SPF DMARC Identifier alignment test.
+reason            | * | Policy override reason, see (#xml-reason).
+Table: Contents of the "policy_evaluated" element
+
+* "spf" and "dkim" **MUST** be the evaluated values as they relate to
+  DMARC, not the values the receiver may have used when overriding the
+  policy.
+
+* "reason" elements are meant to include any notes the reporter might
+  want to include as to why the "disposition" policy does not match the
+  "policy_published", such as a local policy override.
+
+#### Contents of the "identifiers" element {#xml-identifiers}
+
+{align="left"}
+Element name      | # | Content
+------------------|---|--------------
+header_from       | R | The RFC5322.From domain from the message.
+envelope_from     | O | The RFC5321.MailFrom domain that the SPF check has been applied to.
+envelope_to       | O | The RFC5321.RcptTo domain from the message.
+Table: Contents of the "identifiers" element
+
+* "envelope_from" **MAY** be existing but empty if the message had a
+  null reverse-path (see [@!RFC5321, section 4.5.5)].
+
+
+#### Contents of the "auth_results" element {#xml-auth-results}
+
+Contains DKIM and SPF results, uninterpreted with respect to DMARC.
+
+If validation is attempted for any DKIM signature, the results
+**MUST** be included in the report (within reason, see ["DKIM
+Signatures in Aggregate Reports"](#dkim-signatures) below for
+handling numerous signatures).
+
+The elements in this table **MUST** appear in the order listed.
+
+{align="left"}
+Element name      | # | Content
+------------------|---|--------------
+dkim              | * | DKIM authentication result, see (#xml-dkim).
+spf               | O | SPF authentication result, see (#xml-spf).
+Table: Contents of the "auth_results" element
+
+
+#### Contents of the "dkim" element {#xml-dkim}
+
+{align="left"}
+Element name      | # | Content
+------------------|---|--------------
+domain            | R | The domain that was used during validation (the "d=" tag in the signature).
+selector          | R | The selector that was used during validation (the "s=" tag in the signature).
+result            | R | DKIM verification result, see below.
+human_result      | O | More descriptive information to the Domain Owner relating to evaluation failures.
+Table: Contents of the "dkim" element
+
+* "result" is a lower-case string where the value is one of the results
+  defined in [@!RFC8601, section 2.7.1].
+
+
+#### Contents of the "spf" element {#xml-spf}
+
+Only the "MAIL FROM" identity (see [@!RFC7208, section 2.4])
+is used in DMARC.
+
+{align="left"}
+Element name      | # | Content
+------------------|---|--------------
+domain            | R | The domain that was used during validation.
+scope             | O | The source of the domain used during validation.
+result            | R | SPF verification result, see below.
+human_result      | O | More descriptive information to the Domain Owner relating to evaluation failures.
+Table: Contents of the "spf" element
+
+* "scope" **MUST** contain "mfrom", the only valid value.
+
+* "result" is a lower-case string where the value is one of the results
+  defined in [@!RFC8601, section 2.7.2].
+
+
+#### Contents of the "reason" element {#xml-reason}
+
+The policy override reason consists of a pre-defined override type
+and free-text comment, see (#policy-override-reason)
+
+{align="left"}
+Element name      | # | Content
+------------------|---|--------------
+type              | R | The reason the DMARC policy was overridden
+comment           | O | Further details, if available.
+Table: Contents of the "reason" element
+
+
 ### Handling Domains in Reports
 
 In the same report, there **MUST** be a single Policy Domain, though there could be
