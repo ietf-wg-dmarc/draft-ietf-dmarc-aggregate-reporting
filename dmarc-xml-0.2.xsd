@@ -166,9 +166,12 @@
      configured policy, the reason element MUST be specified -->
 <xs:complexType name="PolicyEvaluatedType">
  <xs:sequence>
-  <xs:element name="disposition" type="ActionDispositionType"/>
-  <xs:element name="dkim" type="DMARCResultType"/>
-  <xs:element name="spf" type="DMARCResultType"/>
+  <xs:element name="disposition" type="ActionDispositionType"
+        minOccurs="1" maxOccurs="1"/>
+  <xs:element name="dkim" type="DMARCResultType"
+        minOccurs="1" maxOccurs="1"/>
+  <xs:element name="spf" type="DMARCResultType"
+        minOccurs="1" maxOccurs="1"/>
   <xs:element name="reason" type="PolicyOverrideReason"
         minOccurs="0" maxOccurs="unbounded"/>
  </xs:sequence>
