@@ -107,7 +107,7 @@ The report may include the following data:
 *  The identifier evaluated by SPF and the SPF result, if any
 *  The identifier evaluated by DKIM and the DKIM result, if any
 *  For both DKIM and SPF, an indication of whether the identifier was
-   in DMARC alignment (see [I-D.ietf-dmarc-dmarcbis], Section 3.2.7)
+   in DMARC alignment (see [@I-D.ietf-dmarc-dmarcbis, section 3.2.7])
 *  Sending and receiving domains
 *  The number of successful authentications
 *  The counts of messages based on all messages received, even if
@@ -505,7 +505,7 @@ the following verification steps **MUST** be taken:
 
 6.  For each record returned, parse the result as a series of
     "tag=value" pairs, i.e., the same overall format as the policy
-    record (see Section 5.4 in [@!I-D.ietf-dmarc-dmarcbis]).  In 
+    record (see [@!I-D.ietf-dmarc-dmarcbis, section 5.4]).  In 
     particular, the "v=DMARC1" tag is mandatory and **MUST** appear
     first in the list.  Discard any that do not pass this test. A
     trailing ";" is optional.
