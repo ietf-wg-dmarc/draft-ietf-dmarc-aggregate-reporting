@@ -729,8 +729,9 @@ Reports carry more detailed information and present a greater risk.
 
 While reviewing this document and its Security Considerations, it is ideal
 that the reader would also review Privacy Considerations above, as well as
-the Security Considerations and Privacy Considerations in 
-the [I-D.ietf-dmarc-dmarcbis] (Sec 11).
+the Privacy Considerations and Security Considerations in section
+[@I-D.ietf-dmarc-dmarcbis, 9] and [@I-D.ietf-dmarc-dmarcbis, 10] of
+[@I-D.ietf-dmarc-dmarcbis].
 
 ## Report Contents as an Attack
 
