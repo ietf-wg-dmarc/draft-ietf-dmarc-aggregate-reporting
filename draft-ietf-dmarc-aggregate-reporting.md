@@ -227,10 +227,10 @@ with understanding some issues with their authentication or DMARC Policy Record.
 
 ### Policy Override Reason
 
-The reason element, indicating an override of the DMARC policy, consists of a 
-mandatory type field and an optional comment field. The type field **MUST** have
-one of the pre-defined values listed below. The comment field is an unbounded 
-string for providing further details.
+The "reason" element, indicating an override of the DMARC policy, consists of a 
+mandatory "type" element and an optional "comment" element. The "type" element
+**MUST** have one of the pre-defined values listed below. The "comment" element
+is an unbounded string for providing further details.
 
 Possible values for the policy override type:
 
@@ -244,7 +244,7 @@ Possible values for the policy override type:
 
 "other": Some policy exception not covered by the other entries in
      this list occurred.  Additional detail can be found in the
-     PolicyOverrideReason's "comment" field.
+     "comment" element.
 
 "policy_test_mode": The message was exempted from application of policy by
      the testing mode ("t" tag) in the DMARC Policy Record.
