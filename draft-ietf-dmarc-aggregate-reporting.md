@@ -218,12 +218,12 @@ consistent per each report.  Specified below, the reader will see a
 
 A few examples of information contained within the error field(s):
 
-* DMARC DNS record evaluation errors (invalid rua or sp, etc.)
-* Multiple DMARC records at a given location
+* DMARC Policy Record evaluation errors (invalid "rua" or "sp", etc.)
+* Multiple DMARC Policy Records at a given location
 
 Be mindful that the error field is an unbounded string, but should not contain
 an extremely large body.  Provide enough information to assist the domain owner
-with understanding some issues with their authentication or DMARC declaration.
+with understanding some issues with their authentication or DMARC Policy Record.
 
 ### Policy Override Reason
 
