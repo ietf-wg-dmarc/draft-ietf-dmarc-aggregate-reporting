@@ -214,14 +214,14 @@ body of the report, the subject, and so on.  These unique identifiers should be
 consistent per each report.  Specified below, the reader will see a 
 "Report-ID" and "unique-id".  These are the fields that **MUST** be identical when used.
 
-### Error field
+### Error element
 
-A few examples of information contained within the error field(s):
+A few examples of information contained within the "error" element(s):
 
 * DMARC Policy Record evaluation errors (invalid "rua" or "sp", etc.)
 * Multiple DMARC Policy Records at a given location
 
-Be mindful that the error field is an unbounded string, but should not contain
+Be mindful that the "error" element is an unbounded string, but should not contain
 an extremely large body.  Provide enough information to assist the Domain Owner
 with understanding some issues with their authentication or DMARC Policy Record.
 
