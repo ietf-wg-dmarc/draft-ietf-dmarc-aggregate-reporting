@@ -76,10 +76,10 @@
  </xs:restriction>
 </xs:simpleType>
 
-<!-- The methods used to discovery the policy used during
+<!-- The method used to discover the DMARC Policy Record used during
      evaluation.  The available values are "psl" and "treewalk",
      where "psl" is the method from [@?RFC7489] and the "treewalk"
-     is described in [@?RefNeeded]. -->
+     is described in [@I-D.ietf-dmarc-dmarcbis]. -->
 <xs:simpleType name="DiscoveryType">
  <xs:restriction base="xs:string">
   <xs:enumeration value="psl"/>
