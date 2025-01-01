@@ -243,6 +243,10 @@ in order: "version", "report_metadata", "policy_published",
 
     One record per (IP, result, IDs Auths) tuples.
 
+    Contains, in order: "row", "identifiers", "auth_results".  Use of
+    extensions may cause other elements to be added to the end of the
+    record.
+
     1. "row": **REQUIRED**
 
         The details of the connecting system, and how many e-mails
@@ -264,6 +268,9 @@ in order: "version", "report_metadata", "policy_published",
             fails and the policy applied does not match the Policy
             Domain's configured policy, the "reason" element **MUST**
             be included.
+
+            Contains three elements, in order: "disposition", "dkim",
+            and "spf", then zero or more "reason" elements.
 
             1. "disposition": **REQUIRED**
 
@@ -319,6 +326,9 @@ in order: "version", "report_metadata", "policy_published",
 
         This element contains DKIM and SPF results,
         uninterpreted with respect to DMARC.
+
+        Contains, in order, an optional unlimited number of "dkim" elements,
+        then an optional "spf" element.
 
         1. "dkim": **OPTIONAL**
 
