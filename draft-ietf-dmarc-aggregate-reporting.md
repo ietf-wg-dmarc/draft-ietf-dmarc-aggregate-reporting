@@ -189,7 +189,7 @@ bar.example.com.  The second report would be for example.com and contain multipl
 other "record" elements for subdomains which likewise did not have an explicit
 DMARC Policy Record).
 
-### DKIM Signatures in Aggregate Reports
+### DKIM Signatures in Aggregate Reports {#dkim-signatures}
 
 Within a single message, the possibility exists that there could be multiple DKIM
 signatures. When validation of the message occurs, some signatures may pass,
@@ -214,7 +214,7 @@ body of the report, the subject, and so on.  These unique identifiers should be
 consistent per each report.  Specified below, the reader will see a 
 "Report-ID" and "unique-id".  These are the fields that **MUST** be identical when used.
 
-### Error element
+### Error element {#error}
 
 A few examples of information contained within the "error" element(s):
 
@@ -225,7 +225,7 @@ Be mindful that the "error" element is an unbounded string, but should not conta
 an extremely large body.  Provide enough information to assist the Domain Owner
 with understanding some issues with their authentication or DMARC Policy Record.
 
-### Policy Override Reason
+### Policy Override Reason {#policy-override-reason}
 
 The "reason" element, indicating an override of the DMARC policy, consists of a 
 mandatory "type" element and an optional "comment" element. The "type" element
@@ -313,7 +313,7 @@ Where the URI specified in a "rua" tag does not specify otherwise, a
 Mail Receiver generating a feedback report **SHOULD** employ a secure
 transport mechanism.
 
-### Definition of Report-ID
+### Definition of Report-ID {#report-id}
 
 This identifier **MUST** be unique among reports to the same domain to
 aid receivers in identifying duplicate reports should they happen.
