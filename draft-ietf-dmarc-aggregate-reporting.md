@@ -130,6 +130,13 @@ DMARC Aggregate Reports MUST contain two primary sections ("metadata" & "data"
 below) ; one consisting of descriptive information (with two elements),
 and the other a set of IP address-focused row-based data.
 
+DMARC Aggregate Feedback Reports have the root element "feedback"
+with its XML namespace set to the DMARC namespace.
+
+The XML root element contains up to 5 different types of elements,
+in order: "version", "report_metadata", "policy_published",
+"extension", then one or more "record" elements.
+
 1. "version": **OPTIONAL**
 
     **MUST** have the value 1.0.
@@ -154,6 +161,11 @@ and the other a set of IP address-focused row-based data.
 
     * "error": **OPTIONAL**
 
+    * "generator": **OPTIONAL**
+
+        The name and version of the report generator; this can help
+        the Report Consumer find out where to report bugs.
+
 3. "policy_published": **REQUIRED**
 
     Records the policy configuration observed by the
@@ -165,6 +177,7 @@ and the other a set of IP address-focused row-based data.
 
     * "p": **REQUIRED**,
     * "sp": **OPTIONAL**, and
+    * "np": **OPTIONAL**
 
     * "fo": **OPTIONAL**
 
@@ -175,6 +188,13 @@ and the other a set of IP address-focused row-based data.
     * "testing": **OPTIONAL**
 
 4. "extension": **OPTIONAL**
+
+    * <any namespaced element>: **OPTIONAL**
+
+        Zero or more elements in the namespace of the related
+        extension declared in the XML root element.
+
+        These elements **MUST** be namespaced.
 
 5. "record": **REQUIRED**
 
@@ -205,6 +225,10 @@ and the other a set of IP address-focused row-based data.
                 to include as to why the "disposition" policy does not match
                 the "policy_published", such as a local policy override.
                 (See Section 2.1.5, Policy Override Reason).
+
+                * "type": **REQUIRED**
+
+                * "comment": **OPTIONAL**
 
     2. "identifiers": **REQUIRED**
 
@@ -264,6 +288,8 @@ and the other a set of IP address-focused row-based data.
             * "domain": **REQUIRED**
 
                 The domain that was used during validation.
+
+            * "scope": **OPTIONAL**
 
             * "result": **REQUIRED**
 
