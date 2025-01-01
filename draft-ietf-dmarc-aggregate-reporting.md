@@ -244,7 +244,7 @@ in order: "version", "report_metadata", "policy_published",
         * "source_ip": **REQUIRED**
 
             The connecting IP. IPv4address or IPv6address as defined in
-            RFC 3986 section 3.2.2
+            [@!RFC3986, section 3.2.2]
 
         * "count": **REQUIRED**
 
@@ -296,7 +296,7 @@ in order: "version", "report_metadata", "policy_published",
 
             The RFC5321.MailFrom domain that the SPF check has been
             applied to.  This element MAY be existing but empty if the
-            message had a null reverse-path ([@!RFC5321], Section 4.5.5).
+            message had a null reverse-path (see [@!RFC5321, section 4.5.5]).
 
         * "envelope_to": **OPTIONAL**
 
@@ -335,7 +335,7 @@ in order: "version", "report_metadata", "policy_published",
                 The DKIM verification result.
 
                 A lower-case string where the value is one
-                of the results defined in [@!RFC8601] Section 2.7.1.
+                of the results defined in [@!RFC8601, section 2.7.1].
 
             * "human_result": **OPTIONAL**
 
@@ -360,7 +360,7 @@ in order: "version", "report_metadata", "policy_published",
                 The SPF verification result.
 
                 A lower-case string where the value is one
-                of the results defined in [@!RFC8601] Section 2.7.2.
+                of the results defined in [@!RFC8601, section 2.7.2].
 
             * "human_result": **OPTIONAL**
 
