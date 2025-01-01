@@ -300,7 +300,7 @@ in order: "version", "report_metadata", "policy_published",
 
         * "envelope_to": **OPTIONAL**
 
-            The RFC5321.RcptTo (see [@!RFC5598]) domain from the message.
+            The RFC5321.RcptTo domain from the message.
 
     3. "auth_results": **REQUIRED**
 
