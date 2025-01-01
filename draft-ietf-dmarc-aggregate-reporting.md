@@ -168,7 +168,11 @@ in order: "version", "report_metadata", "policy_published",
 
         * "begin": **REQUIRED**
 
+            Start of the reporting period.
+
         * "end": **REQUIRED**
+
+            End of the reporting period.
 
     * "error": **OPTIONAL**
 
@@ -241,6 +245,10 @@ in order: "version", "report_metadata", "policy_published",
 
     1. "row": **REQUIRED**
 
+        The details of the connecting system, and how many e-mails
+        was received from it, for that particular combination of
+        the policy evaluated.
+
         * "source_ip": **REQUIRED**
 
             The connecting IP. IPv4address or IPv6address as defined in
@@ -271,17 +279,19 @@ in order: "version", "report_metadata", "policy_published",
 
             4. "reason": **OPTIONAL**
 
+                An unlimited number of "reason" elements may be included.
                 These are meant to include any notes the reporter might want
                 to include as to why the "disposition" policy does not match
                 the "policy_published", such as a local policy override.
-                (See Section 2.1.5, Policy Override Reason).
-
-                Override reason consists of pre-defined override type
-                and free-text comment.
 
                 * "type": **REQUIRED**
 
+                    The reason the DMARC policy was overridden,
+                    see (#policy-override-reason).
+
                 * "comment": **OPTIONAL**
+
+                    Further details if available.
 
     2. "identifiers": **REQUIRED**
 
@@ -374,6 +384,11 @@ in order: "version", "report_metadata", "policy_published",
                 broken records, invalid DNS responses, etc.
 
     4. <any namespaced element>: **OPTIONAL**
+
+        Zero or more elements in the namespace of the related
+        extension declared in the XML root element.
+
+        These elements **MUST** be namespaced.
 
 ### Handling Domains in Reports
 
