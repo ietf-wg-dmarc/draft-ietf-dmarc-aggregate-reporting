@@ -143,23 +143,37 @@ in order: "version", "report_metadata", "policy_published",
 
 2. "report_metadata": **REQUIRED**
 
+    Report generator metadata.
+
     * "org_name": **REQUIRED**
+
+        The name of the Reporting Organization.
 
     * "email": **REQUIRED**
 
+        Contact to use when contacting the Reporting Organization.
+
     * "extra_contact_info": **OPTIONAL**
+
+        Additional contact details.
 
     * "report_id": **REQUIRED**
 
+        Unique Report-ID.
+
     * "date_range": **REQUIRED**
 
-        "begin" and "end" fields as epoch timestamps.
+        The time range in UTC defining the reporting period of this
+        report. Both elements are specified in seconds since epoch.
 
         * "begin": **REQUIRED**
 
         * "end": **REQUIRED**
 
     * "error": **OPTIONAL**
+
+        Error messages encountered when processing the DMARC Policy
+        Record.
 
     * "generator": **OPTIONAL**
 
@@ -168,24 +182,41 @@ in order: "version", "report_metadata", "policy_published",
 
 3. "policy_published": **REQUIRED**
 
-    Records the policy configuration observed by the
-    receiving system;
+    Records the DMARC policy configuration observed by the receiving
+    system. Unspecified tags have their default values.
 
     * "domain": **REQUIRED**
 
+        The DMARC Policy Domain.
+
     * "discovery_method": **OPTIONAL**
+
+        The method used to discover the DMARC Policy Record used during
+        evaluation.  The available values are "psl" and "treewalk",
+        where "psl" is the method from [@?RFC7489] and "treewalk" is
+        described in [@I-D.ietf-dmarc-dmarcbis].
 
     * "p": **REQUIRED**,
     * "sp": **OPTIONAL**, and
     * "np": **OPTIONAL**
 
+        A Domain Owner Assessment Policy.
+
     * "fo": **OPTIONAL**
+
+        The value for the failure reporting options.
 
     * "adkim": **OPTIONAL**
 
+        The DKIM Identifier Alignment mode.
+
     * "aspf": **OPTIONAL**
 
+        The SPF Identifier Alignment mode.
+
     * "testing": **OPTIONAL**
+
+        The value of the "t" tag.
 
 4. "extension": **OPTIONAL**
 
@@ -203,18 +234,37 @@ in order: "version", "report_metadata", "policy_published",
     receiving system.  For each IP address that is being reported,
     there will be at least one "record" element.
 
+    This element contains all the authentication results that were
+    evaluated by the receiving system for the given set of messages.
+
+    One record per (IP, result, IDs Auths) tuples.
+
     1. "row": **REQUIRED**
 
         * "source_ip": **REQUIRED**
 
+            The connecting IP. IPv4address or IPv6address as defined in
+            RFC 3986 section 3.2.2
+
         * "count": **REQUIRED**
+
+            Number of messages for which the "policy_evaluated" was applied.
 
         * "policy_evaluated": **REQUIRED**
 
+            The results of applying the DMARC policy.  If alignment
+            fails and the policy applied does not match the Policy
+            Domain's configured policy, the "reason" element **MUST**
+            be included.
+
             1. "disposition": **REQUIRED**
+
+                The DMARC disposition applied to matching messages.
 
             2. "dkim": **REQUIRED**, and
             3. "spf": **REQUIRED**
+
+                The DMARC-aligned authentication result.
 
                 **MUST** be the evaluated values as they relate to DMARC, not the
                 values the receiver may have used when overriding the policy.
@@ -225,6 +275,9 @@ in order: "version", "report_metadata", "policy_published",
                 to include as to why the "disposition" policy does not match
                 the "policy_published", such as a local policy override.
                 (See Section 2.1.5, Policy Override Reason).
+
+                Override reason consists of pre-defined override type
+                and free-text comment.
 
                 * "type": **REQUIRED**
 
@@ -254,9 +307,12 @@ in order: "version", "report_metadata", "policy_published",
         The data related to authenticating the messages
         associated with this sending IP address.
 
+        This element contains DKIM and SPF results,
+        uninterpreted with respect to DMARC.
+
         1. "dkim": **OPTIONAL**
 
-            There **MAY** be a number of optional "dkim" elements,
+            There **MAY** be zero or more "dkim" elements,
             one for each checked DKIM signature.
 
             If validation is attempted for any DKIM signature, the results
@@ -267,12 +323,16 @@ in order: "version", "report_metadata", "policy_published",
             * "domain": **REQUIRED**
 
                 The domain that was used during validation.
+                (the "d=" tag in the signature)
 
             * "selector": **REQUIRED**
 
                 The selector that was observed during validation.
+                (the "s=" tag in the signature)
 
             * "result": **REQUIRED**
+
+                The DKIM verification result.
 
                 A lower-case string where the value is one
                 of the results defined in [@!RFC8601] Section 2.7.1.
@@ -280,10 +340,12 @@ in order: "version", "report_metadata", "policy_published",
             * "human_result": **OPTIONAL**
 
                 More descriptive information to the Domain Owner
-                relating to evaluation failures.
+                relating to evaluation failures,
+                (e.g., from Authentication-Results).
 
         2. "spf": **OPTIONAL**
 
+            There **MAY** be zero or one "spf" element.
 
             * "domain": **REQUIRED**
 
@@ -291,7 +353,11 @@ in order: "version", "report_metadata", "policy_published",
 
             * "scope": **OPTIONAL**
 
+                SPF domain scope.
+
             * "result": **REQUIRED**
+
+                The SPF verification result.
 
                 A lower-case string where the value is one
                 of the results defined in [@!RFC8601] Section 2.7.2.
@@ -299,7 +365,13 @@ in order: "version", "report_metadata", "policy_published",
             * "human_result": **OPTIONAL**
 
                 More descriptive information to the Domain Owner
-                relating to evaluation failures.
+                relating to evaluation failures,
+                (e.g., from Authentication-Results).
+
+                The information should be for a person to be provided
+                with additional information that may be useful when
+                debugging SPF authentication issues. This could include
+                broken records, invalid DNS responses, etc.
 
     4. <any namespaced element>: **OPTIONAL**
 
