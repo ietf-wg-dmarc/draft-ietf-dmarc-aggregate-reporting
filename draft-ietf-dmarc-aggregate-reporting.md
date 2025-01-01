@@ -122,13 +122,14 @@ during the period. See below for further information.
 
 ### Description of the content XML file
 
-The format for these reports is defined in Appendix A, as well as the possible
+The format for these reports is defined in the XML Schema Definition
+(XSD) in (#xsd). The XSD includes the possible
 values for some of the elements below.  Most of these values have a definition
 tied to [@!I-D.ietf-dmarc-dmarcbis].
 
-DMARC Aggregate Reports MUST contain two primary sections ("metadata" & "data"
-below) ; one consisting of descriptive information (with two elements),
-and the other a set of IP address-focused row-based data.
+A hierarchical list representation of the information in the XSD is
+reproduced below. Numbered elements must be in the specified order,
+unnumbered elements may be in any order.
 
 DMARC Aggregate Feedback Reports have the root element "feedback"
 with its XML namespace set to the DMARC namespace.
@@ -200,6 +201,9 @@ in order: "version", "report_metadata", "policy_published",
         where "psl" is the method from [@?RFC7489] and "treewalk" is
         described in [@I-D.ietf-dmarc-dmarcbis].
 
+    The rest of the elements must contain the discovered or default
+    value for the DMARC policy applied.
+
     * "p": **REQUIRED**,
     * "sp": **OPTIONAL**, and
     * "np": **OPTIONAL**
@@ -243,6 +247,8 @@ in order: "version", "report_metadata", "policy_published",
 
     One record per (IP, result, IDs Auths) tuples.
 
+    An unlimited number of "record" elements may be specified.
+
     Contains, in order: "row", "identifiers", "auth_results".  Use of
     extensions may cause other elements to be added to the end of the
     record.
@@ -279,7 +285,7 @@ in order: "version", "report_metadata", "policy_published",
             2. "dkim": **REQUIRED**, and
             3. "spf": **REQUIRED**
 
-                The DMARC-aligned authentication result.
+                The result of the respective DMARC Identifier alignment test.
 
                 **MUST** be the evaluated values as they relate to DMARC, not the
                 values the receiver may have used when overriding the policy.
@@ -303,7 +309,7 @@ in order: "version", "report_metadata", "policy_published",
     2. "identifiers": **REQUIRED**
 
         **MUST** contain the data that was used to apply policy for the given
-        IP address.
+        "row".
 
         * "header_from": **REQUIRED**
 
@@ -347,7 +353,7 @@ in order: "version", "report_metadata", "policy_published",
 
             * "selector": **REQUIRED**
 
-                The selector that was observed during validation.
+                The selector that was used during validation.
                 (the "s=" tag in the signature)
 
             * "result": **REQUIRED**
@@ -367,13 +373,18 @@ in order: "version", "report_metadata", "policy_published",
 
             There **MAY** be zero or one "spf" element.
 
+            Only the "MAIL FROM" identity (see [@!RFC7208, section 2.4])
+            is used in DMARC.
+
             * "domain": **REQUIRED**
 
                 The domain that was used during validation.
 
             * "scope": **OPTIONAL**
 
-                SPF domain scope.
+                The source of the domain used during validation.
+
+                **MUST** contain "mfrom", the only valid value.
 
             * "result": **REQUIRED**
 
@@ -986,7 +997,7 @@ more about filtering methodologies at a receiving entity.
 
 {backmatter}
 
-# DMARC XML Schema
+# DMARC XML Schema {#xsd}
 
 <{{dmarc-xml-0.2.xsd}}
 
