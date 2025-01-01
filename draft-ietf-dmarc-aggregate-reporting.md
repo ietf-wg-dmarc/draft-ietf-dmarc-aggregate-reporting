@@ -160,7 +160,7 @@ in order: "version", "report_metadata", "policy_published",
 
     * "report_id": **REQUIRED**
 
-        Unique Report-ID.
+        Unique Report-ID, see (#report-id).
 
     * "date_range": **REQUIRED**
 
@@ -178,7 +178,7 @@ in order: "version", "report_metadata", "policy_published",
     * "error": **OPTIONAL**
 
         Error messages encountered when processing the DMARC Policy
-        Record.
+        Record, see (#error).
 
     * "generator": **OPTIONAL**
 
@@ -342,8 +342,8 @@ in order: "version", "report_metadata", "policy_published",
             one for each checked DKIM signature.
 
             If validation is attempted for any DKIM signature, the results
-            **MUST** be included in the report (within reason, see "DKIM
-            Signatures in Aggregate Reports" below for
+            **MUST** be included in the report (within reason, see
+            "(#dkim-signatures, use title)" below for
             handling numerous signatures).
 
             * "domain": **REQUIRED**
