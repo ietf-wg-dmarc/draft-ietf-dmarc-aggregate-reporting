@@ -222,7 +222,7 @@ A few examples of information contained within the error field(s):
 * Multiple DMARC Policy Records at a given location
 
 Be mindful that the error field is an unbounded string, but should not contain
-an extremely large body.  Provide enough information to assist the domain owner
+an extremely large body.  Provide enough information to assist the Domain Owner
 with understanding some issues with their authentication or DMARC Policy Record.
 
 ### Policy Override Reason
