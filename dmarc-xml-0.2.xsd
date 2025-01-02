@@ -178,7 +178,7 @@
 </xs:complexType>
 
 <xs:complexType name="RowType">
- <xs:sequence>
+ <xs:all>
   <!-- The connecting IP. IPv4address or IPv6address
        as defined in RFC 3986 section 3.2.2 -->
   <xs:element name="source_ip" type="xs:string"
@@ -190,7 +190,7 @@
   <!-- The DMARC disposition applied to matching messages. -->
   <xs:element name="policy_evaluated" type="PolicyEvaluatedType"
         minOccurs="1" maxOccurs="1"/>
- </xs:sequence>
+ </xs:all>
 </xs:complexType>
 
 <xs:complexType name="IdentifierType">
