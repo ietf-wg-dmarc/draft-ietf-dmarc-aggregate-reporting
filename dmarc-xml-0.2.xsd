@@ -100,7 +100,7 @@
         minOccurs="1" maxOccurs="1"/>
   <!-- * subdomains. -->
   <xs:element name="sp" type="DispositionType"
-        minOccurs="1" maxOccurs="1"/>
+        minOccurs="0" maxOccurs="1"/>
   <!-- * non-existent subdomains. -->
   <xs:element name="np" type="DispositionType"
         minOccurs="0" maxOccurs="1"/>
