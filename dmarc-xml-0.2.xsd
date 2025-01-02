@@ -222,10 +222,10 @@
 
 <xs:complexType name="DKIMAuthResultType">
  <xs:all>
-  <!-- The "d=" parameter in the signature. -->
+  <!-- The "d=" tag in the signature. -->
   <xs:element name="domain" type="xs:string"
         minOccurs="1" maxOccurs="1"/>
-  <!-- The "s=" parameter in the signature. -->
+  <!-- The "s=" tag in the signature. -->
   <xs:element name="selector" type="xs:string"
         minOccurs="1" maxOccurs="1"/>
   <!-- The DKIM verification result. -->
