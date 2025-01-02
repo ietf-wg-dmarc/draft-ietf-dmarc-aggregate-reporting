@@ -4,7 +4,6 @@
  xmlns="urn:ietf:params:xml:ns:dmarc-2.0"
  elementFormDefault="qualified">
 
-
 <!-- The time range in UTC covered by messages in this report,
      specified in seconds since epoch. -->
 <xs:complexType name="DateRangeType">
@@ -15,7 +14,6 @@
         minOccurs="1" maxOccurs="1"/>
  </xs:all>
 </xs:complexType>
-
 
 <!-- Report generator metadata. -->
 <xs:complexType name="ReportMetadataType">
