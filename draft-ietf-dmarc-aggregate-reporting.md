@@ -107,7 +107,7 @@ The report may include the following data:
 *  The identifier evaluated by SPF and the SPF result, if any
 *  The identifier evaluated by DKIM and the DKIM result, if any
 *  For both DKIM and SPF, an indication of whether the identifier was
-   in DMARC alignment (see [I-D.ietf-dmarc-dmarcbis], Section 3.2.7)
+   in DMARC alignment (see [@I-D.ietf-dmarc-dmarcbis, section 3.2.7])
 *  Sending and receiving domains
 *  The number of successful authentications
 *  The counts of messages based on all messages received, even if
@@ -214,23 +214,23 @@ body of the report, the subject, and so on.  These unique identifiers should be
 consistent per each report.  Specified below, the reader will see a 
 "Report-ID" and "unique-id".  These are the fields that **MUST** be identical when used.
 
-### Error field
+### Error element
 
-A few examples of information contained within the error field(s):
+A few examples of information contained within the "error" element(s):
 
-* DMARC DNS record evaluation errors (invalid rua or sp, etc.)
-* Multiple DMARC records at a given location
+* DMARC Policy Record evaluation errors (invalid "rua" or "sp", etc.)
+* Multiple DMARC Policy Records at a given location
 
-Be mindful that the error field is an unbounded string, but should not contain
-an extremely large body.  Provide enough information to assist the domain owner
-with understanding some issues with their authentication or DMARC declaration.
+Be mindful that the "error" element is an unbounded string, but should not contain
+an extremely large body.  Provide enough information to assist the Domain Owner
+with understanding some issues with their authentication or DMARC Policy Record.
 
 ### Policy Override Reason
 
-The reason element, indicating an override of the DMARC policy, consists of a 
-mandatory type field and an optional comment field. The type field **MUST** have
-one of the pre-defined values listed below. The comment field is an unbounded 
-string for providing further details.
+The "reason" element, indicating an override of the DMARC policy, consists of a 
+mandatory "type" element and an optional "comment" element. The "type" element
+**MUST** have one of the pre-defined values listed below. The "comment" element
+is an unbounded string for providing further details.
 
 Possible values for the policy override type:
 
@@ -244,7 +244,7 @@ Possible values for the policy override type:
 
 "other": Some policy exception not covered by the other entries in
      this list occurred.  Additional detail can be found in the
-     PolicyOverrideReason's "comment" field.
+     "comment" element.
 
 "policy_test_mode": The message was exempted from application of policy by
      the testing mode ("t" tag) in the DMARC Policy Record.
@@ -317,11 +317,12 @@ transport mechanism.
 
 This identifier **MUST** be unique among reports to the same domain to
 aid receivers in identifying duplicate reports should they happen.
+The Report-ID value should be constructed using the following ABNF:
 
 ~~~
-ridfmt =  (dot-atom-text ["@" dot-atom-text]) ; from RFC5322
+  ridfmt =  (dot-atom-text ["@" dot-atom-text]) ; from RFC5322
 
-ridtxt =  ("<" ridfmt ">") / ridfmt
+  ridtxt =  ("<" ridfmt ">") / ridfmt
 ~~~
 
 The format specified here is not very strict as the key goal is uniqueness.
@@ -504,7 +505,7 @@ the following verification steps **MUST** be taken:
 
 6.  For each record returned, parse the result as a series of
     "tag=value" pairs, i.e., the same overall format as the policy
-    record (see Section 5.4 in [@!I-D.ietf-dmarc-dmarcbis]).  In 
+    record (see [@!I-D.ietf-dmarc-dmarcbis, section 5.4]).  In 
     particular, the "v=DMARC1" tag is mandatory and **MUST** appear
     first in the list.  Discard any that do not pass this test. A
     trailing ";" is optional.
@@ -728,8 +729,9 @@ Reports carry more detailed information and present a greater risk.
 
 While reviewing this document and its Security Considerations, it is ideal
 that the reader would also review Privacy Considerations above, as well as
-the Security Considerations and Privacy Considerations in 
-the [I-D.ietf-dmarc-dmarcbis] (Sec 11).
+the Privacy Considerations and Security Considerations in section
+[@I-D.ietf-dmarc-dmarcbis, 9] and [@I-D.ietf-dmarc-dmarcbis, 10] of
+[@I-D.ietf-dmarc-dmarcbis].
 
 ## Report Contents as an Attack
 

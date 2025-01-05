@@ -4,9 +4,8 @@
  xmlns="urn:ietf:params:xml:ns:dmarc-2.0"
  elementFormDefault="qualified">
 
-
-<!-- The time range in UTC covered by messages in this report,
-     specified in seconds since epoch. -->
+<!-- The time range in UTC defining the reporting period of
+     this report, specified in seconds since epoch. -->
 <xs:complexType name="DateRangeType">
  <xs:all>
   <xs:element name="begin" type="xs:integer"
@@ -15,7 +14,6 @@
         minOccurs="1" maxOccurs="1"/>
  </xs:all>
 </xs:complexType>
-
 
 <!-- Report generator metadata. -->
 <xs:complexType name="ReportMetadataType">
@@ -78,10 +76,10 @@
  </xs:restriction>
 </xs:simpleType>
 
-<!-- The methods used to discovery the policy used during
+<!-- The method used to discover the DMARC Policy Record used during
      evaluation.  The available values are "psl" and "treewalk",
      where "psl" is the method from [@?RFC7489] and the "treewalk"
-     is described in [@?RefNeeded]. -->
+     is described in [@I-D.ietf-dmarc-dmarcbis]. -->
 <xs:simpleType name="DiscoveryType">
  <xs:restriction base="xs:string">
   <xs:enumeration value="psl"/>
@@ -102,7 +100,7 @@
         minOccurs="1" maxOccurs="1"/>
   <!-- * subdomains. -->
   <xs:element name="sp" type="DispositionType"
-        minOccurs="1" maxOccurs="1"/>
+        minOccurs="0" maxOccurs="1"/>
   <!-- * non-existent subdomains. -->
   <xs:element name="np" type="DispositionType"
         minOccurs="0" maxOccurs="1"/>
@@ -124,7 +122,7 @@
  </xs:all>
 </xs:complexType>
 
-<!-- Values for Testing mode attached to Policy -->
+<!-- Values for Testing mode attached to policy -->
 <xs:simpleType name="TestingType">
  <xs:restriction base="xs:string">
   <xs:enumeration value="n"/>
@@ -168,16 +166,19 @@
      configured policy, the reason element MUST be specified -->
 <xs:complexType name="PolicyEvaluatedType">
  <xs:sequence>
-  <xs:element name="disposition" type="ActionDispositionType"/>
-  <xs:element name="dkim" type="DMARCResultType"/>
-  <xs:element name="spf" type="DMARCResultType"/>
+  <xs:element name="disposition" type="ActionDispositionType"
+        minOccurs="1" maxOccurs="1"/>
+  <xs:element name="dkim" type="DMARCResultType"
+        minOccurs="1" maxOccurs="1"/>
+  <xs:element name="spf" type="DMARCResultType"
+        minOccurs="1" maxOccurs="1"/>
   <xs:element name="reason" type="PolicyOverrideReason"
         minOccurs="0" maxOccurs="unbounded"/>
  </xs:sequence>
 </xs:complexType>
 
 <xs:complexType name="RowType">
- <xs:sequence>
+ <xs:all>
   <!-- The connecting IP. IPv4address or IPv6address
        as defined in RFC 3986 section 3.2.2 -->
   <xs:element name="source_ip" type="xs:string"
@@ -189,7 +190,7 @@
   <!-- The DMARC disposition applied to matching messages. -->
   <xs:element name="policy_evaluated" type="PolicyEvaluatedType"
         minOccurs="1" maxOccurs="1"/>
- </xs:sequence>
+ </xs:all>
 </xs:complexType>
 
 <xs:complexType name="IdentifierType">
@@ -221,10 +222,10 @@
 
 <xs:complexType name="DKIMAuthResultType">
  <xs:all>
-  <!-- The "d=" parameter in the signature. -->
+  <!-- The "d=" tag in the signature. -->
   <xs:element name="domain" type="xs:string"
         minOccurs="1" maxOccurs="1"/>
-  <!-- The "s=" parameter in the signature. -->
+  <!-- The "s=" tag in the signature. -->
   <xs:element name="selector" type="xs:string"
         minOccurs="1" maxOccurs="1"/>
   <!-- The DKIM verification result. -->
