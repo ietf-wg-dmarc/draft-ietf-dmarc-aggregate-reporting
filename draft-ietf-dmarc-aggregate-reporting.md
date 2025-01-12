@@ -107,7 +107,7 @@ The report may include the following data:
 *  The identifier evaluated by SPF and the SPF result, if any
 *  The identifier evaluated by DKIM and the DKIM result, if any
 *  For both DKIM and SPF, an indication of whether the identifier was
-   in DMARC alignment (see [@I-D.ietf-dmarc-dmarcbis, section 3.2.7])
+   in DMARC alignment (see [@I-D.ietf-dmarc-dmarcbis, section 3.2.10])
 *  Sending and receiving domains
 *  The number of successful authentications
 *  The counts of messages based on all messages received, even if
@@ -394,7 +394,8 @@ parts with the prescribed media type and filename and ignore the
 rest.
 
 Email streams carrying DMARC feedback data **MUST** conform to the DMARC
-mechanism, thereby resulting in an aligned "pass" (see Section 3.1).
+mechanism, thereby resulting in an aligned "pass" (see
+[@I-D.ietf-dmarc-dmarcbis, section 4.4]).
 This practice minimizes the risk of Report Consumers processing
 fraudulent reports.
 
@@ -505,7 +506,7 @@ the following verification steps **MUST** be taken:
 
 6.  For each record returned, parse the result as a series of
     "tag=value" pairs, i.e., the same overall format as the policy
-    record (see [@!I-D.ietf-dmarc-dmarcbis, section 5.4]).  In 
+    record (see [@!I-D.ietf-dmarc-dmarcbis, section 4.7]).  In 
     particular, the "v=DMARC1" tag is mandatory and **MUST** appear
     first in the list.  Discard any that do not pass this test. A
     trailing ";" is optional.
