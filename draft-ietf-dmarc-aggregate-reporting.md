@@ -380,8 +380,8 @@ Table: Contents of the "identifiers" element
 Contains DKIM and SPF results, uninterpreted with respect to DMARC.
 
 If validation is attempted for any DKIM signature, the results
-**MUST** be included in the report (within reason, see ["DKIM
-Signatures in Aggregate Reports"](#dkim-signatures) below for
+**MUST** be included in the report (within reason, see
+"(#dkim-signatures, use title)" below for
 handling numerous signatures).
 
 The elements in this table **MUST** appear in the order listed.
