@@ -2,7 +2,7 @@
 
 	Title = "Domain-based Message Authentication, Reporting, and Conformance (DMARC) Aggregate Reporting"
 	abbrev = "DMARC Aggregate Reporting"
-	docName = "draft-ietf-dmarc-aggregate-reporting-24"
+	docName = "draft-ietf-dmarc-aggregate-reporting-25"
 	category = "std"
 	obsoletes = [7489]
 	ipr = "trust200902"
@@ -11,11 +11,11 @@
 	submissiontype = "IETF"
 	keyword = [""]
 
-	date = "2024-12-16T00:00:00Z"
+	date = "2025-01-12T00:00:00Z"
 
 	[seriesInfo]
 	name = "Internet-Draft"
-	value = "draft-ietf-dmarc-aggregate-reporting-24"
+	value = "draft-ietf-dmarc-aggregate-reporting-25"
 	stream = "IETF"
 	status = "standard"
 
@@ -49,9 +49,6 @@ behalf, and some insight into whether or not the volume may be legitimate.
 These reports expose information relating to the DMARC policy, as well as 
 the outcome of SPF [@!RFC7208] & DKIM [@!RFC6376] validation.
 
-There are a number of terms defined in [@!I-D.ietf-dmarc-dmarcbis] that are used
-within this document.  Understanding those definitions will aid in reading
-this document.
 
 ## Terminology
 
@@ -60,6 +57,19 @@ NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
 "MAY", and "OPTIONAL" in this document are to be interpreted as
 described in BCP 14 [@!RFC2119] [@!RFC8174] when, and only when, they
 appear in all capitals, as shown here.
+
+### DMARC Terminology
+
+There are a number of terms defined in [@!I-D.ietf-dmarc-dmarcbis] that are used
+within this document.  Understanding those definitions will aid in reading
+this document. The terms below are of noted interest:
+
+* Author Domain
+* DMARC Policy Record
+* Domain Owner
+* Mail Receiver
+* Organizational Domain
+* Report Consumer
 
 # DMARC Feedback
 
