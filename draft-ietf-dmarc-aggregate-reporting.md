@@ -176,7 +176,7 @@ R:
 
 #### XML root element
 
-DMARC Aggregate Feedback Reports have the root element "feedback"
+DMARC aggregate feedback reports have the root element "feedback"
 with its XML namespace set to the DMARC namespace.
 
 {align="left"}
@@ -996,8 +996,8 @@ PSOs will receive feedback on non-existent domains, which may be
 similar to existing Organizational Domains.  Feedback related to such
 domains have a small risk of carrying information related to
 an actual Organizational Domain.  To minimize this potential concern,
-PSD DMARC feedback **MUST** be limited to Aggregate Reports.  Failure
-Reports carry more detailed information and present a greater risk.
+PSD DMARC feedback **MUST** be limited to aggregate reports.  Failure
+reports carry more detailed information and present a greater risk.
 
 # Security Considerations
 
