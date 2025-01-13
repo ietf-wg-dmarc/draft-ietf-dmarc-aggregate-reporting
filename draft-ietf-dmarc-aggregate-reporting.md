@@ -113,7 +113,7 @@ message streams relevant to the Domain Owner.  This information
 includes data about messages that passed DMARC authentication as well
 as those that did not.
 
-A separate report **MUST** be generated for each Policy Domain encountered
+A separate report **MUST** be generated for each DMARC Policy Domain encountered
 during the reporting period. See below for further explanation in "Handling 
 Domains in Reports" (#handling).
 
@@ -130,7 +130,7 @@ The report may include the following data:
 *  The counts of messages based on all messages received, even if
    their delivery is ultimately blocked by other filtering agents.
 
-Each report **MUST** contain data for only one Policy Domain. A single
+Each report **MUST** contain data for only one DMARC Policy Domain. A single
 report **MUST** contain data for one policy configuration.  If multiple
 configurations were observed during a single reporting period, a
 reporting entity MAY choose to send multiple reports, otherwise the
@@ -338,7 +338,7 @@ Table: Contents of the "row" element
 #### Contents of the "policy_evaluated" element {#xml-policy-evaluated}
 
 The results of applying the DMARC policy.  If alignment fails and the
-policy applied does not match the Policy Domain's configured policy,
+policy applied does not match the DMARC Policy Domain's configured policy,
 the "reason" element **MUST** be included.
 
 The elements in this table **MUST** appear in the order listed.
@@ -444,7 +444,7 @@ Table: Contents of the "reason" element
 
 ### Handling Domains in Reports {#handling}
 
-In the same report, there **MUST** be a single Policy Domain, though there could be
+In the same report, there **MUST** be a single DMARC Policy Domain, though there could be
 multiple RFC5322.From Domains.  Each RFC5322.From domain will create its own "record" 
 within the report.  Consider the case where there are three domains with traffic 
 volume to report: example.com, foo.example.com, and bar.example.com.  There will be 
