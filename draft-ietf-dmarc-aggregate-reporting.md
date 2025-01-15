@@ -217,6 +217,8 @@ Table: Contents of the "date_range" element
 
 * "begin" and "end" contain the number of seconds since epoch.
 
+The start and end of reporting periods are chosen to obtain a partition
+of time, such that each instant of time belongs to exactly one period.
 
 #### Contents of the "policy_published" element {#xml-policy-published}
 
