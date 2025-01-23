@@ -49,7 +49,6 @@ behalf, and some insight into whether or not the volume may be legitimate.
 These reports expose information relating to the DMARC policy, as well as 
 the outcome of SPF [@!RFC7208] & DKIM [@!RFC6376] validation.
 
-
 ## Terminology
 
 The key words "MUST", "MUST NOT", "REQUIRED", "SHALL", "SHALL
