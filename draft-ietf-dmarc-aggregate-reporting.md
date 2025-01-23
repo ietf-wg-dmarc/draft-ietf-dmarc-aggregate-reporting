@@ -2,7 +2,7 @@
 
 	Title = "Domain-based Message Authentication, Reporting, and Conformance (DMARC) Aggregate Reporting"
 	abbrev = "DMARC Aggregate Reporting"
-	docName = "draft-ietf-dmarc-aggregate-reporting-25"
+	docName = "draft-ietf-dmarc-aggregate-reporting-26"
 	category = "std"
 	obsoletes = [7489]
 	ipr = "trust200902"
@@ -11,11 +11,11 @@
 	submissiontype = "IETF"
 	keyword = [""]
 
-	date = "2025-01-12T00:00:00Z"
+	date = "2025-01-23T00:00:00Z"
 
 	[seriesInfo]
 	name = "Internet-Draft"
-	value = "draft-ietf-dmarc-aggregate-reporting-25"
+	value = "draft-ietf-dmarc-aggregate-reporting-26"
 	stream = "IETF"
 	status = "standard"
 
@@ -132,6 +132,12 @@ during the period. See below for further information.
 
 ### Description of the content XML file
 
+-----------------------------
+NOTE TO RFC EDITOR: We tried a few various formats for these tables.  If you
+would like to see those other formats, we can send over those attempts at 
+your request.  Otherwise, please remove this comment.
+-----------------------------
+
 The format for these reports is defined in the XML Schema Definition
 (XSD) in (#xsd). The XSD includes the possible
 values for some of the elements below.  Most of these values have a definition
@@ -217,6 +223,10 @@ Table: Contents of the "date_range" element
 
 * "begin" and "end" contain the number of seconds since epoch.
 
+The "begin" and "end" are meant to denote the reporting period, and not
+the first/last observed message from the reporting period.  When generating
+reports, these reporting periods SHOULD NOT overlap.  Typically, the
+reporting period will encompass a single UTC day, beginning at 0000UTC.
 
 #### Contents of the "policy_published" element {#xml-policy-published}
 
