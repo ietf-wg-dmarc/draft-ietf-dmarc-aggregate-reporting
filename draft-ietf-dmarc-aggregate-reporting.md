@@ -132,11 +132,9 @@ during the period. See below for further information.
 
 ### Description of the content XML file
 
------------------------------
 NOTE TO RFC EDITOR: We tried a few various formats for these tables.  If you
 would like to see those other formats, we can send over those attempts at 
 your request.  Otherwise, please remove this comment.
------------------------------
 
 The format for these reports is defined in the XML Schema Definition
 (XSD) in (#xsd). The XSD includes the possible
