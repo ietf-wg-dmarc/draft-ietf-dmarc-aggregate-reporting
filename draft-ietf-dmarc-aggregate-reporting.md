@@ -2,7 +2,7 @@
 
 	Title = "Domain-based Message Authentication, Reporting, and Conformance (DMARC) Aggregate Reporting"
 	abbrev = "DMARC Aggregate Reporting"
-	docName = "draft-ietf-dmarc-aggregate-reporting-26"
+	docName = "draft-ietf-dmarc-aggregate-reporting-27"
 	category = "std"
 	obsoletes = [7489]
 	ipr = "trust200902"
@@ -11,11 +11,11 @@
 	submissiontype = "IETF"
 	keyword = [""]
 
-	date = "2025-01-23T00:00:00Z"
+	date = "2025-01-31T00:00:00Z"
 
 	[seriesInfo]
 	name = "Internet-Draft"
-	value = "draft-ietf-dmarc-aggregate-reporting-26"
+	value = "draft-ietf-dmarc-aggregate-reporting-27"
 	stream = "IETF"
 	status = "standard"
 
@@ -36,7 +36,8 @@ Domain-based Message Authentication, Reporting, and Conformance
 This report is an XML document, and contains extensible elements that allow for 
 other types of data to be specified later.  The aggregate reports can be
 submitted to the Domain Owner's specified destination as supported by the
-receiver.
+receiver.  This document, in part, replaces [@?RFC7489], along with 
+[@!I-D.ietf-dmarc-dmarcbis] and [@?I-D.ietf-dmarc-failure-reporting].
 
 {mainmatter}
 
@@ -555,9 +556,8 @@ If transport is not possible because the services advertised by the
 published URIs are not able to accept reports (e.g., the URI refers
 to a service that is unreachable, or all provided URIs specify size
 limits exceeded by the generated record), the Mail Receiver **MAY** 
-send a short report indicating that a report is available but could 
-not be sent.  The Mail Receiver **MAY** cache that data and try again 
-later, or **MAY** discard data that could not be sent.
+cache that data and try again later, or **MAY** discard data that 
+could not be sent.
 
 Where the URI specified in a "rua" tag does not specify otherwise, a
 Mail Receiver generating a feedback report **SHOULD** employ a secure
@@ -807,6 +807,10 @@ the confirming DNS record.  However, due to positive caching, the
 change could take as long as the time-to-live (TTL) on the record to
 go into effect.
 
+If the length of the DNS query is excessively long (Step 4 above), the
+Domain Owner may need to reconsider the domain being used to be shorter,
+or reach out to another party that may allow for a shorter DNS label.
+
 # Extensible Reporting
 
 DMARC reports allow for some extensibility, as defined by future
@@ -1017,6 +1021,18 @@ more about filtering methodologies at a receiving entity.
 # Sample Report
 
 <{{dmarc-xml-0.2.xml}}
+
+# Differences from RFC7489
+
+A bulleted list of some of the more noticeable/important differences 
+between [@!RFC7489] and this document:
+
+* Many elements of the defining XSD have been clarified, which means the
+structure of the report should be more consistent
+* The report identifier has more structure
+* Clarification about the number of domains to be addressed per report
+* The addition of extensions as part of the report structure
+* PSD is now included as part of the specification
 
 Acknowledgements
 
