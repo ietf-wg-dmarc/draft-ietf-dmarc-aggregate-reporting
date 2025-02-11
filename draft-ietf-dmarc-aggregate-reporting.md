@@ -2,7 +2,7 @@
 
 	Title = "Domain-based Message Authentication, Reporting, and Conformance (DMARC) Aggregate Reporting"
 	abbrev = "DMARC Aggregate Reporting"
-	docName = "draft-ietf-dmarc-aggregate-reporting-27"
+	docName = "draft-ietf-dmarc-aggregate-reporting-28"
 	category = "std"
 	obsoletes = [7489]
 	ipr = "trust200902"
@@ -11,11 +11,11 @@
 	submissiontype = "IETF"
 	keyword = [""]
 
-	date = "2025-01-31T00:00:00Z"
+	date = "2025-02-10T00:00:00Z"
 
 	[seriesInfo]
 	name = "Internet-Draft"
-	value = "draft-ietf-dmarc-aggregate-reporting-27"
+	value = "draft-ietf-dmarc-aggregate-reporting-28"
 	stream = "IETF"
 	status = "standard"
 
@@ -35,16 +35,18 @@ Domain-based Message Authentication, Reporting, and Conformance
 (DMARC) allows for Domain Owners to request aggregate reports from receivers.
 This report is an XML document, and contains extensible elements that allow for 
 other types of data to be specified later.  The aggregate reports can be
-submitted to the Domain Owner's specified destination as supported by the
-receiver.  This document, in part, replaces [@?RFC7489], along with 
-[@!I-D.ietf-dmarc-dmarcbis] and [@?I-D.ietf-dmarc-failure-reporting].
+submitted by the receiver to the Domain Owner's specified destination as 
+declared in the associated DNS record.  This document, in part, obsoletes 
+and replaces [@?RFC7489], along with [@!I-D.ietf-dmarc-dmarcbis] 
+and [@?I-D.ietf-dmarc-failure-reporting].
 
 {mainmatter}
 
 # Introduction
 
-A key component of DMARC [@!I-D.ietf-dmarc-dmarcbis] is the ability for Domain Owners to 
-request that receivers provide various types of reports.  These reports allow 
+A key component of DMARC [@!I-D.ietf-dmarc-dmarcbis] (Domain-based Message 
+Authentication, Reporting, and Conformance) is the ability for Domain Owners to 
+request that Mail Receivers provide various types of reports.  These reports allow 
 Domain Owners to have insight into which IP addresses are sending on their 
 behalf, and some insight into whether or not the volume may be legitimate.  
 These reports expose information relating to the DMARC policy, as well as 
@@ -313,7 +315,7 @@ of the policy evaluated.
 {align="left"}
 Element name      | # | Content
 ------------------|---|--------------
-source_ip         | R | The connecting IP. IPv4address or IPv6address as defined in [@RFC3986, section 3.2.2]
+source_ip         | R | The connecting IP address. IPv4address or IPv6address as defined in [@RFC3986, section 3.2.2]
 count             | R | Number of messages for which the "policy_evaluated" was applied.
 policy_evaluated  | R | The DMARC disposition applied to matching messages, see (#xml-policy-evaluated).
 Table: Contents of the "row" element
@@ -355,7 +357,8 @@ envelope_to       | O | The RFC5321.RcptTo domain from the message.
 Table: Contents of the "identifiers" element
 
 * "envelope_from" **MAY** be existing but empty if the message had a
-  null reverse-path (see [@!RFC5321, section 4.5.5)].
+  null reverse-path (see [@!RFC5321], section 4.5.5).
+* "header_from" is defined in [@!RFC5322], Section 3.6.2.
 
 
 #### Contents of the "auth_results" element {#xml-auth-results}

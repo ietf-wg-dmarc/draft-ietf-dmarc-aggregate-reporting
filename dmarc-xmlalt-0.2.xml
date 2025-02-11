@@ -21,7 +21,7 @@
   </extension>
   <record>
     <row>
-      <source_ip>192.168.4.4</source_ip>
+      <source_ip>192.0.2.123</source_ip>
       <count>123</count>
       <policy_evaluated>
         <disposition>quarantine</disposition>
