@@ -2,7 +2,7 @@
 
 	Title = "Domain-based Message Authentication, Reporting, and Conformance (DMARC) Aggregate Reporting"
 	abbrev = "DMARC Aggregate Reporting"
-	docName = "draft-ietf-dmarc-aggregate-reporting-28"
+	docName = "draft-ietf-dmarc-aggregate-reporting-29"
 	category = "std"
 	obsoletes = [7489]
 	ipr = "trust200902"
@@ -11,11 +11,11 @@
 	submissiontype = "IETF"
 	keyword = [""]
 
-	date = "2025-02-10T00:00:00Z"
+	date = "2025-02-22T00:00:00Z"
 
 	[seriesInfo]
 	name = "Internet-Draft"
-	value = "draft-ietf-dmarc-aggregate-reporting-28"
+	value = "draft-ietf-dmarc-aggregate-reporting-29"
 	stream = "IETF"
 	status = "standard"
 
@@ -36,9 +36,9 @@ Domain-based Message Authentication, Reporting, and Conformance
 This report is an XML document, and contains extensible elements that allow for 
 other types of data to be specified later.  The aggregate reports can be
 submitted by the receiver to the Domain Owner's specified destination as 
-declared in the associated DNS record.  This document, in part, obsoletes 
-and replaces [@?RFC7489], along with [@!I-D.ietf-dmarc-dmarcbis] 
-and [@?I-D.ietf-dmarc-failure-reporting].
+declared in the associated DNS record.  This document, in part, along 
+with DMARCbis [@!I-D.ietf-dmarc-dmarcbis] DMARCbis Failure Reporting 
+[@?I-D.ietf-dmarc-failure-reporting], obsoletes and replaces DMARC [@?RFC7489].
 
 {mainmatter}
 
@@ -119,7 +119,7 @@ The report may include the following data:
 *  The identifier evaluated by SPF and the SPF result, if any
 *  The identifier evaluated by DKIM and the DKIM result, if any
 *  For both DKIM and SPF, an indication of whether the identifier was
-   in DMARC alignment (see [@I-D.ietf-dmarc-dmarcbis, section 3.2.10])
+   in DMARC alignment (see [@!I-D.ietf-dmarc-dmarcbis, section 3.2.10])
 *  Sending and receiving domains
 *  The number of successful authentications
 *  The counts of messages based on all messages received, even if
@@ -570,7 +570,7 @@ transport mechanism.
 
 This identifier **MUST** be unique among reports to the same domain to
 aid receivers in identifying duplicate reports should they happen.
-The Report-ID value should be constructed using the following ABNF:
+The Report-ID value should be constructed using the following ABNF [@!RFC5234]:
 
 ~~~
   ridfmt =  (dot-atom-text ["@" dot-atom-text]) ; from RFC5322
@@ -648,7 +648,7 @@ rest.
 
 Email streams carrying DMARC feedback data **MUST** conform to the DMARC
 mechanism, thereby resulting in an aligned "pass" (see
-[@I-D.ietf-dmarc-dmarcbis, section 4.4]).
+[@!I-D.ietf-dmarc-dmarcbis, section 4.4]).
 This practice minimizes the risk of Report Consumers processing
 fraudulent reports.
 
@@ -889,7 +889,8 @@ URI: urn:ietf:params:xml:schema:dmarc-2.0
 
 Registrant Contact: See the "Author's Address" section of this document.
 
-XML: See Appendix A. DMARC XML Schema in this document.
+XML: See Appendix A. DMARC XML Schema ([@!W3C.SCHEMA] and [@!W3C.SCHEMA.DTYPES])
+in this document.
 
 
 # Privacy Considerations
@@ -941,10 +942,10 @@ external processor.
 
 ## Feedback Leakage {#leakage}
 
-Providing feedback reporting to PSOs for a PSD [@?I-D.ietf-dmarc-dmarcbis] can, in 
+Providing feedback reporting to PSOs for a PSD [@!I-D.ietf-dmarc-dmarcbis] can, in 
 some cases, cause information to leak out of an organization to 
 the PSO.  This leakage could potentially be utilized as part of a 
-program of pervasive surveillance (see [@?RFC7624]]).  There are 
+program of pervasive surveillance (see [@?RFC7624]).  There are 
 roughly three cases to consider:
 
 * Single Organization PSDs (e.g., ".mil")
@@ -988,8 +989,8 @@ Reports carry more detailed information and present a greater risk.
 While reviewing this document and its Security Considerations, it is ideal
 that the reader would also review Privacy Considerations above, as well as
 the Privacy Considerations and Security Considerations in section
-[@I-D.ietf-dmarc-dmarcbis, 9] and [@I-D.ietf-dmarc-dmarcbis, 10] of
-[@I-D.ietf-dmarc-dmarcbis].
+[@!I-D.ietf-dmarc-dmarcbis, 9] and [@!I-D.ietf-dmarc-dmarcbis, 10] of
+[@!I-D.ietf-dmarc-dmarcbis].
 
 ## Report Contents as an Attack
 
