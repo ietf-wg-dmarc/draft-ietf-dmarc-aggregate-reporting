@@ -899,9 +899,8 @@ URI: urn:ietf:params:xml:schema:dmarc-2.0
 
 Registrant Contact: See the "Author's Address" section of this document.
 
-XML: See Appendix A. DMARC XML Schema ([@!W3C.SCHEMA] and [@!W3C.SCHEMA.DTYPES])
-in this document.
-
+XML: See Appendix A. DMARC XML Schema ([@!W3C.REC-xmlschema-1] and 
+[@!W3C.REC-xmlschema-2]) in this document.
 
 # Privacy Considerations
 
@@ -1058,6 +1057,7 @@ situations.
 
 {backmatter}
 
+
 # DMARC XML Schema {#xsd}
 
 <{{dmarc-xml-0.2.xsd}}
@@ -1095,3 +1095,5 @@ DMARC Working Group has spent much time working to finalize this effort,
 and significant contributions were made by Seth Blank, Todd Herr, Steve Jones,
 Murray S. Kucherawy, Barry Leiba, John Levine, Scott Kitterman, Daniel Kvål,
 Martijn van der Lee, Alessandro Veseley, and Matthäus Wander.
+
+
