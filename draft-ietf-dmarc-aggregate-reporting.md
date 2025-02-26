@@ -50,7 +50,8 @@ request that Mail Receivers provide various types of reports.  These reports all
 Domain Owners to have insight into which IP addresses are sending on their 
 behalf, and some insight into whether or not the volume may be legitimate.  
 These reports expose information relating to the DMARC policy, as well as 
-the outcome of SPF [@!RFC7208] & DKIM [@!RFC6376] validation.
+the outcome of SPF (Sender Policy Framework) [@!RFC7208] & DKIM 
+(Domain Keys & Identification Mmmmmm FIX) [@!RFC6376] validation.
 
 ## Terminology
 
@@ -136,7 +137,7 @@ during the period. See below for further information.
 
 NOTE TO RFC EDITOR: We tried a few various formats for these tables.  If you
 would like to see those other formats, we can send over those attempts at 
-your request.  Otherwise, please remove this comment.
+your request.  Please remove this comment before publishing.
 
 The format for these reports is defined in the XML Schema Definition
 (XSD) in (#xsd). The XSD includes the possible
@@ -146,6 +147,12 @@ tied to [@!I-D.ietf-dmarc-dmarcbis].
 The format is also described in the following sections.  Each section
 describes a collection of sibling elements in the XML hierarchy.
 There are pointers to where in the hierarchy each table fits.
+
+If a document does not match the the specified format, the document
+evaluator SHOULD discard the report. The evaluator MAY choose to try to utilize
+some of the data, though if the format is in question, so may be the data. The
+report evaluator MAY choose to contact the report generator so
+that they may be alerted to an issue with the report format.
 
 The column "#" specifies how many times an element may appear, this
 is sometimes referred to as multiplicity. The possible values are:
@@ -253,6 +260,9 @@ Table: Contents of the "policy_published" element
 * "discovery_method" can have the value "psl" or "treewalk", where
   "psl" is the method from [@?RFC7489] and "treewalk" is described
   in [@!I-D.ietf-dmarc-dmarcbis].
+
+* Many of the items above (p, sp, etc.) are defined in 
+  the [@!I-D.ietf-dmarc-dmarcbis] document.
 
 
 #### Contents of the "extension" element {#xml-extension}
@@ -545,7 +555,7 @@ Policy Record that corresponds to an RFC5322.From domain on received
 mail.  The presence of the "rua" tag specifies where to send
 feedback.
 
-## Transport
+## Report Delivery
 
 The Mail Receiver, after preparing a report, **MUST** evaluate the
 provided reporting URIs (See [@!I-D.ietf-dmarc-dmarcbis]) in the order 
@@ -555,7 +565,7 @@ by the particular transport mechanism) **MUST NOT** be used.  An attempt
 **MUST** be made to deliver an aggregate report to every remaining URI, up
 to the Receiver's limits on supported URIs.
 
-If transport is not possible because the services advertised by the
+If delivery is not possible because the services advertised by the
 published URIs are not able to accept reports (e.g., the URI refers
 to a service that is unreachable, or all provided URIs specify size
 limits exceeded by the generated record), the Mail Receiver **MAY** 
@@ -1016,6 +1026,36 @@ placement (Inbox/Spam/etc).  This is very much discouraged as it could
 relay this information to a malicious party, allowing them to understand
 more about filtering methodologies at a receiving entity.
 
+# Operational Considerations
+
+## Report Generation
+
+* The error fields should be reasonably terse and usable.
+* If reports cannot be generator, the system should ideally log a useful error
+that helps troubleshoot the issue.
+
+## Report Evaluation
+
+As noted above, if a report does not match the specified format, the
+evaluator will likely find the contents to be in question. Alternately,
+the evaluator may decide to sideline those reports so they can more easily
+collaborate with the report generator to identify where the issues are
+happening.
+
+It's quite likely that the data contained within the reports will be extracted and 
+stored in a system that allows for easy reporting, dashboarding, and/or 
+monitoring. The XML reports themselves are not human readable in bulk, and a 
+system such as the above may aid the Domain Owner with identifying issues.
+
+## Report Storage
+
+Once a report is accepted and properly parsed by the report evaluator, it is
+entirely up to that evaluator what they wish to do with the XML documents. For
+some domains, the quantity of reports could be fairly high, or the size of the
+reports themselves could be large.  Once the data from the reports has been
+extracted and indexed, the reports seemingly have little value in most
+situations.
+
 {backmatter}
 
 # DMARC XML Schema {#xsd}
@@ -1029,7 +1069,7 @@ more about filtering methodologies at a receiving entity.
 # Differences from RFC7489
 
 A bulleted list of some of the more noticeable/important differences 
-between [@!RFC7489] and this document:
+between DMARC [@!RFC7489] and this document:
 
 * Many elements of the defining XSD have been clarified, which means the
 structure of the report should be more consistent
@@ -1037,6 +1077,14 @@ structure of the report should be more consistent
 * Clarification about the number of domains to be addressed per report
 * The addition of extensions as part of the report structure
 * PSD is now included as part of the specification
+
+Furthermore, the original DMARC specification was contained within a single
+document, [@!RFC7489].  The original document has 
+been split into three documents, DMARCbis [@!I-D.ietf-dmarc-dmarcbis], this 
+document [@!I-D.ietf-dmarc-aggregate-reporting], and DMARCbis Failure 
+Reporting [@?I-D.ietf-dmarc-failure-reporting].  This allows these pieces to
+potentially be altered in the future without re-opening the entire document, 
+as well as allowing them to move through the IETF process independently.
 
 Acknowledgements
 
