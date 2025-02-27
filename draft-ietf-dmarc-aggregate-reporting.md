@@ -11,7 +11,7 @@
 	submissiontype = "IETF"
 	keyword = [""]
 
-	date = "2025-02-22T00:00:00Z"
+	date = "2025-02-27T00:00:00Z"
 
 	[seriesInfo]
 	name = "Internet-Draft"
@@ -319,7 +319,7 @@ Table: Contents of the "record" element
 #### Contents of the "row" element {#xml-row}
 
 A "row" element contains the details of the connecting system, and
-how many e-mails was received from it, for the particular combination
+how many emails were received from it, for the particular combination
 of the policy evaluated.
 
 {align="left"}
@@ -419,7 +419,7 @@ result            | R | SPF verification result, see below.
 human_result      | O | More descriptive information to the Domain Owner relating to evaluation failures.
 Table: Contents of the "spf" element
 
-* "scope" **MUST** contain "mfrom", the only valid value.
+* The only valid value for the "scope" element is "mfrom".
 
 * "result" is a lower-case string where the value is one of the results
   defined in [@!RFC8601, section 2.7.2].
@@ -521,7 +521,8 @@ Possible values for the policy override type:
 
 The document format supports optional elements for extensions.
 The absence or existence of this section **SHOULD NOT** create an error when 
-processing reports. This will be covered in a separate section.
+processing reports. This will be covered in a separate 
+section, Section 4.
 
 ## Changes in Policy During Reporting Period
 
@@ -559,16 +560,12 @@ feedback.
 
 The Mail Receiver, after preparing a report, **MUST** evaluate the
 provided reporting URIs (See [@!I-D.ietf-dmarc-dmarcbis]) in the order 
-given.  Any reporting URI that includes a size limitation exceeded by 
-the generated report (after compression and after any encoding required 
-by the particular transport mechanism) **MUST NOT** be used.  An attempt
-**MUST** be made to deliver an aggregate report to every remaining URI, up
-to the Receiver's limits on supported URIs.
+given.  An attempt **MUST** be made to deliver an aggregate report to 
+every remaining URI, up to the Receiver's limits on supported URIs.
 
 If delivery is not possible because the services advertised by the
 published URIs are not able to accept reports (e.g., the URI refers
-to a service that is unreachable, or all provided URIs specify size
-limits exceeded by the generated record), the Mail Receiver **MAY** 
+to a service that is unreachable), the Mail Receiver **MAY** 
 cache that data and try again later, or **MAY** discard data that 
 could not be sent.
 
@@ -951,11 +948,11 @@ external processor.
 
 ## Feedback Leakage {#leakage}
 
-Providing feedback reporting to PSOs for a PSD [@!I-D.ietf-dmarc-dmarcbis] can, in 
-some cases, cause information to leak out of an organization to 
-the PSO.  This leakage could potentially be utilized as part of a 
-program of pervasive surveillance (see [@?RFC7624]).  There are 
-roughly three cases to consider:
+Providing feedback reporting to PSOs (Public Suffix Operator) for a 
+PSD [@!I-D.ietf-dmarc-dmarcbis] can, in some cases, cause information to 
+leak out of an organization to the PSO.  This leakage could potentially be 
+utilized as part of a program of pervasive surveillance (see [@?RFC7624]).  
+There are roughly three cases to consider:
 
 * Single Organization PSDs (e.g., ".mil")
 
