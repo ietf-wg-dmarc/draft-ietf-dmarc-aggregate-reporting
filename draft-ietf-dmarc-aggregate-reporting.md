@@ -36,9 +36,7 @@ Domain-based Message Authentication, Reporting, and Conformance
 This report is an XML document, and contains extensible elements that allow for 
 other types of data to be specified later.  The aggregate reports can be
 submitted by the receiver to the Domain Owner's specified destination as 
-declared in the associated DNS record.  This document, in part, along 
-with DMARCbis [@!I-D.ietf-dmarc-dmarcbis] DMARCbis Failure Reporting 
-[@?I-D.ietf-dmarc-failure-reporting], obsoletes and replaces DMARC [@?RFC7489].
+declared in the associated DNS record.
 
 {mainmatter}
 
@@ -73,6 +71,12 @@ this document. The terms below are of noted interest:
 * Mail Receiver
 * Organizational Domain
 * Report Consumer
+
+# Document Status
+
+This document, in part, along with DMARCbis [@!I-D.ietf-dmarc-dmarcbis] DMARCbis 
+Failure Reporting [@?I-D.ietf-dmarc-failure-reporting], obsoletes and replaces 
+DMARC [@?RFC7489].
 
 # DMARC Feedback
 
