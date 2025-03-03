@@ -59,6 +59,14 @@ NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
 described in BCP 14 [@!RFC2119] [@!RFC8174] when, and only when, they
 appear in all capitals, as shown here.
 
+### Notation
+
+Certain properties of email messages described in this document are
+referenced using notation found in [@?RFC5598] (e.g., "RFC5322.From").
+
+This specification uses the Augmented Backus-Naur Form (ABNF)
+notation of [@!RFC5234] and [@!RFC7405].
+
 ### DMARC Terminology
 
 There are a number of terms defined in [@!I-D.ietf-dmarc-dmarcbis] that are used
@@ -372,7 +380,6 @@ Table: Contents of the "identifiers" element
 
 * "envelope_from" **MAY** be existing but empty if the message had a
   null reverse-path (see [@!RFC5321, section 4.5.5]).
-* "header_from" is defined in [@?RFC5598], or [@!RFC5322, Section 3.6.2]
 
 
 #### Contents of the "auth_results" element {#xml-auth-results}
@@ -583,7 +590,7 @@ employing TLS (SMTP+STARTTLS).
 
 This identifier **MUST** be unique among reports to the same domain to
 aid receivers in identifying duplicate reports should they happen.
-The Report-ID value should be constructed using the following ABNF [@!RFC5234]:
+The Report-ID value should be constructed using the following ABNF:
 
 ~~~
   ridfmt =  (dot-atom-text ["@" dot-atom-text]) ; from RFC5322
