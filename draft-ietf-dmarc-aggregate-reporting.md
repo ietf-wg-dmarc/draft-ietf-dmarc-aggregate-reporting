@@ -2,7 +2,7 @@
 
 	Title = "Domain-based Message Authentication, Reporting, and Conformance (DMARC) Aggregate Reporting"
 	abbrev = "DMARC Aggregate Reporting"
-	docName = "draft-ietf-dmarc-aggregate-reporting-29"
+	docName = "draft-ietf-dmarc-aggregate-reporting-30"
 	category = "std"
 	obsoletes = [7489]
 	ipr = "trust200902"
@@ -11,11 +11,11 @@
 	submissiontype = "IETF"
 	keyword = [""]
 
-	date = "2025-02-27T00:00:00Z"
+	date = "2025-03-03T00:00:00Z"
 
 	[seriesInfo]
 	name = "Internet-Draft"
-	value = "draft-ietf-dmarc-aggregate-reporting-29"
+	value = "draft-ietf-dmarc-aggregate-reporting-30"
 	stream = "IETF"
 	status = "standard"
 
@@ -301,7 +301,7 @@ An unlimited number of "record" elements may be specified.
 Use of extensions may cause other elements to be added to the end of
 the record, such elements **MUST** be namespaced.
 
-One record per (IP, result, IDs Auths) tuples.
+One record per (IP, result, authenitication identifiers) tuples.
 
 The elements in this table **MUST** appear in the order listed.
 
