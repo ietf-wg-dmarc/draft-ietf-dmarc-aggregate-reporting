@@ -49,7 +49,7 @@ Domain Owners to have insight into which IP addresses are sending on their
 behalf, and some insight into whether or not the volume may be legitimate.  
 These reports expose information relating to the DMARC policy, as well as 
 the outcome of SPF (Sender Policy Framework) [@!RFC7208] & DKIM 
-(Domain Keys Identified Mail) [@!RFC6376] validation.
+(DomainKeys Identified Mail) [@!RFC6376] validation.
 
 ## Terminology
 
@@ -371,8 +371,8 @@ envelope_to       | O | The RFC5321.RcptTo domain from the message.
 Table: Contents of the "identifiers" element
 
 * "envelope_from" **MAY** be existing but empty if the message had a
-  null reverse-path (see [@!RFC5321], section 4.5.5).
-* "header_from" is defined in [@!RFC5322], Section 3.6.2.
+  null reverse-path (see [@!RFC5321, section 4.5.5]).
+* "header_from" is defined in [@?RFC5598], or [@!RFC5322, Section 3.6.2]
 
 
 #### Contents of the "auth_results" element {#xml-auth-results}
@@ -526,7 +526,7 @@ Possible values for the policy override type:
 The document format supports optional elements for extensions.
 The absence or existence of this section **SHOULD NOT** create an error when 
 processing reports. This will be covered in a separate 
-section, Section 4.
+section, Extensible Reporting, (#extensible).
 
 ## Changes in Policy During Reporting Period
 
@@ -830,7 +830,7 @@ If the length of the DNS query is excessively long (Step 4 above), the
 Domain Owner may need to reconsider the domain being used to be shorter,
 or reach out to another party that may allow for a shorter DNS label.
 
-# Extensible Reporting
+# Extensible Reporting {#extensible}
 
 DMARC reports allow for some extensibility, as defined by future
 documents that utilize DMARC as a foundation.  These extensions
