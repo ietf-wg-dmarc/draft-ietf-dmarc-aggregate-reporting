@@ -781,8 +781,8 @@ the following verification steps **MUST** be taken:
     fail the delivery so the verification test can be repeated later.
 
 6.  For each record returned, parse the result as a series of
-    "tag=value" pairs, i.e., the same overall format as the policy
-    record (see [@!I-D.ietf-dmarc-dmarcbis, section 4.7]).  In 
+    "tag=value" pairs, i.e., the same overall format as the DMARC Policy
+    Record (see [@!I-D.ietf-dmarc-dmarcbis, section 4.7]).  In 
     particular, the "v=DMARC1" tag is mandatory and **MUST** appear
     first in the list.  Discard any that do not pass this test. A
     trailing ";" is optional.
