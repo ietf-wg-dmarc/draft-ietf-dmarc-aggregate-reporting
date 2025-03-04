@@ -59,6 +59,14 @@ NOT", "SHOULD", "SHOULD NOT", "RECOMMENDED", "NOT RECOMMENDED",
 described in BCP 14 [@!RFC2119] [@!RFC8174] when, and only when, they
 appear in all capitals, as shown here.
 
+### Notation
+
+Certain properties of email messages described in this document are
+referenced using notation found in [@?RFC5598] (e.g., "RFC5322.From").
+
+This specification uses the Augmented Backus-Naur Form (ABNF)
+notation of [@!RFC5234] and [@!RFC7405].
+
 ### DMARC Terminology
 
 There are a number of terms defined in [@!I-D.ietf-dmarc-dmarcbis] that are used
@@ -113,7 +121,7 @@ message streams relevant to the Domain Owner.  This information
 includes data about messages that passed DMARC authentication as well
 as those that did not.
 
-A separate report **MUST** be generated for each Policy Domain encountered
+A separate report **MUST** be generated for each DMARC Policy Domain encountered
 during the reporting period. See below for further explanation in "Handling 
 Domains in Reports" (#handling).
 
@@ -130,7 +138,7 @@ The report may include the following data:
 *  The counts of messages based on all messages received, even if
    their delivery is ultimately blocked by other filtering agents.
 
-Each report **MUST** contain data for only one Policy Domain. A single
+Each report **MUST** contain data for only one DMARC Policy Domain. A single
 report **MUST** contain data for one policy configuration.  If multiple
 configurations were observed during a single reporting period, a
 reporting entity MAY choose to send multiple reports, otherwise the
@@ -176,7 +184,7 @@ R:
 
 #### XML root element
 
-DMARC Aggregate Feedback Reports have the root element "feedback"
+DMARC aggregate feedback reports have the root element "feedback"
 with its XML namespace set to the DMARC namespace.
 
 {align="left"}
@@ -338,7 +346,7 @@ Table: Contents of the "row" element
 #### Contents of the "policy_evaluated" element {#xml-policy-evaluated}
 
 The results of applying the DMARC policy.  If alignment fails and the
-policy applied does not match the Policy Domain's configured policy,
+policy applied does not match the DMARC Policy Domain's configured policy,
 the "reason" element **MUST** be included.
 
 The elements in this table **MUST** appear in the order listed.
@@ -372,7 +380,6 @@ Table: Contents of the "identifiers" element
 
 * "envelope_from" **MAY** be existing but empty if the message had a
   null reverse-path (see [@!RFC5321, section 4.5.5]).
-* "header_from" is defined in [@?RFC5598], or [@!RFC5322, Section 3.6.2]
 
 
 #### Contents of the "auth_results" element {#xml-auth-results}
@@ -380,8 +387,8 @@ Table: Contents of the "identifiers" element
 Contains DKIM and SPF results, uninterpreted with respect to DMARC.
 
 If validation is attempted for any DKIM signature, the results
-**MUST** be included in the report (within reason, see ["DKIM
-Signatures in Aggregate Reports"](#dkim-signatures) below for
+**MUST** be included in the report (within reason, see
+"(#dkim-signatures, use title)" below for
 handling numerous signatures).
 
 The elements in this table **MUST** appear in the order listed.
@@ -444,7 +451,7 @@ Table: Contents of the "reason" element
 
 ### Handling Domains in Reports {#handling}
 
-In the same report, there **MUST** be a single Policy Domain, though there could be
+In the same report, there **MUST** be a single DMARC Policy Domain, though there could be
 multiple RFC5322.From Domains.  Each RFC5322.From domain will create its own "record" 
 within the report.  Consider the case where there are three domains with traffic 
 volume to report: example.com, foo.example.com, and bar.example.com.  There will be 
@@ -583,7 +590,7 @@ employing TLS (SMTP+STARTTLS).
 
 This identifier **MUST** be unique among reports to the same domain to
 aid receivers in identifying duplicate reports should they happen.
-The Report-ID value should be constructed using the following ABNF [@!RFC5234]:
+The Report-ID value should be constructed using the following ABNF:
 
 ~~~
   ridfmt =  (dot-atom-text ["@" dot-atom-text]) ; from RFC5322
@@ -996,8 +1003,8 @@ PSOs will receive feedback on non-existent domains, which may be
 similar to existing Organizational Domains.  Feedback related to such
 domains have a small risk of carrying information related to
 an actual Organizational Domain.  To minimize this potential concern,
-PSD DMARC feedback **MUST** be limited to Aggregate Reports.  Failure
-Reports carry more detailed information and present a greater risk.
+PSD DMARC feedback **MUST** be limited to aggregate reports.  Failure
+reports carry more detailed information and present a greater risk.
 
 # Security Considerations
 
