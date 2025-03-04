@@ -49,7 +49,7 @@ Domain Owners to have insight into which IP addresses are sending on their
 behalf, and some insight into whether or not the volume may be legitimate.  
 These reports expose information relating to the DMARC policy, as well as 
 the outcome of SPF (Sender Policy Framework) [@!RFC7208] & DKIM 
-(Domain Keys & Identification Mmmmmm FIX) [@!RFC6376] validation.
+(Domain Keys Identified Mail) [@!RFC6376] validation.
 
 ## Terminology
 
@@ -94,10 +94,10 @@ Owners with precise insight into:
 
 *  authentication results,
 *  corrective action that needs to be taken by Domain Owners, and
-*  the effect of Domain Owner DMARC policy on email streams processed
+*  the effect of Domain Owner DMARC policy on mail streams processed
    by Mail Receivers.
 
-Aggregate DMARC feedback provides visibility into real-world email
+Aggregate DMARC feedback provides visibility into real-world mail
 streams that Domain Owners need in order to make informed decisions 
 regarding the publication of a DMARC policy.  When Domain Owners know what
 legitimate mail they are sending, what the authentication results are
@@ -115,7 +115,7 @@ as those that did not.
 
 A separate report **MUST** be generated for each Policy Domain encountered
 during the reporting period. See below for further explanation in "Handling 
-Domains in Reports".
+Domains in Reports" (#handling).
 
 The report may include the following data:
 
@@ -323,7 +323,7 @@ Table: Contents of the "record" element
 #### Contents of the "row" element {#xml-row}
 
 A "row" element contains the details of the connecting system, and
-how many emails were received from it, for the particular combination
+how many mails were received from it, for the particular combination
 of the policy evaluated.
 
 {align="left"}
@@ -442,7 +442,7 @@ comment           | O | Further details, if available.
 Table: Contents of the "reason" element
 
 
-### Handling Domains in Reports
+### Handling Domains in Reports {#handling}
 
 In the same report, there **MUST** be a single Policy Domain, though there could be
 multiple RFC5322.From Domains.  Each RFC5322.From domain will create its own "record" 
@@ -564,7 +564,8 @@ feedback.
 
 The Mail Receiver, after preparing a report, **MUST** evaluate the
 provided reporting URIs (See [@!I-D.ietf-dmarc-dmarcbis]) in the order 
-given.  An attempt **MUST** be made to deliver an aggregate report to 
+given.  If any of the URIs are malformed, they SHOULD be ignored.  An 
+attempt **MUST** be made to deliver an aggregate report to 
 every remaining URI, up to the Receiver's limits on supported URIs.
 
 If delivery is not possible because the services advertised by the
@@ -575,7 +576,8 @@ could not be sent.
 
 Where the URI specified in a "rua" tag does not specify otherwise, a
 Mail Receiver generating a feedback report **SHOULD** employ a secure
-transport mechanism.
+transport mechanism, meaning the report should be delivered over a channel
+employing TLS (SMTP+STARTTLS).
 
 ### Definition of Report-ID {#report-id}
 
@@ -589,7 +591,11 @@ The Report-ID value should be constructed using the following ABNF [@!RFC5234]:
   ridtxt =  ("<" ridfmt ">") / ridfmt
 ~~~
 
-The format specified here is not very strict as the key goal is uniqueness.
+The format specified here is not very strict as the key goal is uniqueness. In
+order to create this uniqueness, the Mail Receiver may wish to use elements
+such as the receiving domain, sending domain, and a timestamp in combination.
+An example string might be "1721054318-example.com@example.org". An alternate
+could use a date string such as "2024-03-27_example.com@example.org".
 
 ### Email
 
@@ -652,12 +658,11 @@ report to the Domain Owner "example.com" from the Mail Receiver
 
   mail.receiver.example!example.com!1013662812!1013749130.xml.gz
 
-No specific MIME message structure is required.  It is presumed that
-the aggregate reporting address will be equipped to extract body
-parts with the prescribed media type and filename and ignore the
-rest.
+No specific MIME message structure is required for the message body.  It 
+is presumed that the aggregate reporting address will be equipped to extract 
+body parts with the prescribed media type and filename and ignore the rest.
 
-Email streams carrying DMARC feedback data **MUST** conform to the DMARC
+Mail streams carrying DMARC feedback data **MUST** conform to the DMARC
 mechanism, thereby resulting in an aligned "pass" (see
 [@!I-D.ietf-dmarc-dmarcbis, section 4.4]).
 This practice minimizes the risk of Report Consumers processing
@@ -890,7 +895,7 @@ assignments will be registered by the IANA.
 
 URI: urn:ietf:params:xml:ns:dmarc-2.0
 
-Registrant Contact: See the "Author's Address" section of this document.
+Registrant Contact: Internet Engineering Task Force (iesg@ietf.org)
 
 XML: None.  Namespace URIs do not represent an XML specification.
 
@@ -898,7 +903,7 @@ XML: None.  Namespace URIs do not represent an XML specification.
 
 URI: urn:ietf:params:xml:schema:dmarc-2.0
 
-Registrant Contact: See the "Author's Address" section of this document.
+Registrant Contact: Internet Engineering Task Force (iesg@ietf.org)
 
 XML: See Appendix A. DMARC XML Schema ([@!W3C.REC-xmlschema-1] and 
 [@!W3C.REC-xmlschema-2]) in this document.
@@ -930,7 +935,7 @@ party.
 Aggregate feedback reports contain aggregated data relating to 
 messages purportedly originating from the Domain Owner. The data 
 does not contain any identifying characteristics about individual 
-users. No personal information such as individual email addresses, 
+users. No personal information such as individual mail addresses, 
 IP addresses of individuals, or the content of any messages, is 
 included in reports.
 
@@ -953,15 +958,15 @@ external processor.
 ## Feedback Leakage {#leakage}
 
 Providing feedback reporting to PSOs (Public Suffix Operator) for a 
-PSD [@!I-D.ietf-dmarc-dmarcbis] can, in some cases, cause information to 
-leak out of an organization to the PSO.  This leakage could potentially be 
-utilized as part of a program of pervasive surveillance (see [@?RFC7624]).  
-There are roughly three cases to consider:
+PSD (Public Suffix Domain) [@!I-D.ietf-dmarc-dmarcbis] can, in some 
+cases, cause information to leak out of an organization to the PSO.  This 
+leakage could potentially be utilized as part of a program of pervasive 
+surveillance (see [@?RFC7624]).  There are roughly three cases to consider:
 
 * Single Organization PSDs (e.g., ".mil")
 
     Aggregate reports based on PSD DMARC have the potential to
-    contain information about emails related to entities managed by
+    contain information about mails related to entities managed by
     the organization.  Since both the PSO and the Organizational
     Domain Owners are common, there is no additional privacy risk for
     either normal or non-existent domain reporting due to PSD DMARC.
@@ -1078,6 +1083,7 @@ structure of the report should be more consistent
 * Clarification about the number of domains to be addressed per report
 * The addition of extensions as part of the report structure
 * PSD is now included as part of the specification
+* Selector is now required when reporting a DKIM signature
 
 Furthermore, the original DMARC specification was contained within a single
 document, [@!RFC7489].  The original document has 
