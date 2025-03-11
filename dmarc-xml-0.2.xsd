@@ -233,7 +233,9 @@
         minOccurs="1" maxOccurs="1"/>
   <!-- Any extra information (e.g., from Authentication-Results). -->
   <xs:element name="human_result" type="xs:string"
-        minOccurs="0" maxOccurs="1"/>
+        minOccurs="0" maxOccurs="1">
+    <xs:attribute name="lang" type="xs:lang" default="EN"/>
+  </xs:element>
  </xs:all>
 </xs:complexType>
 
@@ -276,7 +278,9 @@
        issues.  This could include broken records, invalid
        DNS responses, etc. -->
   <xs:element name="human_result" type="xs:string"
-        minOccurs="0" maxOccurs="1"/>
+        minOccurs="0" maxOccurs="1">
+    <xs:attribute name="lang" type="xs:lang" default="EN"/>
+  </xs:element>
  </xs:all>
 </xs:complexType>
 
