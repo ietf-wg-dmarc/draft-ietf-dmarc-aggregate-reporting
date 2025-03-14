@@ -1095,7 +1095,7 @@ structure of the report should be more consistent
 Furthermore, the original DMARC specification was contained within a single
 document, [@!RFC7489].  The original document has 
 been split into three documents, DMARCbis [@!I-D.ietf-dmarc-dmarcbis], this 
-document [@!I-D.ietf-dmarc-aggregate-reporting], and DMARCbis Failure 
+document, and DMARCbis Failure 
 Reporting [@?I-D.ietf-dmarc-failure-reporting].  This allows these pieces to
 potentially be altered in the future without re-opening the entire document, 
 as well as allowing them to move through the IETF process independently.
