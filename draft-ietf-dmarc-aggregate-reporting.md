@@ -181,6 +181,12 @@ R:
 +:
 :   **REQUIRED**, one or more elements
 
+Some elements contain text meant for humans and support an optional
+"lang" attribute whose value indicate the language of its contents.
+The default value is "en".
+Elements supporting this optional attribute is marked with "\[@lang]"
+at the start of their content description in the following tables.
+
 
 #### XML root element
 
@@ -221,10 +227,10 @@ Element name      | # | Content
 ------------------|---|--------------
 org_name          | R | Name of the Reporting Organization.
 email             | R | Contact to use when contacting the Reporting Organization.
-extra_contact_info| O | Additional contact details.
+extra_contact_info| O | \[@lang] Additional contact details.
 report_id         | R | Unique Report-ID, see (#report-id).
 date_range        | R | The reporting period, see (#xml-date-range).
-error             | O | Error messages encountered when processing the DMARC Policy Record, see (#error).
+error             | O | \[@lang] Error messages encountered when processing the DMARC Policy Record, see (#error).
 generator         | O | The name and version of the report generator; this can help the Report Consumer find out where to report bugs.
 Table: Report generator metadata
 
@@ -409,7 +415,7 @@ Element name      | # | Content
 domain            | R | The domain that was used during validation (the "d=" tag in the signature).
 selector          | R | The selector that was used during validation (the "s=" tag in the signature).
 result            | R | DKIM verification result, see below.
-human_result      | O | More descriptive information to the Domain Owner relating to evaluation failures.
+human_result      | O | \[@lang] More descriptive information to the Domain Owner relating to evaluation failures.
 Table: Contents of the "dkim" element
 
 * "result" is a lower-case string where the value is one of the results
@@ -427,7 +433,7 @@ Element name      | # | Content
 domain            | R | The domain that was used during validation.
 scope             | O | The source of the domain used during validation.
 result            | R | SPF verification result, see below.
-human_result      | O | More descriptive information to the Domain Owner relating to evaluation failures.
+human_result      | O | \[@lang] More descriptive information to the Domain Owner relating to evaluation failures.
 Table: Contents of the "spf" element
 
 * The only valid value for the "scope" element is "mfrom".
@@ -445,7 +451,7 @@ and free-text comment, see (#policy-override-reason)
 Element name      | # | Content
 ------------------|---|--------------
 type              | R | The reason the DMARC policy was overridden
-comment           | O | Further details, if available.
+comment           | O | \[@lang] Further details, if available.
 Table: Contents of the "reason" element
 
 

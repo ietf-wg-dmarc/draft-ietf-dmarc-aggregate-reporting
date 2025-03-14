@@ -4,6 +4,16 @@
  xmlns="urn:ietf:params:xml:ns:dmarc-2.0"
  elementFormDefault="qualified">
 
+<!-- Elements with an optional "lang" attribute. -->
+<xs:complexType name="langAttrString">
+ <xs:simpleContent>
+  <xs:extension base="xs:string">
+   <xs:attribute name="lang" type="xs:language"
+                 use="optional" default="en"/>
+  </xs:extension>
+ </xs:simpleContent>
+</xs:complexType>
+
 <!-- The time range in UTC defining the reporting period of
      this report, specified in seconds since epoch. -->
 <xs:complexType name="DateRangeType">
@@ -25,7 +35,7 @@
   <xs:element name="email" type="xs:string"
         minOccurs="1" maxOccurs="1"/>
   <!-- Additional contact details -->
-  <xs:element name="extra_contact_info" type="xs:string"
+  <xs:element name="extra_contact_info" type="langAttrString"
         minOccurs="0" maxOccurs="1"/>
   <!-- Unique Report-ID -->
   <xs:element name="report_id" type="xs:string"
@@ -34,7 +44,7 @@
   <xs:element name="date_range" type="DateRangeType"
         minOccurs="1" maxOccurs="1"/>
   <!-- Optional error messages when processing DMARC policy -->
-  <xs:element name="error" type="xs:string"
+  <xs:element name="error" type="langAttrString"
         minOccurs="0" maxOccurs="1"/>
   <!-- Optional information about the generating software -->
   <xs:element name="generator" type="xs:string"
@@ -155,7 +165,7 @@
  <xs:all>
   <xs:element name="type" type="PolicyOverrideType"
         minOccurs="1" maxOccurs="1"/>
-  <xs:element name="comment" type="xs:string"
+  <xs:element name="comment" type="langAttrString"
         minOccurs="0" maxOccurs="1"/>
  </xs:all>
 </xs:complexType>
@@ -232,10 +242,8 @@
   <xs:element name="result" type="DKIMResultType"
         minOccurs="1" maxOccurs="1"/>
   <!-- Any extra information (e.g., from Authentication-Results). -->
-  <xs:element name="human_result" type="xs:string"
-        minOccurs="0" maxOccurs="1">
-    <xs:attribute name="lang" type="xs:lang" default="EN"/>
-  </xs:element>
+  <xs:element name="human_result" type="langAttrString"
+        minOccurs="0" maxOccurs="1"/>
  </xs:all>
 </xs:complexType>
 
@@ -277,10 +285,8 @@
        that may be useful when debugging SPF authentication
        issues.  This could include broken records, invalid
        DNS responses, etc. -->
-  <xs:element name="human_result" type="xs:string"
-        minOccurs="0" maxOccurs="1">
-    <xs:attribute name="lang" type="xs:lang" default="EN"/>
-  </xs:element>
+  <xs:element name="human_result" type="langAttrString"
+        minOccurs="0" maxOccurs="1"/>
  </xs:all>
 </xs:complexType>
 
