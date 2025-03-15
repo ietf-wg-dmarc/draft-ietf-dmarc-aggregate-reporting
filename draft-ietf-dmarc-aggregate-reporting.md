@@ -689,7 +689,7 @@ conform to the following ABNF:
                   1*FWS domain-name 1*FWS         ; policy domain
                   %s"Submitter:" 1*FWS
                   domain-name 1*FWS               ; report generator
-                  [ %s"Report-ID:" 1*FWS ridtxt ] ; defined below
+                  [ %s"Report-ID:" 1*FWS ridtxt ] ; defined above
 ~~~
 
 The first domain-name indicates the DNS domain name about which the
