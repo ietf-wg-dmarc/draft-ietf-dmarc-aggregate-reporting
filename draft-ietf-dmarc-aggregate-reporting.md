@@ -632,10 +632,10 @@ filename **MUST** be constructed using the following ABNF:
   filename = receiver "!" policy-domain "!" begin-timestamp
              "!" end-timestamp [ "!" unique-id ] "." extension
 
-  receiver = domain
-             ; imported from [@!RFC5322]
+  receiver = domain-name
+             ; imported from RFC 6376
 
-  policy-domain   = domain
+  policy-domain   = domain-name
 
   begin-timestamp = 1*DIGIT
                     ; seconds since 00:00:00 UTC January 1, 1970
