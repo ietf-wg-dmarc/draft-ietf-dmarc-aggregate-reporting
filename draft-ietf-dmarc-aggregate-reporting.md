@@ -61,7 +61,7 @@ appear in all capitals, as shown here.
 
 ### Notation
 
-Certain properties of email messages described in this document are
+Certain properties of mail messages described in this document are
 referenced using notation found in [@?RFC5598] (e.g., "RFC5322.From").
 
 This specification uses the Augmented Backus-Naur Form (ABNF)
