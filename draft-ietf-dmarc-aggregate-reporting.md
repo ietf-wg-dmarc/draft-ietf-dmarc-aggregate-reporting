@@ -652,6 +652,9 @@ filename **MUST** be constructed using the following ABNF:
   extension = "xml" / "xml.gz"
 ~~~
 
+The following primitive tokens that are used but otherwise unspecified
+are taken from the "Core Rules" of [@!RFC5234]: DIGIT, ALPHA.
+
 The extension **MUST** be "xml" for a plain XML file, or "xml.gz" for an
 XML file compressed using GZIP.
 
@@ -685,6 +688,7 @@ The RFC5322.Subject field for individual report submissions **MUST**
 conform to the following ABNF:
 
 ~~~
+  ; FWS is imported from RFC 5322
   dmarc-subject = %s"Report" 1*FWS %s"Domain:"
                   1*FWS domain-name 1*FWS         ; policy domain
                   %s"Submitter:" 1*FWS
