@@ -599,7 +599,7 @@ aid receivers in identifying duplicate reports should they happen.
 The Report-ID value should be constructed using the following ABNF:
 
 ~~~
-  ridfmt =  (dot-atom-text ["@" dot-atom-text]) ; from RFC5322
+  ridfmt =  (dot-atom-text ["@" dot-atom-text]) ; from RFC 5322
 
   ridtxt =  ("<" ridfmt ">") / ridfmt
 ~~~
