@@ -122,8 +122,8 @@ includes data about messages that passed DMARC authentication as well
 as those that did not.
 
 A separate report **MUST** be generated for each DMARC Policy Domain encountered
-during the reporting period. See below for further explanation in "Handling 
-Domains in Reports" (#handling).
+during the reporting period. See below for further explanation in
+(#handling), "Handling Domains in Reports".
 
 The report may include the following data:
 
@@ -394,7 +394,7 @@ Contains DKIM and SPF results, uninterpreted with respect to DMARC.
 
 If validation is attempted for any DKIM signature, the results
 **MUST** be included in the report (within reason, see
-"(#dkim-signatures, use title)" below for
+(#dkim-signatures), "DKIM Signatures in Aggregate Reports", below for
 handling numerous signatures).
 
 The elements in this table **MUST** appear in the order listed.
