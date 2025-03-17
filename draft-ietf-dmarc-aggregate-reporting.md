@@ -61,7 +61,7 @@ appear in all capitals, as shown here.
 
 ### Notation
 
-Certain properties of email messages described in this document are
+Certain properties of mail messages described in this document are
 referenced using notation found in [@?RFC5598] (e.g., "RFC5322.From").
 
 This specification uses the Augmented Backus-Naur Form (ABNF)
@@ -122,8 +122,8 @@ includes data about messages that passed DMARC authentication as well
 as those that did not.
 
 A separate report **MUST** be generated for each DMARC Policy Domain encountered
-during the reporting period. See below for further explanation in "Handling 
-Domains in Reports" (#handling).
+during the reporting period. See below for further explanation in
+(#handling), "Handling Domains in Reports".
 
 The report may include the following data:
 
@@ -181,6 +181,12 @@ R:
 +:
 :   **REQUIRED**, one or more elements
 
+Some elements contain text meant for humans and support an optional
+"lang" attribute whose value indicate the language of its contents.
+The default value is "en".
+Elements supporting this optional attribute is marked with "\[@lang]"
+at the start of their content description in the following tables.
+
 
 #### XML root element
 
@@ -221,10 +227,10 @@ Element name      | # | Content
 ------------------|---|--------------
 org_name          | R | Name of the Reporting Organization.
 email             | R | Contact to use when contacting the Reporting Organization.
-extra_contact_info| O | Additional contact details.
+extra_contact_info| O | \[@lang] Additional contact details.
 report_id         | R | Unique Report-ID, see (#report-id).
 date_range        | R | The reporting period, see (#xml-date-range).
-error             | O | Error messages encountered when processing the DMARC Policy Record, see (#error).
+error             | O | \[@lang] Error messages encountered when processing the DMARC Policy Record, see (#error).
 generator         | O | The name and version of the report generator; this can help the Report Consumer find out where to report bugs.
 Table: Report generator metadata
 
@@ -388,7 +394,7 @@ Contains DKIM and SPF results, uninterpreted with respect to DMARC.
 
 If validation is attempted for any DKIM signature, the results
 **MUST** be included in the report (within reason, see
-"(#dkim-signatures, use title)" below for
+(#dkim-signatures), "DKIM Signatures in Aggregate Reports", below for
 handling numerous signatures).
 
 The elements in this table **MUST** appear in the order listed.
@@ -409,7 +415,7 @@ Element name      | # | Content
 domain            | R | The domain that was used during validation (the "d=" tag in the signature).
 selector          | R | The selector that was used during validation (the "s=" tag in the signature).
 result            | R | DKIM verification result, see below.
-human_result      | O | More descriptive information to the Domain Owner relating to evaluation failures.
+human_result      | O | \[@lang] More descriptive information to the Domain Owner relating to evaluation failures.
 Table: Contents of the "dkim" element
 
 * "result" is a lower-case string where the value is one of the results
@@ -427,7 +433,7 @@ Element name      | # | Content
 domain            | R | The domain that was used during validation.
 scope             | O | The source of the domain used during validation.
 result            | R | SPF verification result, see below.
-human_result      | O | More descriptive information to the Domain Owner relating to evaluation failures.
+human_result      | O | \[@lang] More descriptive information to the Domain Owner relating to evaluation failures.
 Table: Contents of the "spf" element
 
 * The only valid value for the "scope" element is "mfrom".
@@ -445,7 +451,7 @@ and free-text comment, see (#policy-override-reason)
 Element name      | # | Content
 ------------------|---|--------------
 type              | R | The reason the DMARC policy was overridden
-comment           | O | Further details, if available.
+comment           | O | \[@lang] Further details, if available.
 Table: Contents of the "reason" element
 
 
@@ -593,7 +599,7 @@ aid receivers in identifying duplicate reports should they happen.
 The Report-ID value should be constructed using the following ABNF:
 
 ~~~
-  ridfmt =  (dot-atom-text ["@" dot-atom-text]) ; from RFC5322
+  ridfmt =  (dot-atom-text ["@" dot-atom-text]) ; from RFC 5322
 
   ridtxt =  ("<" ridfmt ">") / ridfmt
 ~~~
@@ -626,10 +632,10 @@ filename **MUST** be constructed using the following ABNF:
   filename = receiver "!" policy-domain "!" begin-timestamp
              "!" end-timestamp [ "!" unique-id ] "." extension
 
-  receiver = domain
-             ; imported from [@!RFC5322]
+  receiver = domain-name
+             ; imported from RFC 6376
 
-  policy-domain   = domain
+  policy-domain   = domain-name
 
   begin-timestamp = 1*DIGIT
                     ; seconds since 00:00:00 UTC January 1, 1970
@@ -645,6 +651,9 @@ filename **MUST** be constructed using the following ABNF:
 
   extension = "xml" / "xml.gz"
 ~~~
+
+The following primitive tokens that are used but otherwise unspecified
+are taken from the "Core Rules" of [@!RFC5234]: DIGIT, ALPHA.
 
 The extension **MUST** be "xml" for a plain XML file, or "xml.gz" for an
 XML file compressed using GZIP.
@@ -679,11 +688,12 @@ The RFC5322.Subject field for individual report submissions **MUST**
 conform to the following ABNF:
 
 ~~~
+  ; FWS is imported from RFC 5322
   dmarc-subject = %s"Report" 1*FWS %s"Domain:"
                   1*FWS domain-name 1*FWS         ; policy domain
                   %s"Submitter:" 1*FWS
                   domain-name 1*FWS               ; report generator
-                  [ %s"Report-ID:" 1*FWS ridtxt ] ; defined below
+                  [ %s"Report-ID:" 1*FWS ridtxt ] ; defined above
 ~~~
 
 The first domain-name indicates the DNS domain name about which the
@@ -781,8 +791,8 @@ the following verification steps **MUST** be taken:
     fail the delivery so the verification test can be repeated later.
 
 6.  For each record returned, parse the result as a series of
-    "tag=value" pairs, i.e., the same overall format as the policy
-    record (see [@!I-D.ietf-dmarc-dmarcbis, section 4.7]).  In 
+    "tag=value" pairs, i.e., the same overall format as the DMARC Policy
+    Record (see [@!I-D.ietf-dmarc-dmarcbis, section 4.7]).  In 
     particular, the "v=DMARC1" tag is mandatory and **MUST** appear
     first in the list.  Discard any that do not pass this test. A
     trailing ";" is optional.
@@ -1095,7 +1105,7 @@ structure of the report should be more consistent
 Furthermore, the original DMARC specification was contained within a single
 document, [@!RFC7489].  The original document has 
 been split into three documents, DMARCbis [@!I-D.ietf-dmarc-dmarcbis], this 
-document [@!I-D.ietf-dmarc-aggregate-reporting], and DMARCbis Failure 
+document, and DMARCbis Failure 
 Reporting [@?I-D.ietf-dmarc-failure-reporting].  This allows these pieces to
 potentially be altered in the future without re-opening the entire document, 
 as well as allowing them to move through the IETF process independently.
